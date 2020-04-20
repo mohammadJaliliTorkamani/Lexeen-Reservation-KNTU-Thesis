@@ -1,3 +1,160 @@
 <resources>
-    <string name="app_name">KNTU Project</string>
+    <string name="app_name" formatted="false">Lexin</string>
+
+    <string name="foods_we_love" formatted="false">پیشنهاد لکسین</string>
+    <string name="our_offers" formatted="false">تخفیف دار</string>
+    <string name="home" formatted="false">خانه</string>
+    <string name="menu" formatted="false">فهرست</string>
+    <string name="shop" formatted="false">سبد خرید</string>
+    <string name="cancel" formatted="false">انصراف</string>
+    <string name="search" formatted="false">جستجو</string>
+    <string name="description" formatted="false">توضیحات</string>
+    <string name="add_to_cart" formatted="false">افزودن به سبد خرید</string>
+    <string name="serve_at" formatted="false">سرو در</string>
+    <string name="your_home" formatted="false">خانه</string>
+    <string name="orders" formatted="false">سفارشات</string>
+    <string name="my_wallet" formatted="false">کیف پول من</string>
+    <string name="setting" formatted="false">تنظیمات</string>
+    <string name="min" formatted="false">دقیقه</string>
+    <string name="cal" formatted="false">کالری</string>
+    <string name="search_food" formatted="false">جستجوی غذا</string>
+    <string name="history_camelcase" formatted="false">سفارشات</string>
+    <string name="calories" formatted="false">کالری</string>
+    <string name="language" formatted="false">زبان برنامه</string>
+    <string name="general" formatted="false">عمومی</string>
+    <string name="development" formatted="false">توسعه دهنده</string>
+    <string name="contact_us" formatted="false">با ما در تماس باشید</string>
+    <string name="open_source_licences" formatted="false">مجوز منابع متن باز</string>
+    <string name="farsi" formatted="false">فارسی</string>
+    <string name="sum" formatted="false">جمع</string>
+    <string name="call" formatted="false">تماس</string>
+    <string name="phone_colon" formatted="false"> تلفن : </string>
+    <string name="dont_registered" formatted="false">حساب کاربری ندارید؟</string>
+    <string name="sign_up" formatted="false">ثبت نام</string>
+    <string name="password" formatted="false">کلمه عبور</string>
+    <string name="username_or_phone_number" formatted="false">شماره تلفن</string>
+    <string name="login" formatted="false">ورود</string>
+    <string name="faq" formatted="false">سوالات متداول</string>
+    <string name="order_history" formatted="false">تاریخچه سفارشات</string>
+    <string name="welcome" formatted="false">خوش آمدید </string>
+    <string name="marchant_description_wallet_charge" formatted="false">شارژ کیف پول لکسین</string>
+    <string name="ordered_successfully" formatted="false">سفارش با موفقیت ثبت شد</string>
+    <string name="ordered_fault" formatted="false">خطا در ثبت سفارش</string>
+    <string name="unknown_error" formatted="false">خطای ناشناخته</string>
+    <string name="app_name_fa" formatted="false">لکسین</string>
+    <string name="group_name" formatted="false">گروه توسعه آبان</string>
+    <string name="aban_phone_number" formatted="false">09016273209</string>
+    <string name="clear" formatted="false">حذف</string>
+    <string name="roof" formatted="false">طبقه</string>
+    <string name="name" formatted="false">نام</string>
+    <string name="category" formatted="false">دسته بندی</string>
+    <string name="phone" formatted="false">تلفن</string>
+    <string name="postal_address" formatted="false">آدرس پستی</string>
+    <string name="scan" formatted="false">اسکن</string>
+    <string name="error_in_code_reading" formatted="false">خطا در دریافت کد</string>
+    <string name="add" formatted="false">افزودن</string>
+    <string name="place_barcode_on_frame" formatted="false">بارکد رستوران را در کادر قرار دهید</string>
+    <string name="set" formatted="false">ثبت</string>
+    <string name="payment" formatted="false">پرداخت</string>
+    <string name="no_enough_charge" formatted="false">اعتبار شما برای خرید کافی نیست . لطفا کیف پول خود را شارژ کرده و مجددا وارد این قسمت شوید</string>
+    <string name="discount" formatted="false">کد تخفیف</string>
+    <string name="chair" formatted="false">میز</string>
+    <string name="Lexin_tooltip" formatted="false">به آسانی بین رستوران های اسکن شده جابجا شوید</string>
+    <string name="discount_code_not_valid_for_you" formatted="false">کد تخفیف وارد شده استفاده شده است</string>
+    <string name="done" formatted="false">انجام شد</string>
+    <string name="guest_user" formatted="false">کاربر میهمان</string>
+    <string name="login_to_purchase" formatted="false">جهت پرداخت ابتدا وارد شوید</string>
+    <string name="trasfering" formatted="false">در حال انتقال ...</string>
+    <string name="saved" formatted="false">ذخیره شد</string>
+    <string name="error_while_saving" formatted="false">خطا در ذخیره سازی</string>
+    <string name="navigate" formatted="false">هدایت به صفحه اصلی</string>
+    <string name="save" formatted="false">ذخیره</string>
+    <string name="share" formatted="false">ارسال</string>
+    <string name="on_exit_message" formatted="false">به امید دیدار !</string>
+    <string name="time_of_order" formatted="false">زمان سفارش</string>
+    <string name="please_tap" formatted="false">لطفا ضربه بزنید</string>
+    <string name="error" formatted="false">خطا</string>
+    <string name="tonight" formatted="false">امشب</string>
+    <string name="select_date_and_time" formatted="false">تاریخ و زمان سفارش را انتخاب نکرده اید</string>
+    <string name="invalid_date_time" formatted="false">زمان سفارش معتبر نیست</string>
+    <string name="discard" formatted="false">لفو</string>
+    <string name="empty_value_to_charge" formatted="false">مبلغ وارد نشده است</string>
+    <string name="log_in" formatted="false">ورود</string>
+    <string name="reminding" formatted="false">یادآور لکسین</string>
+    <string name="select_place" formatted="false">انتخاب مکان</string>
+    <string name="delivery_ordered_fault" formatted="false">سفارش تحویل غذا با خطا مواجه شد</string>
+    <string name="payment_failed" formatted="false">پرداخت با خطا مواجه شد</string>
+    <string name="last_name" formatted="false">نام خانوادگی</string>
+    <string name="female" formatted="false">خانم</string>
+    <string name="male" formatted="false">آقا</string>
+    <string name="already_have_an_account" formatted="false">حساب کاربری دارید؟</string>
+    <string name="login_order_mode" formatted="false">وارد شوید</string>
+    <string name="restaurant_is_not_member" formatted="false">در سرویس لکسین ثبت نشده است.</string>
+    <string name="enter_phone" formatted="false">شماره تلفن را وارد کنید</string>
+    <string name="activation_code_sent" formatted="false">کد فعالسازی ارسال شد</string>
+    <string name="activation_code" formatted="false">کد فعالسازی</string>
+    <string name="reset_password" formatted="false">تغییر کلمه عبور</string>
+    <string name="new_password" formatted="false">کلمه عبور جدید</string>
+    <string name="new_password_confirmed" formatted="false">تکرار کلمه عبور جدید</string>
+    <string name="enter_activation_code" formatted="false">کد فعالسازی را وارد کنید</string>
+    <string name="enter_password" formatted="false">کلمه عبور را وارد کنید</string>
+    <string name="enter_password_confirmed" formatted="false">کلمه عبور را تایید کنید</string>
+    <string name="password_not_matched" formatted="false">پسورد ها با هم مطابقت ندارند</string>
+    <string name="short_password" formatted="false">کلمه عبور باید شامل حداقل ۸ کاراکتر باشد</string>
+    <string name="empty_password" formatted="false">کلمه عبور را وارد کنید</string>
+    <string name="enter_first_name" formatted="false">نام خود را وارد کنید</string>
+    <string name="enter_last_name" formatted="false">نام خانوادگی خود را وارد کنید</string>
+    <string name="enter_phone_correctly" formatted="false">شماره تلفن را به درستی وارد کنید</string>
+    <string name="password_must_contain_at_least" formatted="false">کلمه عبور باید حداقل شامل</string>
+    <string name="be_characters" formatted="false">کاراکتر باشد</string>
+    <string name="send_activation_code" formatted="false">ارسال کد فعالسازی</string>
+    <string name="password_forgetness" formatted="false">فراموشی کلمه عبور</string>
+    <string name="not_sent_activation_code" formatted="false">کد فعالسازی را دریافت نکرده اید؟</string>
+    <string name="resend" formatted="false">ارسال مجدد</string>
+    <string name="cancel_login" formatted="false">انصراف</string>
+    <string name="log_out" formatted="false">خروج از حساب</string>
+    <string name="confirm" formatted="false">تایید</string>
+    <string name="you_have_one_order_as_described_below" formatted="false">شما یک سفارش با مشخصات زیر دارید</string>
+    <string name="order_type" formatted="false">نوع سفارش</string>
+    <string name="restaurant_name" formatted="false">نام رستوران</string>
+    <string name="order_time" formatted="false">زمان سفارش</string>
+    <string name="delivery_in_place" formatted="false">تحویل در محل</string>
+    <string name="serve_at_restaurant" formatted="false">سرو در رستوران</string>
+    <string name="update" formatted="false">به روز رسانی</string>
+    <string name="update_describe_text" formatted="false">نسخه جدید لکسین هم اکنون آماده دریافت است !</string>
+    <string name="new_features_in_new_version" formatted="false">ویژگی های نسخه جدید</string>
+    <string name="exit" formatted="false">خروج</string>
+    <string name="you_have_not_ordered_any_thing_yet">شما هنوز هیچ سفارشی در لکسین انجام نداده اید !</string>
+    <string name="not_connected_to_internet">شما به اینترنت متصل نیستید</string>
+    <string name="change_your_keyboard_language_to_persian">زبان ورودی را به فارسی تغییر دهید</string>
+    <string name="select_and_pay">تایید و پرداخت</string>
+    <string name="select_chairs_to_continue">لطفا جایگاه های خود را انتخاب کنید</string>
+    <string name="you_have_not_any_bill">شما هیچ صورت حسابی ندارید</string>
+    <string name="no_such_discount_code">کد تخفیف وارد شده نامعتبر است</string>
+    <string name="payment_bill">رسید پرداخت</string>
+    <string name="no_permission_granted">مجوز مربوطه داده نشد</string>
+    <string name="log_out_successfully">خروج از حساب کاربری با موفقیت انجام شد</string>
+    <string name="search_your_favorite_food_easily">به راحتی غذای محبوب خود را جستجو کنید</string>
+    <string name="not_good_order">عدم تناسب صورتحساب با میز انتخاب شده</string>
+    <string name="you">شما</string>
+    <string name="password_successfully_changed">کلمه عبور با موفقیت تغییر یافت</string>
+    <string name="invalid_number_of_customers">تعداد وارد شده معتبر نیست</string>
+    <string name="block_num">پلاک</string>
+    <string name="floor_and_unit">طبقه , واحد</string>
+    <string name="enter_floor">طبقه را وارد کنید</string>
+    <string name="enter_block_no">پلاک را وارد کنید</string>
+    <string name="bad_formatted_floor_and_unit">قالب طبقه و واحد درست نیست</string>
+    <string name="minimum_price_is">حداقل مبلغ صورت حساب جهت استفاده از این تخفیف :</string>
+    <string name="no_empty_desks">در حال حاضر میز خالی وجود ندارد</string>
+    <string name="close">بستن</string>
+    <string name="delete_from_cart">حذف از سبد خرید</string>
+    <string name="to_charge_value_must_be_divided_to_thousand">مبلغ وارد شده نامعتبر است</string>
+    <string name="order_code">کد سفارش</string>
+    <string name="menu_2">منو</string>
+    <string name="not_found_any_result">هیچ موردی پیدا نشد</string>
+    <string name="app_name_lowercase">lexin</string>
+    <string name="restaurants_of">رستوران های</string>
+    <string name="class_of">کلاس</string>
+
+
 </resources>

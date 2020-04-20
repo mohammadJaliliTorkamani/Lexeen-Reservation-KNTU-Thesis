@@ -2,5 +2,25 @@
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#000000</color>
+    <color name="light_gray">#faf8fa</color>
+    <color name="gray_shadow">#d7d7d7</color>
+    <color name="dark_gray">#2f2f2f</color>
+    <color name="edt_gray">#c0c0c0</color>
+    <color name="strok_gray">#e7e7e7</color>
+    <color name="caption_gray">#797779</color>
+    <color name="main_theme_color">#FFAC07</color>
+    <color name="chair_color">#72471e</color>
+    <color name="not_reserved_desk">#D5D5D5</color>
+    <color name="reserved_desk">#e9a731</color>
+    <color name="to_reserve_desk">#568cd3</color>
+    <color name="gray_default_background">#D6D6D6</color>
+    <color name="food_description_black_mask_color">#5C000000</color>
+    <color name="food_description_black_mask_collapsed_color">#4B000000</color>
+    <color name="landing_page_background_color">#0e0d0e</color>
+    <color name="dark_blue">#17293A</color>
+    <color name="light_green">#158D00</color>
+    <color name="badge_background_color">#F10E0E</color>
+    <color name="home_bold_title">#020002</color>
+    <color name="selected_class_blue">#469bf0</color>
 </resources>
