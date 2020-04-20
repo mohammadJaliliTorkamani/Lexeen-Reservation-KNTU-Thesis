@@ -113,7 +113,6 @@
     <string name="resend" formatted="false">ارسال مجدد</string>
     <string name="cancel_login" formatted="false">انصراف</string>
     <string name="log_out" formatted="false">خروج از حساب</string>
-    <string name="confirm" formatted="false">تایید</string>
     <string name="you_have_one_order_as_described_below" formatted="false">شما یک سفارش با مشخصات زیر دارید</string>
     <string name="order_type" formatted="false">نوع سفارش</string>
     <string name="restaurant_name" formatted="false">نام رستوران</string>
