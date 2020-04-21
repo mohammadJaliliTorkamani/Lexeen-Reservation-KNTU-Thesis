@@ -42,7 +42,7 @@
     <string name="ordered_fault" formatted="false">خطا در ثبت سفارش</string>
     <string name="unknown_error" formatted="false">خطای ناشناخته</string>
     <string name="app_name_fa" formatted="false">لکسین</string>
-    <string name="group_name" formatted="false">گروه توسعه آبان</string>
+    <string name="group_name" formatted="false">آبان داده پایا</string>
     <string name="aban_phone_number" formatted="false">09016273209</string>
     <string name="clear" formatted="false">حذف</string>
     <string name="roof" formatted="false">طبقه</string>
@@ -135,7 +135,6 @@
     <string name="log_out_successfully">خروج از حساب کاربری با موفقیت انجام شد</string>
     <string name="search_your_favorite_food_easily">به راحتی غذای محبوب خود را جستجو کنید</string>
     <string name="not_good_order">عدم تناسب صورتحساب با میز انتخاب شده</string>
-    <string name="you">شما</string>
     <string name="password_successfully_changed">کلمه عبور با موفقیت تغییر یافت</string>
     <string name="invalid_number_of_customers">تعداد وارد شده معتبر نیست</string>
     <string name="block_num">پلاک</string>
@@ -154,6 +153,8 @@
     <string name="app_name_lowercase">lexin</string>
     <string name="restaurants_of">رستوران های</string>
     <string name="class_of">کلاس</string>
+    <string name="confirm">تایید</string>
+    <string name="invalid_destination">مقصد نامعتبر است</string>
 
 
 </resources>
