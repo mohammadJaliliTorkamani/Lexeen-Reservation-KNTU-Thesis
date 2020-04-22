@@ -107,7 +107,7 @@ public class MenuHeadingView {
 
 
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) card.getLayoutParams();
-        layoutParams.bottomMargin = Helper.dp2px(0);
+        layoutParams.bottomMargin = Helper.getInstance().dp2px(0);
         card.setLayoutParams(layoutParams);
 
 
@@ -117,7 +117,7 @@ public class MenuHeadingView {
 
         ViewGroup.MarginLayoutParams imageLayoutParams = (ViewGroup.MarginLayoutParams) imageCard.getLayoutParams();
         imageLayoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
-        imageLayoutParams.bottomMargin = Helper.dp2px(0);
+        imageLayoutParams.bottomMargin = Helper.getInstance().dp2px(0);
         imageCard.setLayoutParams(imageLayoutParams);
 
     }
@@ -136,7 +136,7 @@ public class MenuHeadingView {
 
 
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) card.getLayoutParams();
-        layoutParams.bottomMargin = Helper.dp2px(16);
+        layoutParams.bottomMargin = Helper.getInstance().dp2px(16);
         card.setLayoutParams(layoutParams);
 
         imageCard.setBackgroundResource(R.drawable.dr_rec_category);

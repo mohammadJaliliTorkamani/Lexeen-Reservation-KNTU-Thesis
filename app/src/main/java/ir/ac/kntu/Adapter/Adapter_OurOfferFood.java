@@ -64,7 +64,7 @@ public class Adapter_OurOfferFood extends RecyclerView.Adapter {
         TextViewPlus offPercentage = holder.itemView.findViewById(R.id.our_offer_item_discount_percentage);
         image.setBackgroundResource(R.drawable.dr_gradient_effect);
 
-        offPercentage.setText(Helper.getOneDigitOrNon(list.get(position).getDiscountPercentage(), false) + " %");
+        offPercentage.setText(Helper.getInstance().getOneDigitOrNon(list.get(position).getDiscountPercentage(), false) + " %");
         Connector.createService(view, Operable_Food.class, object -> {
             Call<ir.ac.kntu.Entity.Food> call = object.getFood(list.get(position).getFoodID());
             call.enqueue(new Callback<ir.ac.kntu.Entity.Food>() {

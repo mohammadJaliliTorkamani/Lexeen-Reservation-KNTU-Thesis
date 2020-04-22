@@ -89,7 +89,7 @@ public class Fragment_Table extends DialogFragment {
     private int getDifferenceBetweenSelectedShamsiDateAndToday() {
         if (dateTime == null)
             return -1;
-        PersianDate selectedDate = Helper.stringToPersianDateTime(dateTime);
+        PersianDate selectedDate = Helper.getInstance().stringToPersianDateTime(dateTime);
         PersianDate todayShamsiDate = new PersianDate();
         if (selectedDate.getShYear() == todayShamsiDate.getShYear() &&
                 selectedDate.getShMonth() == todayShamsiDate.getShMonth()) {
@@ -130,7 +130,7 @@ public class Fragment_Table extends DialogFragment {
                             public void onResponse(Call<List<Desk>> call, Response<List<Desk>> response) {
                                 if (response.body() != null) {
                                     if (response.body().size() == 0)
-                                        Helper.toast(R.string.no_empty_desks, Constants.ToastMode.WARNING);
+                                        Helper.getInstance().toast(R.string.no_empty_desks, Constants.ToastMode.WARNING);
                                     else {
                                         int maxRow = getMaxRowOf(response.body());
                                         Connector.createService(view, Operable_Table.class, object1 -> object1.getMaxColumnsOf().enqueue(new Callback<Integer>() {
@@ -206,10 +206,10 @@ public class Fragment_Table extends DialogFragment {
     }
 
     private void initializeViewContents(View view) {
-        Helper.changeStrokeColorToMainAppColor(counter);
-        Helper.changeShapeColorToMainAppColor(payContainer);
-        counter.setTextColor(Color.parseColor(Helper.getMainAppColor()));
-        selectedDateTime.setTextColor(Color.parseColor(Helper.getMainAppColor()));
+        Helper.getInstance().changeStrokeColorToMainAppColor(counter);
+        Helper.getInstance().changeShapeColorToMainAppColor(payContainer);
+        counter.setTextColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
+        selectedDateTime.setTextColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
         payText.setVisibility(View.VISIBLE);
         payProgressbar.setVisibility(View.GONE);
         payContainer.setClickable(true);
@@ -252,20 +252,20 @@ public class Fragment_Table extends DialogFragment {
                                 PersianDate selectedDate = new PersianDate();
                                 selectedDate.initJalaliDate(year, month, day);
                                 selectedDate.setHour(hourOfDay).setMinute(minute);
-                                if (Helper.isValidTimeForIntervalFromNow(persianDate)) {
+                                if (Helper.getInstance().isValidTimeForIntervalFromNow(persianDate)) {
                                     dateTime = selectedDate.getShYear()
                                             + "/"
-                                            + Helper.get2DigitsOfDigit(selectedDate.getShMonth())
+                                            + Helper.getInstance().get2DigitsOfDigit(selectedDate.getShMonth())
                                             + "/"
-                                            + Helper.get2DigitsOfDigit(selectedDate.getShDay())
+                                            + Helper.getInstance().get2DigitsOfDigit(selectedDate.getShDay())
                                             + " "
-                                            + Helper.get2DigitsOfDigit(selectedDate.getHour())
+                                            + Helper.getInstance().get2DigitsOfDigit(selectedDate.getHour())
                                             + ":"
-                                            + Helper.get2DigitsOfDigit(selectedDate.getMinute());
+                                            + Helper.getInstance().get2DigitsOfDigit(selectedDate.getMinute());
                                     updateOrderTimeText();
                                     initializeOnlineContents(view);
                                 } else {
-                                    Helper.toast(R.string.invalid_date_time, Constants.ToastMode.ERROR);
+                                    Helper.getInstance().toast(R.string.invalid_date_time, Constants.ToastMode.ERROR);
                                 }
                             }
                         }, minimumTodayCalendar.get(Calendar.HOUR_OF_DAY), minimumTodayCalendar.get(Calendar.MINUTE), true);
@@ -277,10 +277,10 @@ public class Fragment_Table extends DialogFragment {
 
         });
         payText.setOnClickListener(v -> {
-            List<Bill> selectedDeskBills = Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getToReserveLexinTables(Helper.getRestaurantSelectionQRCode());
+            List<Bill> selectedDeskBills = Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getToReserveLexinTables(Helper.getInstance().getRestaurantSelectionQRCode());
             if (!selectedDeskBills.isEmpty()) {
                 if (counter.getText() == null || counter.getText().toString().isEmpty() || Integer.parseInt(counter.getText().toString()) < 1)
-                    Helper.toast(R.string.invalid_number_of_customers, Constants.ToastMode.ERROR);
+                    Helper.getInstance().toast(R.string.invalid_number_of_customers, Constants.ToastMode.ERROR);
                 else {
                     if (dateTime != null) {
                         payProgressbar.setVisibility(View.VISIBLE);
@@ -288,10 +288,10 @@ public class Fragment_Table extends DialogFragment {
                         toRun.run(dateTime, payProgressbar, payText, counter, (Runnable) () -> dateTime = null); // no need to pass selected bills. it's stored in room database
 
                     } else
-                        Helper.toast(R.string.select_date_and_time, Constants.ToastMode.WARNING);
+                        Helper.getInstance().toast(R.string.select_date_and_time, Constants.ToastMode.WARNING);
                 }
             } else {
-                Helper.toast(getString(R.string.select_chairs_to_continue), Constants.ToastMode.WARNING);
+                Helper.getInstance().toast(getString(R.string.select_chairs_to_continue), Constants.ToastMode.WARNING);
             }
         });
 
@@ -302,13 +302,13 @@ public class Fragment_Table extends DialogFragment {
             selectedDateTime.setText(getString(R.string.please_tap));
         } else {
             try {
-                if (Helper.isValidTimeForIntervalFromNow(dateTime)) {
-                    PersianDate selectedDate = Helper.stringToPersianDateTime(dateTime);
+                if (Helper.getInstance().isValidTimeForIntervalFromNow(dateTime)) {
+                    PersianDate selectedDate = Helper.getInstance().stringToPersianDateTime(dateTime);
                     int difference = getDifferenceBetweenSelectedShamsiDateAndToday();
                     if (difference == 0) {
-                        selectedDateTime.setText((selectedDate.getHour() > 19 ? (getString(R.string.tonight) + " ") : getString(R.string.today)) + " - " + Helper.get2DigitsOfDigit(selectedDate.getHour()) + ":" + Helper.get2DigitsOfDigit(selectedDate.getMinute()));
+                        selectedDateTime.setText((selectedDate.getHour() > 19 ? (getString(R.string.tonight) + " ") : getString(R.string.today)) + " - " + Helper.getInstance().get2DigitsOfDigit(selectedDate.getHour()) + ":" + Helper.getInstance().get2DigitsOfDigit(selectedDate.getMinute()));
                     } else {
-                        selectedDateTime.setText(selectedDate.getShYear() + "/" + Helper.get2DigitsOfDigit(selectedDate.getShMonth()) + "/" + Helper.get2DigitsOfDigit(selectedDate.getShDay()) + " " + Helper.get2DigitsOfDigit(selectedDate.getHour()) + ":" + Helper.get2DigitsOfDigit(selectedDate.getMinute()));
+                        selectedDateTime.setText(selectedDate.getShYear() + "/" + Helper.getInstance().get2DigitsOfDigit(selectedDate.getShMonth()) + "/" + Helper.getInstance().get2DigitsOfDigit(selectedDate.getShDay()) + " " + Helper.getInstance().get2DigitsOfDigit(selectedDate.getHour()) + ":" + Helper.getInstance().get2DigitsOfDigit(selectedDate.getMinute()));
                     }
                 } else {
                     dateTime = null;

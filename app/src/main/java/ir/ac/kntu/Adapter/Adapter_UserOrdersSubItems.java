@@ -44,7 +44,7 @@ public class Adapter_UserOrdersSubItems extends RecyclerView.Adapter {
                 @Override
                 public void onResponse(Call<ir.ac.kntu.Entity.Food> call, Response<ir.ac.kntu.Entity.Food> response) {
                     if (response.body() != null) {
-                        text1.setText(Helper.getCounterSymbol() + "  " + bills.get(position).getCounter());
+                        text1.setText(Helper.getInstance().getCounterSymbol() + "  " + bills.get(position).getCounter());
                         text2.setText(response.body().getName());
                     } else
                         Helper_Log.errorLog(Adapter_UserOrdersSubItems.class);
@@ -57,7 +57,7 @@ public class Adapter_UserOrdersSubItems extends RecyclerView.Adapter {
             }));
         } else if (!printedTableRecord) {
             printedTableRecord = true;
-            text1.setText(Helper.getCounterSymbol() + "  " + countReservedTables());
+            text1.setText(Helper.getInstance().getCounterSymbol() + "  " + countReservedTables());
             text2.setText(ContextHelper.retrieveContext().getString(R.string.chair));
         }
     }

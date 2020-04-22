@@ -26,10 +26,10 @@ public class Interceptor_TargetQRCode implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        String code = Helper.getRestaurantSelectionQRCode();
+        String code = Helper.getInstance().getRestaurantSelectionQRCode();
         Request request = chain.request();
         if (code != null)
-            request = request.newBuilder().header("code", Helper.getRestaurantSelectionQRCode()).build();
+            request = request.newBuilder().header("code", Helper.getInstance().getRestaurantSelectionQRCode()).build();
         return chain.proceed(request);
     }
 }

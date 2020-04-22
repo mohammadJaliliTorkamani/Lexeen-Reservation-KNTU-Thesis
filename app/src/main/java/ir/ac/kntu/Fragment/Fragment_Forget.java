@@ -56,7 +56,7 @@ public class Fragment_Forget extends Fragment {
 
     private void initializeViewContents(View view) {
         recoverContainer.setBackgroundResource(R.drawable.dr_login_orange_btn);
-        Helper.changeShapeColorToMainAppColor(recoverContainer);
+        Helper.getInstance().changeShapeColorToMainAppColor(recoverContainer);
         onResume();
     }
 
@@ -77,19 +77,19 @@ public class Fragment_Forget extends Fragment {
     private void manageListeners(View view) {
         recover.setOnClickListener(v -> {
             if (phone.getText().length() == 0) {
-                Helper.toast(getString(R.string.enter_phone), Constants.ToastMode.WARNING);
+                Helper.getInstance().toast(getString(R.string.enter_phone), Constants.ToastMode.WARNING);
             } else if (phone.getText().length() < 10) {
-                Helper.toast(getString(R.string.enter_phone_correctly), Constants.ToastMode.WARNING);
+                Helper.getInstance().toast(getString(R.string.enter_phone_correctly), Constants.ToastMode.WARNING);
             } else {
                 progressBar.setVisibility(View.VISIBLE);
                 recover.setVisibility(View.GONE);
-                Connector.createService(view, Operable_General.class, object -> object.checkSend(Helper.getDefautPrePhone() + phone.getText().toString()).enqueue(new Callback<ServerResponse>() {
+                Connector.createService(view, Operable_General.class, object -> object.checkSend(Helper.getInstance().getDefautPrePhone() + phone.getText().toString()).enqueue(new Callback<ServerResponse>() {
                     @Override
                     public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                         if (response.body() != null) {
                             switch (ServerResponse.ServerResponseCodes.getMeaningOf(response.body().getCode())) {
                                 case DONE:
-                                    Helper.toast(getString(R.string.activation_code_sent), Constants.ToastMode.SUCCESS);
+                                    Helper.getInstance().toast(getString(R.string.activation_code_sent), Constants.ToastMode.SUCCESS);
                                     Setting.getInstance().hideKeyboard(getActivity());
                                     Fragment fragment = new Fragment_Enter_Activation_Code();
                                     Bundle bundle = new Bundle();
@@ -104,7 +104,7 @@ public class Fragment_Forget extends Fragment {
                                     break;
                                 case FAILED:
                                 case UNKNOWN:
-                                    Helper.toast(getString(R.string.error) + " : " + response.body().getMessage(), Constants.ToastMode.ERROR);
+                                    Helper.getInstance().toast(getString(R.string.error) + " : " + response.body().getMessage(), Constants.ToastMode.ERROR);
                                     break;
                             }
                         } else

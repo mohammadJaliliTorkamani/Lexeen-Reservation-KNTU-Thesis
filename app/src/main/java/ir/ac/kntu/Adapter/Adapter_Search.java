@@ -55,7 +55,7 @@ public class Adapter_Search extends RecyclerView.Adapter {
         ImageView image = holder.itemView.findViewById(R.id.search_item_image);
         ImageView selectIcon = holder.itemView.findViewById(R.id.search_item_select_icon);
         ConstraintLayout constraintLayout = holder.itemView.findViewById(R.id.search_item_item);
-        image.setBackgroundColor(Color.parseColor(Helper.getMainAppColor()));
+        image.setBackgroundColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
 
         text.setText(list.get(position).getName());
         SvgLoader.pluck().with(activity).load(list.get(position).getPictures().get(4), image);

@@ -73,23 +73,23 @@ public class Fragment_Wallet extends Fragment {
     }
 
     private void initializeViewContents(View view) {
-        purchase.setBackgroundColor(Color.parseColor(Helper.getMainAppColor()));
+        purchase.setBackgroundColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
         recyclerView.setHasFixedSize(true);
         recyclerView_layout_manager = new GridLayoutManager(ContextHelper.retrieveContext(), 3);
         recyclerView.setLayoutManager(recyclerView_layout_manager);
         recyclerView_adapter = new Adapter_AcceptableCashAmounts(acceptableCashAmountList,
                 object -> {
                     chargeValue = object;
-                    toChargeValue.setText(Helper.getOneDigitOrNon(object, false));
+                    toChargeValue.setText(Helper.getInstance().getOneDigitOrNon(object, false));
                 });
         recyclerView.setAdapter(recyclerView_adapter);
         if (getArguments() != null) {
             chargeValue = getArguments().getDouble("TO_CHARGE_VALUE");
             if (chargeValue % 1000 == 0)
-                toChargeValue.setText(String.valueOf(Helper.getCostCeilOf(chargeValue)));
+                toChargeValue.setText(String.valueOf(Helper.getInstance().getCostCeilOf(chargeValue)));
             else {
                 double difference = (chargeValue + 1000) % 1000;
-                toChargeValue.setText(String.valueOf(Helper.getCostCeilOf(((int) (chargeValue + 1000 - difference)))));
+                toChargeValue.setText(String.valueOf(Helper.getInstance().getCostCeilOf(((int) (chargeValue + 1000 - difference)))));
             }
         }
     }
@@ -105,16 +105,16 @@ public class Fragment_Wallet extends Fragment {
         back.setOnClickListener(v -> getActivity().onBackPressed());
         purchase.setOnClickListener(v -> {
             if (chargeValue == 0)
-                Helper.toast(R.string.empty_value_to_charge, Constants.ToastMode.WARNING);
+                Helper.getInstance().toast(R.string.empty_value_to_charge, Constants.ToastMode.WARNING);
             else if (chargeValue % 1000 != 0) {
-                Helper.toast(R.string.to_charge_value_must_be_divided_to_thousand, Constants.ToastMode.ERROR);
+                Helper.getInstance().toast(R.string.to_charge_value_must_be_divided_to_thousand, Constants.ToastMode.ERROR);
             } else if (chargeValue > 0) {
                 Intent intent = new Intent(getActivity(), Activity_Payment.class);
                 intent.putExtra("PRICE", Double.parseDouble(toChargeValue.getText().toString()));
                 startActivity(intent);
                 getActivity().finish();
             } else
-                Helper.toast(R.string.error, Constants.ToastMode.ERROR);
+                Helper.getInstance().toast(R.string.error, Constants.ToastMode.ERROR);
         });
     }
 }

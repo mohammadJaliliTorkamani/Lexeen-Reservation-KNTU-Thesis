@@ -56,7 +56,7 @@ public class Fragment_Enter_Activation_Code extends Fragment {
 
     private void initializeViewContents(View view) {
         resetContainer.setBackgroundResource(R.drawable.dr_login_orange_btn);
-        Helper.changeShapeColorToMainAppColor(resetContainer);
+        Helper.getInstance().changeShapeColorToMainAppColor(resetContainer);
         LOGIN_VIDEO_STREAM_LINK = "android.resource://" + ContextHelper.retrieveContext().getPackageName() + "/" + R.raw.log_in_background;
         Uri uri = Uri.parse(LOGIN_VIDEO_STREAM_LINK);
         videoView.setVideoURI(uri);
@@ -71,7 +71,7 @@ public class Fragment_Enter_Activation_Code extends Fragment {
     private void manageListeners(View view) {
         reset.setOnClickListener(v -> {
             if (activationCode.getText().length() == 0) {
-                Helper.toast(getString(R.string.enter_activation_code), Constants.ToastMode.WARNING);
+                Helper.getInstance().toast(getString(R.string.enter_activation_code), Constants.ToastMode.WARNING);
             } else {
                 progressBar.setVisibility(View.VISIBLE);
                 reset.setVisibility(View.GONE);
@@ -95,7 +95,7 @@ public class Fragment_Enter_Activation_Code extends Fragment {
                                     break;
                                 case FAILED:
                                 case UNKNOWN:
-                                    Helper.toast(getString(R.string.error) + " : " + response.body().getMessage(), Constants.ToastMode.ERROR);
+                                    Helper.getInstance().toast(getString(R.string.error) + " : " + response.body().getMessage(), Constants.ToastMode.ERROR);
                                     break;
                             }
                         } else

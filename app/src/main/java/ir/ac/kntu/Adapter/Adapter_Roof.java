@@ -39,16 +39,16 @@ public class Adapter_Roof extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         TextViewPlus text = holder.itemView.findViewById(R.id.roof_item_text);
-        text.setTextColor(Color.parseColor(Helper.getMainAppColor()));
+        text.setTextColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
         text.setText(String.valueOf(list.get(position)));
         if (position == clicked_pos) {
             text.setBackgroundResource(R.drawable.dr_selected_roof);
-            Helper.changeShapeColorToMainAppColor(text);
+            Helper.getInstance().changeShapeColorToMainAppColor(text);
         } else {
             text.setBackgroundResource(R.drawable.dr_unselected_roof);
-            Helper.changeStrokeColorToMainAppColor(text);
+            Helper.getInstance().changeStrokeColorToMainAppColor(text);
         }
-        text.setTextColor(Color.parseColor(position == clicked_pos ? "#FFFFFF" : Helper.getMainAppColor()));
+        text.setTextColor(Color.parseColor(position == clicked_pos ? "#FFFFFF" : Helper.getInstance().getMainAppColor()));
         text.setOnClickListener(v -> {
             if (clicked_pos != position) {
                 clicked_pos = position;

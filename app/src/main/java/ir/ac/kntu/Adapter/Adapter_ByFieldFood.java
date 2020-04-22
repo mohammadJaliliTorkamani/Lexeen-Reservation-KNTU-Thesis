@@ -76,16 +76,16 @@ public class Adapter_ByFieldFood extends RecyclerView.Adapter {
 
         add.setOnClickListener(v -> {
             Food food = list.get(toShowCategoryIndex).getFoodList().get(position);
-            List<Bill> billList = Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(food.getId(), Helper.getRestaurantSelectionQRCode());
+            List<Bill> billList = Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(food.getId(), Helper.getInstance().getRestaurantSelectionQRCode());
 
             int counter = billList.isEmpty() ? 0 : billList.get(0).getCounter();
             counter++;
             Fragment_Cart.addToCart(food.getId(), counter, false);
             ((Fragment_Main) fragmentManager.findFragmentById(R.id.main_frame)).updateBadge();
-            Helper.toast(list.get(toShowCategoryIndex).getFoodList().get(position).getName() + " به سید خرید اضافه شد", Constants.ToastMode.SUCCESS);
+            Helper.getInstance().toast(list.get(toShowCategoryIndex).getFoodList().get(position).getName() + " به سید خرید اضافه شد", Constants.ToastMode.SUCCESS);
         });
-        Helper.changeStrokeColorToMainAppColor(add);
-        add.setTextColor(Color.parseColor(Helper.getMainAppColor()));
+        Helper.getInstance().changeStrokeColorToMainAppColor(add);
+        add.setTextColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
         ImageLoader.getInstance().displayImage(list.get(toShowCategoryIndex).getFoodList().get(position).getPictures().get(0), image, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {

@@ -75,7 +75,7 @@ public class MCrypt {
     public String encrypt(String text) throws Exception {
         if (text == null || text.length() == 0)
             throw new Exception("Empty string");
-        if (Helper.getSharedKey() == null)
+        if (Helper.getInstance().getSharedKey() == null)
             return text;
         byte[] encrypted;
         try {
@@ -93,7 +93,7 @@ public class MCrypt {
     public String decrypt(String code) throws Exception {
         if (code == null || code.length() == 0)
             throw new Exception("Empty string");
-        if (Helper.getSharedKey() == null)
+        if (Helper.getInstance().getSharedKey() == null)
             return code;
         byte[] decrypted;
 

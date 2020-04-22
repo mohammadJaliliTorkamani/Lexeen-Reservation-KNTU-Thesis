@@ -145,10 +145,10 @@ public class Fragment_LandingPage extends Fragment {
 
         restaurants_of.setVisibility(View.GONE);
         classes_rv.setVisibility(View.GONE);
-        logoutContainer.setVisibility(Helper.isLoggedIn() ? View.VISIBLE : View.GONE);
-        drawerHeaderUser.setVisibility(Helper.isLoggedIn() ? View.VISIBLE : View.GONE);
+        logoutContainer.setVisibility(Helper.getInstance().isLoggedIn() ? View.VISIBLE : View.GONE);
+        drawerHeaderUser.setVisibility(Helper.getInstance().isLoggedIn() ? View.VISIBLE : View.GONE);
         header.setBackgroundResource(R.drawable.ic_nav_rec);
-        Helper.changeShapeColorToMainAppColor(header.getDrawable());
+        Helper.getInstance().changeShapeColorToMainAppColor(header.getDrawable());
         mainRecyclerView.setHasFixedSize(true);
         main_layout_manager = new SpannableGridLayoutManager(
                 position -> {
@@ -215,7 +215,7 @@ public class Fragment_LandingPage extends Fragment {
                             Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_QR_CODE, null);
                             Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_SHARED_KEY, null);
                             Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_FIRST_USE_STATE, null);
-                            Helper.toast(R.string.log_out_successfully, Constants.ToastMode.SUCCESS);
+                            Helper.getInstance().toast(R.string.log_out_successfully, Constants.ToastMode.SUCCESS);
                             Intent intent = new Intent();
                             Activity activity = getActivity();
                             intent.setClass(activity, activity.getClass());
@@ -224,7 +224,7 @@ public class Fragment_LandingPage extends Fragment {
                             break;
                         case FAILED:
                         case UNKNOWN:
-                            Helper.toast(ContextHelper.retrieveContext().getString(R.string.error) + " : " + response.body().getMessage(), Constants.ToastMode.ERROR);
+                            Helper.getInstance().toast(ContextHelper.retrieveContext().getString(R.string.error) + " : " + response.body().getMessage(), Constants.ToastMode.ERROR);
                             break;
                     }
                 } else {
@@ -307,7 +307,7 @@ public class Fragment_LandingPage extends Fragment {
     }
 
     private void initDrawer_InfoMode(View view) {
-        drawerHeaderUser.setVisibility(Helper.isLoggedIn() ? View.VISIBLE : View.GONE);
+        drawerHeaderUser.setVisibility(Helper.getInstance().isLoggedIn() ? View.VISIBLE : View.GONE);
         Connector.createService(view, Operable_User.class, object -> object.getDrawerContent().enqueue(new Callback<NormalUser>() {
             @Override
             public void onResponse(Call<NormalUser> call, Response<NormalUser> response) {
@@ -315,8 +315,8 @@ public class Fragment_LandingPage extends Fragment {
                     try {
                         NormalUser normalUser = response.body();
                         drawer_profileName.setText(Encryption.getInstance().decrypt(normalUser.getName()) + " " + Encryption.getInstance().decrypt(normalUser.getLastName()));
-                        drawer_cash.setText(!normalUser.getPhone().equalsIgnoreCase("-1") ? Helper.getOneDigitOrNon(normalUser.getCash(), false) : " ");
-                        drawer_cash_unit.setText(!normalUser.getPhone().equalsIgnoreCase("-1") ? Helper.getPurchaseUnit() : "");
+                        drawer_cash.setText(!normalUser.getPhone().equalsIgnoreCase("-1") ? Helper.getInstance().getOneDigitOrNon(normalUser.getCash(), false) : " ");
+                        drawer_cash_unit.setText(!normalUser.getPhone().equalsIgnoreCase("-1") ? Helper.getInstance().getPurchaseUnit() : "");
                     } catch (Exception e) {
                         Helper_Log.errorLog(e, Fragment_LocationPicker.class);
                     }
@@ -437,7 +437,7 @@ public class Fragment_LandingPage extends Fragment {
                     }
                 } else {
                     Helper_Log.errorLog(Fragment_LandingPage.class);
-                    Helper.toast(R.string.unknown_error, Constants.ToastMode.ERROR);
+                    Helper.getInstance().toast(R.string.unknown_error, Constants.ToastMode.ERROR);
                     getActivity().finishAffinity();
                     getActivity().finish();
                 }
@@ -446,7 +446,7 @@ public class Fragment_LandingPage extends Fragment {
             @Override
             public void onFailure(Call<ServerResponse> call, Throwable t) {
                 Helper_Log.errorLog(t, Fragment_LandingPage.class);
-                Helper.toast(R.string.unknown_error, Constants.ToastMode.ERROR);
+                Helper.getInstance().toast(R.string.unknown_error, Constants.ToastMode.ERROR);
                 getActivity().finishAffinity();
                 getActivity().finish();
             }

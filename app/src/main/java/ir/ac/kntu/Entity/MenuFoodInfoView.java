@@ -103,7 +103,7 @@ public class MenuFoodInfoView {
             priceContainer.setBackgroundResource(R.drawable.dr_rec_bottom_radius);
             ((GradientDrawable) priceContainer.getBackground()).setColor(Color.parseColor(color));
             ViewGroup.LayoutParams layoutParams = priceContainer.getLayoutParams();
-            ((ConstraintLayout.LayoutParams) layoutParams).bottomMargin = Helper.dp2px(24);
+            ((ConstraintLayout.LayoutParams) layoutParams).bottomMargin = Helper.getInstance().dp2px(24);
             priceContainer.setLayoutParams(layoutParams);
             container.setVisibility(android.view.View.VISIBLE);
             frameContainer.setVisibility(android.view.View.GONE);
@@ -114,14 +114,14 @@ public class MenuFoodInfoView {
 //                card.setmShadowSide(ShadowLayout.LEFT | ShadowLayout.RIGHT);
             priceContainer.setBackgroundColor(Color.parseColor(color));
             ViewGroup.LayoutParams layoutParams = priceContainer.getLayoutParams();
-            ((ConstraintLayout.LayoutParams) layoutParams).bottomMargin = Helper.dp2px(0);
+            ((ConstraintLayout.LayoutParams) layoutParams).bottomMargin = Helper.getInstance().dp2px(0);
             priceContainer.setLayoutParams(layoutParams);
             container.setVisibility(android.view.View.VISIBLE);
             frameContainer.setVisibility(android.view.View.VISIBLE);
             name.setText(food.getName());
-            price.setText(Helper.getOneDigitOrNon(food.getPrice(), true));
-            priceUnit.setText(Helper.getPurchaseUnit());
-            List<Bill> list = Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(food.getId(), Helper.getRestaurantSelectionQRCode());
+            price.setText(Helper.getInstance().getOneDigitOrNon(food.getPrice(), true));
+            priceUnit.setText(Helper.getInstance().getPurchaseUnit());
+            List<Bill> list = Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(food.getId(), Helper.getInstance().getRestaurantSelectionQRCode());
             counter.setText(String.valueOf(!list.isEmpty() ? list.get(0).getCounter() : 0));
             card.setOnClickListener(v -> {
                 Fragment fragment = new Fragment_FoodDescriptionDetail();
@@ -136,7 +136,7 @@ public class MenuFoodInfoView {
                 if (newNumber <= Constants.MAX_ADD_TO_CART_NUMBER) {
                     counter.setText(String.valueOf(newNumber));
                     Fragment_Cart.addToCart(food.getId(), newNumber, false);
-                    int counter = Bill.getTotalFoodItems(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getRestaurantSelectionQRCode()));
+                    int counter = Bill.getTotalFoodItems(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getRestaurantSelectionQRCode()));
                     ((Fragment_Main) fragmentManager.findFragmentById(R.id.main_frame)).updateBadge();
 
                 }

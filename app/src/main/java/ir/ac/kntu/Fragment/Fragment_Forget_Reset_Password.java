@@ -59,7 +59,7 @@ public class Fragment_Forget_Reset_Password extends Fragment {
 
     private void initializeViewContents(View view) {
         enterContainer.setBackgroundResource(R.drawable.dr_login_orange_btn);
-        Helper.changeShapeColorToMainAppColor(enterContainer);
+        Helper.getInstance().changeShapeColorToMainAppColor(enterContainer);
         onResume();
     }
 
@@ -80,13 +80,13 @@ public class Fragment_Forget_Reset_Password extends Fragment {
     private void manageListeners(View view) {
         enter.setOnClickListener(v -> {
             if (password.getText().length() == 0) {
-                Helper.toast(getString(R.string.enter_password), Constants.ToastMode.INFO);
+                Helper.getInstance().toast(getString(R.string.enter_password), Constants.ToastMode.INFO);
             } else if (password.getText().length() < Constants.PASSWORD_MINIMUM_LENGTH) {
-                Helper.toast(getString(R.string.short_password), Constants.ToastMode.INFO);
+                Helper.getInstance().toast(getString(R.string.short_password), Constants.ToastMode.INFO);
             } else if (passwordConfirmed.getText().length() == 0) {
-                Helper.toast(getString(R.string.enter_password_confirmed), Constants.ToastMode.INFO);
+                Helper.getInstance().toast(getString(R.string.enter_password_confirmed), Constants.ToastMode.INFO);
             } else if (!passwordConfirmed.getText().toString().equals(password.getText().toString())) {
-                Helper.toast(getString(R.string.password_not_matched), Constants.ToastMode.ERROR);
+                Helper.getInstance().toast(getString(R.string.password_not_matched), Constants.ToastMode.ERROR);
             } else {
                 progressBar.setVisibility(View.VISIBLE);
                 enter.setVisibility(View.GONE);
@@ -96,7 +96,7 @@ public class Fragment_Forget_Reset_Password extends Fragment {
                         if (response.body() != null) {
                             switch (ServerResponse.ServerResponseCodes.getMeaningOf(response.body().getCode())) {
                                 case DONE:
-                                    Helper.toast(R.string.password_successfully_changed, Constants.ToastMode.SUCCESS);
+                                    Helper.getInstance().toast(R.string.password_successfully_changed, Constants.ToastMode.SUCCESS);
                                     Fragment fragment = new Fragment_Login();
                                     Bundle bundle = new Bundle();
                                     bundle.putString("USERNAME", response.body().getMessage());
@@ -111,7 +111,7 @@ public class Fragment_Forget_Reset_Password extends Fragment {
                                     break;
                                 case FAILED:
                                 case UNKNOWN:
-                                    Helper.toast(getString(R.string.error) + " : " + response.body().getMessage(), Constants.ToastMode.ERROR);
+                                    Helper.getInstance().toast(getString(R.string.error) + " : " + response.body().getMessage(), Constants.ToastMode.ERROR);
                                     break;
                             }
                         } else

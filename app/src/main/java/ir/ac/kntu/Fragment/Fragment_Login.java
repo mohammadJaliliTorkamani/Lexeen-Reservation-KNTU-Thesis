@@ -72,14 +72,14 @@ public class Fragment_Login extends Fragment {
     }
 
     private void initialize(View view) {
-        Helper.changeShapeColorToMainAppColor(loginContainer);
+        Helper.getInstance().changeShapeColorToMainAppColor(loginContainer);
         Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_FIRST_USE_STATE, "FALSE");
         progressBar.setVisibility(View.GONE);
         if (getArguments() != null) {
             initedUsername = getArguments().getString("USERNAME");
             initedPassword = getArguments().getString("PASSWORD");
             if (initedUsername != null) {
-                Helper.info("You have a login load");
+                Helper.getInstance().info("You have a login load");
             }
         }
         onResume();
@@ -99,16 +99,16 @@ public class Fragment_Login extends Fragment {
             String phone = this.phone.getText().toString().trim();
             String password = this.password.getText().toString().trim();
             if (phone.isEmpty()) {
-                Helper.toast(getString(R.string.enter_phone), Constants.ToastMode.WARNING);
+                Helper.getInstance().toast(getString(R.string.enter_phone), Constants.ToastMode.WARNING);
             } else if (password.isEmpty()) {
-                Helper.toast(getString(R.string.empty_password), Constants.ToastMode.WARNING);
+                Helper.getInstance().toast(getString(R.string.empty_password), Constants.ToastMode.WARNING);
             } else {
                 loginText.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 Connector.createService(view, Operable_General.class, loginObject -> {
                     try {
                         exchangeKeys(getActivity().getWindow().getDecorView().findViewById(R.id.main_act), object -> loginObject.
-                                login(object, Helper.getDefautPrePhone() + phone, password).enqueue(new Callback<AuthenticationResponse>() {
+                                login(object, Helper.getInstance().getDefautPrePhone() + phone, password).enqueue(new Callback<AuthenticationResponse>() {
                             @Override
                             public void onResponse(Call<AuthenticationResponse> call, Response<AuthenticationResponse> response) {
                                 loginText.setVisibility(View.VISIBLE);
@@ -117,10 +117,10 @@ public class Fragment_Login extends Fragment {
                                     AuthenticationResponse authenticationResponse = response.body();
                                     switch (AuthenticationResponse.ResultCode.getResult(authenticationResponse.getResultCode())) {
                                         case ERROR:
-                                            Helper.toast(authenticationResponse.getMessage(), Constants.ToastMode.ERROR);
+                                            Helper.getInstance().toast(authenticationResponse.getMessage(), Constants.ToastMode.ERROR);
                                             break;
                                         case SUCCESSFUL:
-                                            Helper.toast(getString(R.string.welcome) + " !", Constants.ToastMode.SUCCESS);
+                                            Helper.getInstance().toast(getString(R.string.welcome) + " !", Constants.ToastMode.SUCCESS);
                                             Setting.getInstance().hideKeyboard(getActivity());
                                             Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_TOKEN, authenticationResponse.getToken());
                                             Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_LOGIN_STATE, "USER");

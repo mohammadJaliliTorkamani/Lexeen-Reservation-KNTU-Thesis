@@ -93,12 +93,12 @@ public class Fragment_Cart extends Fragment {
      */
     public static void addToCart(int foodID, int finalNumberOfFood, boolean clearRest) {
         if (clearRest)
-            Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getRestaurantSelectionQRCode());
+            Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getInstance().getRestaurantSelectionQRCode());
         if (finalNumberOfFood == 0) {
-            Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().deleteWithFoodID(foodID, Helper.getRestaurantSelectionQRCode());
+            Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().deleteWithFoodID(foodID, Helper.getInstance().getRestaurantSelectionQRCode());
         } else {
-            if (!Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(foodID, Helper.getRestaurantSelectionQRCode()).isEmpty()) {
-                Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().updateCounterOfBillByFoodID(foodID, finalNumberOfFood, Helper.getRestaurantSelectionQRCode());
+            if (!Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(foodID, Helper.getInstance().getRestaurantSelectionQRCode()).isEmpty()) {
+                Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().updateCounterOfBillByFoodID(foodID, finalNumberOfFood, Helper.getInstance().getRestaurantSelectionQRCode());
             } else
                 Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().insert(new Bill(foodID, finalNumberOfFood));
         }
@@ -113,9 +113,9 @@ public class Fragment_Cart extends Fragment {
     }
 
     private void initializeServerSupplied(View view) {
-        Helper.changeShapeColorToMainAppColor(sumView);
-        Helper.changeShapeColorToMainAppColor(topIconView);
-        Helper.changeShapeColorToMainAppColor(set);
+        Helper.getInstance().changeShapeColorToMainAppColor(sumView);
+        Helper.getInstance().changeShapeColorToMainAppColor(topIconView);
+        Helper.getInstance().changeShapeColorToMainAppColor(set);
         Connector.createService(view, Operable_General.class, object -> object.getRestaurantInfo(Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_QR_CODE, null)).enqueue(new Callback<Restaurant>() {
             @Override
             public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
@@ -159,8 +159,8 @@ public class Fragment_Cart extends Fragment {
     }
 
     private void initializeViewContents(View view) {
-        freeSpace.setBackgroundColor(Color.parseColor(Helper.getMainAppColor()));
-        clear.setTextColor(Color.parseColor(Helper.getMainAppColor()));
+        freeSpace.setBackgroundColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
+        clear.setTextColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
         topIconView.setBackgroundResource(R.drawable.dr_tl_tr_oval_item);
         sumView.setBackgroundResource(R.drawable.dr_bl_br_oval_item);
         ((Fragment_Main) getFragmentManager().findFragmentById(R.id.main_frame)).updateBadge();
@@ -174,9 +174,9 @@ public class Fragment_Cart extends Fragment {
     }
 
     private void initializeList(View view) {
-        if (!Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getRestaurantSelectionQRCode()).isEmpty()) {
+        if (!Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getRestaurantSelectionQRCode()).isEmpty()) {
             recyclerView.setVisibility(View.VISIBLE);
-            Connector.createService(view, Operable_Food.class, object -> object.completeBills(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getRestaurantSelectionQRCode())).enqueue(new Callback<List<Bill>>() {
+            Connector.createService(view, Operable_Food.class, object -> object.completeBills(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getRestaurantSelectionQRCode())).enqueue(new Callback<List<Bill>>() {
                 @Override
                 public void onResponse(Call<List<Bill>> call, Response<List<Bill>> completedResponse) {
                     if (completedResponse.body() != null) {
@@ -188,8 +188,8 @@ public class Fragment_Cart extends Fragment {
                         order.getSpecifiedBills().addAll(Bill.removeDeskBillsFrom(completedResponse.body()));
                         recyclerView.setVisibility(completedResponse.body().isEmpty() ? View.GONE : View.VISIBLE);
                         order.setTotalPrice(Bill.getTotalPrice(completedResponse.body()));
-                        totalPrice.setText(!completedResponse.body().isEmpty() ? Helper.getOneDigitOrNon(order.getTotalPrice(), true) : "");
-                        totalPriceUnit.setText(Helper.getPurchaseUnit());
+                        totalPrice.setText(!completedResponse.body().isEmpty() ? Helper.getInstance().getOneDigitOrNon(order.getTotalPrice(), true) : "");
+                        totalPriceUnit.setText(Helper.getInstance().getPurchaseUnit());
                         recyclerView_adapter.notifyDataSetChanged();
                     } else {
                         clear.setVisibility(View.GONE);
@@ -217,7 +217,7 @@ public class Fragment_Cart extends Fragment {
             sumWord.setVisibility(View.GONE);
             bottomArrow.setVisibility(View.GONE);
             totalPrice.setText(String.valueOf(0));
-            totalPriceUnit.setText(Helper.getPurchaseUnit());
+            totalPriceUnit.setText(Helper.getInstance().getPurchaseUnit());
         }
     }
 
@@ -235,7 +235,7 @@ public class Fragment_Cart extends Fragment {
     private void manageListeners(View view) {
         restaurant.setOnClickListener(v -> {
             if (order.getSpecifiedBills().isEmpty() || !Bill.containsFood(order.getSpecifiedBills())) {
-                Helper.toast(R.string.you_have_not_any_bill, Constants.ToastMode.WARNING);
+                Helper.getInstance().toast(R.string.you_have_not_any_bill, Constants.ToastMode.WARNING);
             } else {
                 Fragment_Table fragment_table = Fragment_Table.getInstance(fragment_passed_object -> {
                     String selectedDate = (String) fragment_passed_object[0];
@@ -244,10 +244,10 @@ public class Fragment_Cart extends Fragment {
                     EditTextPlus editTextPlus_numberOfPeople = (EditTextPlus) fragment_passed_object[3];
                     Runnable onSuccessfulOrdered = (Runnable) fragment_passed_object[4];
                     order.clearSpecifiedBills();
-                    order.getSpecifiedBills().addAll(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getRestaurantSelectionQRCode()));
+                    order.getSpecifiedBills().addAll(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getRestaurantSelectionQRCode()));
                     try {
-                        if (!Helper.isValidTimeForIntervalFromNow(selectedDate)) {
-                            Helper.toast(R.string.invalid_date_time, Constants.ToastMode.INFO);
+                        if (!Helper.getInstance().isValidTimeForIntervalFromNow(selectedDate)) {
+                            Helper.getInstance().toast(R.string.invalid_date_time, Constants.ToastMode.INFO);
                             progressBar.setVisibility(View.GONE);
                             textViewPlus.setVisibility(View.VISIBLE);
                         } else {
@@ -280,13 +280,13 @@ public class Fragment_Cart extends Fragment {
                                                                                 order.setRestaurant(Encryption.getInstance().decrypt(gottenRestaurant.getName()));
                                                                                 progressBar.setVisibility(View.GONE);
                                                                                 textViewPlus.setVisibility(View.VISIBLE);
-                                                                                Helper.toast(R.string.ordered_successfully, Constants.ToastMode.SUCCESS);
+                                                                                Helper.getInstance().toast(R.string.ordered_successfully, Constants.ToastMode.SUCCESS);
                                                                                 Calendar calendar = Calendar.getInstance();
                                                                                 onSuccessfulOrdered.run();
                                                                                 try {
                                                                                     calendar.setTime(new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.US).parse(gregorianDate));
                                                                                     AlarmReminder.getInstance().remindSingleMode(calendar, order);
-                                                                                    Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getRestaurantSelectionQRCode());
+                                                                                    Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getInstance().getRestaurantSelectionQRCode());
                                                                                     Fragment_Table.getInstance().dismiss();
                                                                                     FragmentActivity activity = getActivity();
                                                                                     if (activity != null)
@@ -307,14 +307,14 @@ public class Fragment_Cart extends Fragment {
                                                                         case FAILED:  //so we have error message in message
                                                                             progressBar.setVisibility(View.GONE);
                                                                             textViewPlus.setVisibility(View.VISIBLE);
-                                                                            Helper.toast(getString(R.string.ordered_fault) + "," + response.body().getMessage(), Constants.ToastMode.ERROR);
+                                                                            Helper.getInstance().toast(getString(R.string.ordered_fault) + "," + response.body().getMessage(), Constants.ToastMode.ERROR);
                                                                             Fragment_Table.getInstance().dismiss();
                                                                             initializeList(view);
                                                                             break;
                                                                         default: //so we have null in message
                                                                             progressBar.setVisibility(View.GONE);
                                                                             textViewPlus.setVisibility(View.VISIBLE);
-                                                                            Helper.toast(getString(R.string.unknown_error), Constants.ToastMode.ERROR);
+                                                                            Helper.getInstance().toast(getString(R.string.unknown_error), Constants.ToastMode.ERROR);
                                                                             Fragment_Table.getInstance().dismiss();
                                                                             initializeList(view);
                                                                     }
@@ -340,11 +340,11 @@ public class Fragment_Cart extends Fragment {
                                                         progressBar.setVisibility(View.GONE);
                                                         textViewPlus.setVisibility(View.VISIBLE);
                                                         Fragment_Table.getInstance().dismiss();
-                                                        Helper.toast(ContextHelper.retrieveContext().getString(R.string.no_enough_charge), Constants.ToastMode.INFO);
+                                                        Helper.getInstance().toast(ContextHelper.retrieveContext().getString(R.string.no_enough_charge), Constants.ToastMode.INFO);
                                                         FragmentActivity activity = getActivity();
                                                         Fragment fragment = new Fragment_Wallet();
                                                         Bundle bundle = new Bundle();
-                                                        bundle.putDouble("TO_CHARGE_VALUE", Helper.getCostCeilOf(order.getTotalPrice() - currentCash));
+                                                        bundle.putDouble("TO_CHARGE_VALUE", Helper.getInstance().getCostCeilOf(order.getTotalPrice() - currentCash));
                                                         fragment.setArguments(bundle);
                                                         if (activity != null)
                                                             activity.getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).addToBackStack("wallet").add(R.id.main_frame, fragment).commit();
@@ -352,7 +352,7 @@ public class Fragment_Cart extends Fragment {
                                                             getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).addToBackStack("wallet").add(R.id.main_frame, fragment).commit();
                                                     }
                                                 } else {
-                                                    Helper.toast(R.string.not_good_order, Constants.ToastMode.WARNING);
+                                                    Helper.getInstance().toast(R.string.not_good_order, Constants.ToastMode.WARNING);
                                                     progressBar.setVisibility(View.GONE);
                                                     textViewPlus.setVisibility(View.VISIBLE);
                                                 }
@@ -392,7 +392,7 @@ public class Fragment_Cart extends Fragment {
         home.setOnClickListener(v ->
         {
             if (order.getSpecifiedBills().isEmpty() || !Bill.containsFood(order.getSpecifiedBills())) {
-                Helper.toast(R.string.you_have_not_any_bill, Constants.ToastMode.WARNING);
+                Helper.getInstance().toast(R.string.you_have_not_any_bill, Constants.ToastMode.WARNING);
             } else {
                 Dexter.withActivity(getActivity()).withPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION).withListener(new MultiplePermissionsListener() {
                     @Override
@@ -418,11 +418,11 @@ public class Fragment_Cart extends Fragment {
                                                             .commit();
 
                                                 } else {//not enough cash
-                                                    Helper.toast(R.string.no_enough_charge, Constants.ToastMode.INFO);
+                                                    Helper.getInstance().toast(R.string.no_enough_charge, Constants.ToastMode.INFO);
                                                     FragmentActivity activity = getActivity();
                                                     Fragment fragment = new Fragment_Wallet();
                                                     Bundle bundle = new Bundle();
-                                                    bundle.putDouble("TO_CHARGE_VALUE", Helper.getCostCeilOf((order.getTotalPrice() - currentCash)));
+                                                    bundle.putDouble("TO_CHARGE_VALUE", Helper.getInstance().getCostCeilOf((order.getTotalPrice() - currentCash)));
                                                     fragment.setArguments(bundle);
                                                     if (activity != null)
                                                         activity.getSupportFragmentManager()
@@ -462,7 +462,7 @@ public class Fragment_Cart extends Fragment {
         });
         clear.setOnClickListener(v ->
         {
-            Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getRestaurantSelectionQRCode());
+            Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getInstance().getRestaurantSelectionQRCode());
             ((Fragment_Main) getFragmentManager().findFragmentById(R.id.main_frame)).updateBadge();
             order.clearSpecifiedBills();
             clear.setVisibility(View.GONE);
@@ -470,12 +470,12 @@ public class Fragment_Cart extends Fragment {
             order.setDiscountID(-1);
             recyclerView_adapter.notifyDataSetChanged();
             totalPrice.setText(String.valueOf(0));
-            totalPriceUnit.setText(Helper.getPurchaseUnit());
+            totalPriceUnit.setText(Helper.getInstance().getPurchaseUnit());
         });
         set.setOnClickListener(v ->
         {
             if (order.getSpecifiedBills().isEmpty() || order.getTotalPrice() == 0) {
-                Helper.toast(R.string.you_have_not_any_bill, Constants.ToastMode.WARNING);
+                Helper.getInstance().toast(R.string.you_have_not_any_bill, Constants.ToastMode.WARNING);
             } else {
                 if (discountCode.getText().length() > 0) {
                     Connector.createService(view, Operable_General.class, object -> object.getDiscountWithCode(discountCode.getText().toString()).enqueue(new Callback<Discount>() {
@@ -487,16 +487,16 @@ public class Fragment_Cart extends Fragment {
                                     if (discount.getId() > 0) {
                                         order.setTotalPrice((1 - discount.getPercentage() / 100) * order.getTotalPrice());
                                         order.setDiscountID(discount.getId());
-                                        totalPrice.setText(Helper.getOneDigitOrNon(order.getTotalPrice(), true));
-                                        Helper.toast(R.string.done, Constants.ToastMode.SUCCESS);
+                                        totalPrice.setText(Helper.getInstance().getOneDigitOrNon(order.getTotalPrice(), true));
+                                        Helper.getInstance().toast(R.string.done, Constants.ToastMode.SUCCESS);
                                         set.setBackgroundResource(R.drawable.rec_cart_gray);
                                         set.setClickable(false);
                                     } else if (discount.getId() == -1)
-                                        Helper.toast(R.string.discount_code_not_valid_for_you, Constants.ToastMode.WARNING);
+                                        Helper.getInstance().toast(R.string.discount_code_not_valid_for_you, Constants.ToastMode.WARNING);
                                     else if (discount.getId() == -2)
-                                        Helper.toast(R.string.no_such_discount_code, Constants.ToastMode.WARNING);
+                                        Helper.getInstance().toast(R.string.no_such_discount_code, Constants.ToastMode.WARNING);
                                 } else {
-                                    Helper.toast(getString(R.string.minimum_price_is) + Helper.getOneDigitOrNon(discount.getMinimumAcceptablePrice(), false), Constants.ToastMode.WARNING);
+                                    Helper.getInstance().toast(getString(R.string.minimum_price_is) + Helper.getInstance().getOneDigitOrNon(discount.getMinimumAcceptablePrice(), false), Constants.ToastMode.WARNING);
                                 }
                             } else {
                                 Helper_Log.errorLog(Fragment_Cart.class);

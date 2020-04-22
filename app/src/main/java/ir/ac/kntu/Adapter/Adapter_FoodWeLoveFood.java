@@ -123,9 +123,9 @@ public class Adapter_FoodWeLoveFood extends RecyclerView.Adapter {
         });
         setAnimation(holder.itemView, position);
 //        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-//                Helper.dp2px(120), Helper.dp2px(145));
-//        layoutParams.setMarginStart(Helper.dp2px(position == 0 ? 63 : 10));
-//        layoutParams.setMarginEnd(Helper.dp2px(10));
+//                Helper.getInstance().dp2px(120), Helper.getInstance().dp2px(145));
+//        layoutParams.setMarginStart(Helper.getInstance().dp2px(position == 0 ? 63 : 10));
+//        layoutParams.setMarginEnd(Helper.getInstance().dp2px(10));
 //        wholeItem.setLayoutParams(layoutParams);
     }
 

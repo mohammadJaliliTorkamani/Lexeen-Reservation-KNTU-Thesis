@@ -32,7 +32,7 @@ public class Encryption implements Operable_Encryption {
 
     @Override
     public String encrypt(String str) throws Exception {
-        String sharedKey = Helper.getSharedKey();
+        String sharedKey = Helper.getInstance().getSharedKey();
         if (sharedKey == null)
             return str;
         if (cipher == null) {
@@ -48,7 +48,7 @@ public class Encryption implements Operable_Encryption {
 
     @Override
     public String decrypt(String str) throws Exception {
-        String sharedKey = Helper.getSharedKey();
+        String sharedKey = Helper.getInstance().getSharedKey();
         if (sharedKey == null)
             return str;
         if (cipher == null) {
@@ -74,7 +74,7 @@ public class Encryption implements Operable_Encryption {
 
     @Override
     public long selectPrivateKey() {
-        clientPrivateKey = Helper.generateRandomNumber(3, 14);
+        clientPrivateKey = Helper.getInstance().generateRandomNumber(3, 14);
         return clientPrivateKey;
     }
 

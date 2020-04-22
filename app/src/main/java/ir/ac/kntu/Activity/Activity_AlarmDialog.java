@@ -47,12 +47,12 @@ public class Activity_AlarmDialog extends AppCompatActivity {
             order = orders.get(0);
             Database.getInstance(this, Constants._MAIN_DATABASE).orderInterface().remove(order.getOrderID());
         } else {
-            Helper.toast(R.string.error, Constants.ToastMode.ERROR);
+            Helper.getInstance().toast(R.string.error, Constants.ToastMode.ERROR);
             return;
         }
         orderType.setText(order.isDelivery() ? R.string.delivery_in_place : R.string.serve_at_restaurant);
         restaurantName.setText(order.getRestaurant());
-        dateTime.setText(Helper.getShamsiDateTimeFromGregortianString(order.getDate_and_time_start()));
+        dateTime.setText(Helper.getInstance().getShamsiDateTimeFromGregortianString(order.getDate_and_time_start()));
     }
 
     @Override

@@ -38,11 +38,11 @@ public class Adapter_AcceptableCashAmounts extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         LinearLayout container = holder.itemView.findViewById(R.id.acceptable_cash_text_container);
         TextViewPlus text = holder.itemView.findViewById(R.id.acceptable_cash_text);
-        text.setText(Helper.getOneDigitOrNon(list.get(position), false) + " " + Helper.getPurchaseUnit());
+        text.setText(Helper.getInstance().getOneDigitOrNon(list.get(position), false) + " " + Helper.getInstance().getPurchaseUnit());
         text.setTextColor(position == clickedPos ? Color.WHITE : Color.BLACK);
         if (position == clickedPos) {
             holder.itemView.setBackgroundResource(R.drawable.dr_acceptable_cash_selected);
-            Helper.changeShapeColorToMainAppColor(holder.itemView);
+            Helper.getInstance().changeShapeColorToMainAppColor(holder.itemView);
         } else
             holder.itemView.setBackgroundResource(R.drawable.dr_acceptable_cash_unselected);
 

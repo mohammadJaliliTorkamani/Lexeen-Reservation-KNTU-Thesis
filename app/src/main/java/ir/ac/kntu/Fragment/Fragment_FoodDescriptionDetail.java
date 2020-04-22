@@ -113,10 +113,10 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
             expandFoodName.setTitle(food.getName());
             expandFoodName.setCollapsedTitleGravity(Gravity.CENTER_VERTICAL);
 
-            priceText.setText(Helper.getOneDigitOrNon(food.getPrice(), true));
-            priceUnit.setText(Helper.getPurchaseUnit());
+            priceText.setText(Helper.getInstance().getOneDigitOrNon(food.getPrice(), true));
+            priceUnit.setText(Helper.getInstance().getPurchaseUnit());
 
-            calorieText.setText(Helper.getOneDigitOrNon(food.getCalories(), false) + " " + getString(R.string.cal));
+            calorieText.setText(Helper.getInstance().getOneDigitOrNon(food.getCalories(), false) + " " + getString(R.string.cal));
             cookTimeText.setText(food.getCookTimeMinutes() + " " + getString(R.string.min));
             description.setText(food.getDescription());
             select_title_zero_and_one(view);
@@ -205,18 +205,18 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
     }
 
     private void initializeViewContents(View view) {
-        food_description_linearLayout_bottom.setBackgroundColor(Color.parseColor(Helper.getMainAppColor()));
+        food_description_linearLayout_bottom.setBackgroundColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
         id = getArguments().getInt("Food_ID", -1);
         expandedImage.setColorFilter(ContextHelper.retrieveContext().getResources().getColor(R.color.food_description_black_mask_color));
         buyIcon.setMaxBadgeValue(Constants.MAX_ADD_TO_CART_NUMBER);
         buyIcon.setBadgeTextFont(Typeface.createFromAsset(ContextHelper.retrieveContext().getAssets(), "fonts/farsi/syekan.otf"));
-        int badgeCounterValue = Bill.getTotalFoodItems(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getRestaurantSelectionQRCode()));
+        int badgeCounterValue = Bill.getTotalFoodItems(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getRestaurantSelectionQRCode()));
         if (badgeCounterValue == 0)
             buyIcon.clearBadge();
         else
             buyIcon.setBadgeValue(badgeCounterValue);
-        if (!Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(id, Helper.getRestaurantSelectionQRCode()).isEmpty()) {
-            counter.setText(String.valueOf(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(id, Helper.getRestaurantSelectionQRCode()).get(0).getCounter()));
+        if (!Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(id, Helper.getInstance().getRestaurantSelectionQRCode()).isEmpty()) {
+            counter.setText(String.valueOf(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(id, Helper.getInstance().getRestaurantSelectionQRCode()).get(0).getCounter()));
         } else {
             counter.setText("0");
         }
@@ -261,11 +261,11 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
             Fragment_Cart.addToCart(id, Integer.parseInt(counter.getText().toString().trim()), false);
             if (food != null) {
                 if (Integer.parseInt(counter.getText().toString().trim()) > 0)
-                    Helper.toast(counter.getText().toString().trim() + " " + food.getName() + " به سبد خرید اضافه شد", Constants.ToastMode.SUCCESS);
+                    Helper.getInstance().toast(counter.getText().toString().trim() + " " + food.getName() + " به سبد خرید اضافه شد", Constants.ToastMode.SUCCESS);
                 else
-                    Helper.toast(food.getName() + " از سبد خرید حذف شد", Constants.ToastMode.SUCCESS);
+                    Helper.getInstance().toast(food.getName() + " از سبد خرید حذف شد", Constants.ToastMode.SUCCESS);
             }
-            int counter = Bill.getTotalFoodItems(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getRestaurantSelectionQRCode()));
+            int counter = Bill.getTotalFoodItems(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getRestaurantSelectionQRCode()));
             if (counter == 0)
                 buyIcon.clearBadge();
             else

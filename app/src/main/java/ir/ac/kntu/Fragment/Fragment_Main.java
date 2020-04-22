@@ -81,7 +81,7 @@ public class Fragment_Main extends Fragment {
 
     private void initializeOnlineContents(View view) {
         if (!Setting.getInstance().isConnected()) {
-            Helper.toast(R.string.not_connected_to_internet, Constants.ToastMode.WARNING);
+            Helper.getInstance().toast(R.string.not_connected_to_internet, Constants.ToastMode.WARNING);
         }
     }
 
@@ -108,7 +108,7 @@ public class Fragment_Main extends Fragment {
                             Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_QR_CODE, null);
                             Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_SHARED_KEY, null);
                             Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_FIRST_USE_STATE, null);
-                            Helper.toast(R.string.log_out_successfully, Constants.ToastMode.SUCCESS);
+                            Helper.getInstance().toast(R.string.log_out_successfully, Constants.ToastMode.SUCCESS);
                             Intent intent = new Intent();
                             Activity activity = getActivity();
                             intent.setClass(activity, activity.getClass());
@@ -117,7 +117,7 @@ public class Fragment_Main extends Fragment {
                             break;
                         case FAILED:
                         case UNKNOWN:
-                            Helper.toast(ContextHelper.retrieveContext().getString(R.string.error) + " : " + response.body().getMessage(), Constants.ToastMode.ERROR);
+                            Helper.getInstance().toast(ContextHelper.retrieveContext().getString(R.string.error) + " : " + response.body().getMessage(), Constants.ToastMode.ERROR);
                             break;
                     }
                 } else {
@@ -209,11 +209,11 @@ public class Fragment_Main extends Fragment {
     }
 
     private void initializeViewContents(View view) {
-        logoutContainer.setVisibility(Helper.isLoggedIn() ? View.VISIBLE : View.GONE);
+        logoutContainer.setVisibility(Helper.getInstance().isLoggedIn() ? View.VISIBLE : View.GONE);
         drawerHeader.setBackgroundResource(R.drawable.ic_nav_rec);
-        Helper.changeShapeColorToMainAppColor(drawerHeader.getDrawable());
+        Helper.getInstance().changeShapeColorToMainAppColor(drawerHeader.getDrawable());
         toolbar.setVisibility(View.VISIBLE);
-        Restaurant restaurant = Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).restaurantInterface().getRestaurant(Helper.getRestaurantSelectionQRCode());
+        Restaurant restaurant = Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).restaurantInterface().getRestaurant(Helper.getInstance().getRestaurantSelectionQRCode());
         if (restaurant != null)
             topName.setText(restaurant.getName());
         bottomBar.setSoundEffectsEnabled(false);
@@ -227,7 +227,7 @@ public class Fragment_Main extends Fragment {
     }
 
     private void initDrawer_InfoMode(View view) {
-        drawerHeaderUser.setVisibility(Helper.isLoggedIn() ? View.VISIBLE : View.GONE);
+        drawerHeaderUser.setVisibility(Helper.getInstance().isLoggedIn() ? View.VISIBLE : View.GONE);
         Connector.createService(view, Operable_User.class, object -> object.getDrawerContent().enqueue(new Callback<NormalUser>() {
             @Override
             public void onResponse(Call<NormalUser> call, Response<NormalUser> response) {
@@ -238,8 +238,8 @@ public class Fragment_Main extends Fragment {
                         normalUser.setLastName(Encryption.getInstance().decrypt(normalUser.getLastName()));
 
                         drawer_profileName.setText(normalUser.getName() + " " + normalUser.getLastName());
-                        drawer_cash.setText(!normalUser.getPhone().equalsIgnoreCase("-1") ? Helper.getOneDigitOrNon(normalUser.getCash(), false) : " ");
-                        drawer_cash_unit.setText(!normalUser.getPhone().equalsIgnoreCase("-1") ? Helper.getPurchaseUnit() : "");
+                        drawer_cash.setText(!normalUser.getPhone().equalsIgnoreCase("-1") ? Helper.getInstance().getOneDigitOrNon(normalUser.getCash(), false) : " ");
+                        drawer_cash_unit.setText(!normalUser.getPhone().equalsIgnoreCase("-1") ? Helper.getInstance().getPurchaseUnit() : "");
                     } catch (Exception e) {
                         Helper_Log.errorLog(e, Fragment_Main.class);
                     }
@@ -267,7 +267,7 @@ public class Fragment_Main extends Fragment {
         new Tooltip.Builder(img)
                 .setText(msg)
                 .setArrowEnabled(true)
-                .setBackgroundColor(Color.parseColor(Helper.getMainAppColor()))
+                .setBackgroundColor(Color.parseColor(Helper.getInstance().getMainAppColor()))
                 .setCornerRadius(15f)
                 .setTypeface(Typeface.createFromAsset(ContextHelper.retrieveContext().getAssets(), "fonts/farsi/syekan.otf"))
                 .setArrowWidth(70f)
@@ -279,7 +279,7 @@ public class Fragment_Main extends Fragment {
                             .setText(getResources().getString(R.string.search_your_favorite_food_easily))
                             .setArrowEnabled(true)
                             .setTypeface(Typeface.createFromAsset(ContextHelper.retrieveContext().getAssets(), "fonts/farsi/syekan.otf"))
-                            .setBackgroundColor(Color.parseColor(Helper.getMainAppColor()))
+                            .setBackgroundColor(Color.parseColor(Helper.getInstance().getMainAppColor()))
                             .setCornerRadius(15f)
                             .setArrowWidth(70f)
                             .setTextColor(getResources().getColor(R.color.white))
@@ -297,7 +297,7 @@ public class Fragment_Main extends Fragment {
     }
 
     public void updateBadge() {
-        int counter = Bill.getTotalFoodItems(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getRestaurantSelectionQRCode()));
+        int counter = Bill.getTotalFoodItems(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getRestaurantSelectionQRCode()));
         bottomBar.getTabAtPosition(2).setBadgeCount(counter);
     }
 }

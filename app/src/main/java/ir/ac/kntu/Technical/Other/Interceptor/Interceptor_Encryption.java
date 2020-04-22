@@ -21,7 +21,7 @@ public class Interceptor_Encryption implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        String sharedKey = Helper.getSharedKey();
+        String sharedKey = Helper.getInstance().getSharedKey();
         Request request = chain.request();
         if (sharedKey != null)
             request = request.newBuilder().header("SharedKey", sharedKey).build();

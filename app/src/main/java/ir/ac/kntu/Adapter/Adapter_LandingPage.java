@@ -69,10 +69,10 @@ public class Adapter_LandingPage extends androidx.recyclerview.widget.RecyclerVi
             ImageLoader.getInstance().displayImage(list.get(position).getPictures().get(0), image);
             if (!list.get(position).isActive()) {
                 othersContainer.setBackground(null);
-                Helper.setLockedOnGrayScale(image);
+                Helper.getInstance().setLockedOnGrayScale(image);
                 othersContainer.setBackground(ContextHelper.retrieveContext().getResources().getDrawable(R.drawable.dr_landing_page_item_gradient_inactive));
             } else {
-                Helper.setUnlockedForGrayScale(image);
+                Helper.getInstance().setUnlockedForGrayScale(image);
                 othersContainer.setBackground(ContextHelper.retrieveContext().getResources().getDrawable(R.drawable.dr_landing_page_item_gradient_active));
             }
             name.setText(list.get(position).getName());
@@ -103,7 +103,7 @@ public class Adapter_LandingPage extends androidx.recyclerview.widget.RecyclerVi
 
                 }
             } else
-                Helper.toast(list.get(position).getName() + " " + ContextHelper.retrieveContext().getString(R.string.restaurant_is_not_member), Constants.ToastMode.INFO);
+                Helper.getInstance().toast(list.get(position).getName() + " " + ContextHelper.retrieveContext().getString(R.string.restaurant_is_not_member), Constants.ToastMode.INFO);
         });
         setAnimation(holder.itemView, position);
     }

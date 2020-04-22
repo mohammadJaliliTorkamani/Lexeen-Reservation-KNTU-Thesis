@@ -66,8 +66,8 @@ public class Adapter_UserFoodOder extends RecyclerView.Adapter {
             Helper_Log.errorLog(e, Adapter_UserFoodOder.class);
         }
 
-        price.setText(Helper.getOneDigitOrNon(orders.get(position).getTotalPrice(), true));
-        priceUnit.setText(Helper.getPurchaseUnit());
+        price.setText(Helper.getInstance().getOneDigitOrNon(orders.get(position).getTotalPrice(), true));
+        priceUnit.setText(Helper.getInstance().getPurchaseUnit());
 
         try {
             date.setText(Encryption.getInstance().decrypt(orders.get(position).getDate_and_time_start()));
@@ -100,8 +100,8 @@ public class Adapter_UserFoodOder extends RecyclerView.Adapter {
             TextViewPlus close = inflateView.findViewById(R.id.dialog_order_close);
             titleContainer.setBackgroundResource(R.drawable.rec_curve_top);
             close.setBackgroundResource(R.drawable.rec_curve_bottom);
-            Helper.changeShapeColorToMainAppColor(titleContainer);
-            Helper.changeShapeColorToMainAppColor(close);
+            Helper.getInstance().changeShapeColorToMainAppColor(titleContainer);
+            Helper.getInstance().changeShapeColorToMainAppColor(close);
             close.setOnClickListener(v1 -> dialog.dismiss());
             title.setText(orders.get(position).isDelivery() ? "رسید تحویل" : "رسید رزرو");
             try {

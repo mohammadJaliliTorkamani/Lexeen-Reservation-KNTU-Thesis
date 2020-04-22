@@ -51,14 +51,14 @@ public class Fragment_Scanner extends Fragment implements ZXingScannerView.Resul
     }
 
     private void manageListeners(View view) {
-        scan.setOnClickListener(v -> Helper.toast(R.string.place_barcode_on_frame, Constants.ToastMode.NORMAL));
+        scan.setOnClickListener(v -> Helper.getInstance().toast(R.string.place_barcode_on_frame, Constants.ToastMode.NORMAL));
     }
 
     private void initializeOnlineContents(View view) {
     }
 
     private void initializeViewContents(View view) {
-        scan.setBackgroundColor(Color.parseColor(Helper.getMainAppColor()));
+        scan.setBackgroundColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
         if (getArguments() != null && getArguments().getString("CODE") != null) {
             Fragment scanningResultFragment = new Fragment_ScanningResult();
             Bundle bundle = new Bundle();

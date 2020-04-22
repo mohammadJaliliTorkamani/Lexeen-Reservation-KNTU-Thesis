@@ -93,7 +93,7 @@ public class Fragment_Register extends Fragment {
 
     private void initialize(View view) {
         signUpContainer.setBackgroundResource(R.drawable.dr_login_orange_btn);
-        Helper.changeShapeColorToMainAppColor(signUpContainer);
+        Helper.getInstance().changeShapeColorToMainAppColor(signUpContainer);
         onResume();
         selectButton(0);
     }
@@ -125,8 +125,8 @@ public class Fragment_Register extends Fragment {
             public void afterTextChanged(Editable s) {
                 if (firstName.getText() == null || firstName.getText().toString().isEmpty())
                     return;
-                if (Helper.containsNonPersianLanguage(firstName.getText().toString())) {
-                    Helper.toast(ContextHelper.retrieveContext().getString(R.string.change_your_keyboard_language_to_persian), Constants.ToastMode.WARNING);
+                if (Helper.getInstance().containsNonPersianLanguage(firstName.getText().toString())) {
+                    Helper.getInstance().toast(ContextHelper.retrieveContext().getString(R.string.change_your_keyboard_language_to_persian), Constants.ToastMode.WARNING);
                     firstName.setText(firstName.getText().subSequence(0, firstName.length() - 1));
                 }
             }
@@ -146,8 +146,8 @@ public class Fragment_Register extends Fragment {
             public void afterTextChanged(Editable s) {
                 if (lastName.getText() == null || lastName.getText().toString().isEmpty())
                     return;
-                if (Helper.containsNonPersianLanguage(lastName.getText().toString())) {
-                    Helper.toast(ContextHelper.retrieveContext().getString(R.string.change_your_keyboard_language_to_persian), Constants.ToastMode.WARNING);
+                if (Helper.getInstance().containsNonPersianLanguage(lastName.getText().toString())) {
+                    Helper.getInstance().toast(ContextHelper.retrieveContext().getString(R.string.change_your_keyboard_language_to_persian), Constants.ToastMode.WARNING);
                     lastName.setText(lastName.getText().subSequence(0, lastName.length() - 1));
                 }
             }
@@ -163,18 +163,18 @@ public class Fragment_Register extends Fragment {
                 .commit());
         signUp.setOnClickListener(v -> {
             if (firstName.getText().length() < 2) {
-                Helper.toast(getString(R.string.enter_first_name), Constants.ToastMode.WARNING);
+                Helper.getInstance().toast(getString(R.string.enter_first_name), Constants.ToastMode.WARNING);
             } else if (lastName.getText().length() < 2) {
-                Helper.toast(getString(R.string.enter_last_name), Constants.ToastMode.WARNING);
+                Helper.getInstance().toast(getString(R.string.enter_last_name), Constants.ToastMode.WARNING);
             } else if (phoneNumber.getText().length() < 10) {
-                Helper.toast(getString(R.string.enter_phone_correctly), Constants.ToastMode.WARNING);
+                Helper.getInstance().toast(getString(R.string.enter_phone_correctly), Constants.ToastMode.WARNING);
             } else if (password.getText().length() < Constants.PASSWORD_MINIMUM_LENGTH) {
-                Helper.toast(getString(R.string.password_must_contain_at_least) + Constants.PASSWORD_MINIMUM_LENGTH + getString(R.string.be_characters), Constants.ToastMode.WARNING);
+                Helper.getInstance().toast(getString(R.string.password_must_contain_at_least) + Constants.PASSWORD_MINIMUM_LENGTH + getString(R.string.be_characters), Constants.ToastMode.WARNING);
             } else {
                 String _pushe_id = PushPole.getId(ContextHelper.retrieveContext());
                 String _firstName = firstName.getText().toString().trim();
                 String _lastName = lastName.getText().toString().trim();
-                String _phoneNumber = Helper.getDefautPrePhone() + phoneNumber.getText().toString().trim();
+                String _phoneNumber = Helper.getInstance().getDefautPrePhone() + phoneNumber.getText().toString().trim();
                 String _password = password.getText().toString().trim();
                 NormalUser normalUser = new NormalUser(_firstName, _lastName, _phoneNumber, null, null, _pushe_id, _password, 0, isMale);
                 signUp.setVisibility(View.GONE);
@@ -199,7 +199,7 @@ public class Fragment_Register extends Fragment {
                                             break;
                                         case UNKNOWN:
                                         case FAILED:
-                                            Helper.toast(getString(R.string.error) + " : " + response.body().getMessage(), Constants.ToastMode.ERROR);
+                                            Helper.getInstance().toast(getString(R.string.error) + " : " + response.body().getMessage(), Constants.ToastMode.ERROR);
                                     }
                                     signUp.setVisibility(View.VISIBLE);
                                     progressBar.setVisibility(View.GONE);

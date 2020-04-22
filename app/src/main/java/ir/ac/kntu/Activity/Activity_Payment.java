@@ -59,7 +59,7 @@ public class Activity_Payment extends AppCompatActivity {
         if (getIntent().getData() != null) {  //payment done(whether failed or succeed)
             ZarinPal.getPurchase(ContextHelper.retrieveContext()).verificationPayment(getIntent().getData(), (isPaymentSuccess, refID, paymentRequest) -> {
                 if (refID == null || !isPaymentSuccess) {
-                    Helper.toast(R.string.payment_failed, Constants.ToastMode.ERROR);
+                    Helper.getInstance().toast(R.string.payment_failed, Constants.ToastMode.ERROR);
                     startActivity(new Intent(Activity_Payment.this, MainActivity.class));
                     finish();
                 } else {
@@ -78,18 +78,18 @@ public class Activity_Payment extends AppCompatActivity {
                                                 }
                                                 break;
                                             case FAILED:
-                                                Helper.toast(R.string.payment_failed, Constants.ToastMode.ERROR);
+                                                Helper.getInstance().toast(R.string.payment_failed, Constants.ToastMode.ERROR);
                                                 startActivity(new Intent(Activity_Payment.this, MainActivity.class));
                                                 finish();
                                                 break;
                                             case UNKNOWN:
-                                                Helper.toast(R.string.unknown_error, Constants.ToastMode.ERROR);
+                                                Helper.getInstance().toast(R.string.unknown_error, Constants.ToastMode.ERROR);
                                                 startActivity(new Intent(Activity_Payment.this, MainActivity.class));
                                                 finish();
                                                 break;
                                         }
                                     } else {
-                                        Helper.toast(R.string.error, Constants.ToastMode.ERROR);
+                                        Helper.getInstance().toast(R.string.error, Constants.ToastMode.ERROR);
                                         startActivity(new Intent(Activity_Payment.this, MainActivity.class));
                                         finish();
                                     }
@@ -97,7 +97,7 @@ public class Activity_Payment extends AppCompatActivity {
 
                                 @Override
                                 public void onFailure(Call<ServerResponse> call, Throwable t) {
-                                    Helper.toast("NOOOO", Constants.ToastMode.SUCCESS);
+                                    Helper.getInstance().toast("NOOOO", Constants.ToastMode.SUCCESS);
                                     Helper_Log.errorLog(t, Activity_Payment.class);
                                     startActivity(new Intent(Activity_Payment.this, MainActivity.class));
                                     finish();
@@ -110,7 +110,7 @@ public class Activity_Payment extends AppCompatActivity {
                 }
             });
         } else {  //do a payment operation
-            priceToman = Helper.getCostCeilOf(getIntent().getDoubleExtra("PRICE", -1));
+            priceToman = Helper.getInstance().getCostCeilOf(getIntent().getDoubleExtra("PRICE", -1));
             if (priceToman != -1) {
                 Payment.getInstance().pay(constraintLayout, priceToman, objects -> {
                     Intent intent = (Intent) objects[0];
@@ -132,10 +132,10 @@ public class Activity_Payment extends AppCompatActivity {
         TextViewPlus share = inflateView.findViewById(R.id.dialog_qr_purchased_share);
         TextViewPlus save = inflateView.findViewById(R.id.dialog_qr_purchased_save);
         TextViewPlus navigateToHome = inflateView.findViewById(R.id.dialog_qr_purchased_navigate);
-        Helper.changeShapeColorToMainAppColor(topTitle);
-        Helper.changeShapeColorToMainAppColor(navigateToHome);
-        share.setBackgroundColor(Color.parseColor(Helper.getMainAppColor()));
-        save.setBackgroundColor(Color.parseColor(Helper.getMainAppColor()));
+        Helper.getInstance().changeShapeColorToMainAppColor(topTitle);
+        Helper.getInstance().changeShapeColorToMainAppColor(navigateToHome);
+        share.setBackgroundColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
+        save.setBackgroundColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
 
         code.setText(String.valueOf(issueTrackingNo));
         try {
@@ -145,7 +145,7 @@ public class Activity_Payment extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_SEND);
                 intent.setType("image/jpeg");
-                intent.putExtra(Intent.EXTRA_STREAM, Helper.bitmapToUri(bitmap));
+                intent.putExtra(Intent.EXTRA_STREAM, Helper.getInstance().bitmapToUri(bitmap));
                 startActivity(intent);
             });
             save.setOnClickListener(v -> Dexter.withActivity(this).withPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(new MultiplePermissionsListener() {
@@ -153,14 +153,14 @@ public class Activity_Payment extends AppCompatActivity {
                 public void onPermissionsChecked(MultiplePermissionsReport report) {
                     if (report.areAllPermissionsGranted()) {
                         try {
-                            Setting.getInstance().saveBitmap("order_" + Helper.getTodaysTime(null, "Y-m-d H:i", true), bitmap, Constants.BITMAPS_DIRECTORY_NAME);
-                            Helper.toast(R.string.saved, Constants.ToastMode.SUCCESS);
+                            Setting.getInstance().saveBitmap("order_" + Helper.getInstance().getTodaysTime(null, "Y-m-d H:i", true), bitmap, Constants.BITMAPS_DIRECTORY_NAME);
+                            Helper.getInstance().toast(R.string.saved, Constants.ToastMode.SUCCESS);
                         } catch (Exception e) {
-                            Helper.toast(R.string.error_while_saving, Constants.ToastMode.ERROR);
+                            Helper.getInstance().toast(R.string.error_while_saving, Constants.ToastMode.ERROR);
                             Helper_Log.errorLog(e, Activity_Payment.class);
                         }
                     } else {
-                        Helper.toast(R.string.no_permission_granted, Constants.ToastMode.ERROR);
+                        Helper.getInstance().toast(R.string.no_permission_granted, Constants.ToastMode.ERROR);
                     }
                 }
 
@@ -169,7 +169,7 @@ public class Activity_Payment extends AppCompatActivity {
                     token.continuePermissionRequest();
                 }
             }).withErrorListener(error -> {
-                Helper.toast(R.string.error, Constants.ToastMode.ERROR);
+                Helper.getInstance().toast(R.string.error, Constants.ToastMode.ERROR);
                 Helper_Log.errorLog(Activity_Payment.class);
             }).check());
         } catch (Exception e) {

@@ -26,13 +26,13 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .replace(R.id.main_frame, Helper.isLoggedIn() ? new Fragment_LandingPage() : new Fragment_Login())
+                .replace(R.id.main_frame, Helper.getInstance().isLoggedIn() ? new Fragment_LandingPage() : new Fragment_Login())
                 .commit();
     }
 
     @Override
     protected void onDestroy() {
-        Helper.toast(R.string.on_exit_message, Constants.ToastMode.ERROR);
+        Helper.getInstance().toast(R.string.on_exit_message, Constants.ToastMode.ERROR);
         super.onDestroy();
     }
 }

@@ -35,11 +35,11 @@ public class Service_Alarm extends IntentService {
         if (orders != null && !orders.isEmpty()) {
             order = orders.get(0);
         } else {
-            Helper.toast(R.string.error, Constants.ToastMode.ERROR);
+            Helper.getInstance().toast(R.string.error, Constants.ToastMode.ERROR);
             return;
         }
         try {
-            PersianDate persianDate = Helper.getShamsiDateFromString(order.getDate_and_time_start(), "yyyy/MM/dd HH:mm");
+            PersianDate persianDate = Helper.getInstance().getShamsiDateFromString(order.getDate_and_time_start(), "yyyy/MM/dd HH:mm");
             Intent alarmIntent = new Intent(this, Receiver_Alarm.class);
             alarmIntent.putExtra("ORDER_ID", order.getOrderID());
             PendingIntent pendingIntent = PendingIntent.getBroadcast(ContextHelper.retrieveContext(), order.getOrderID(), alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);

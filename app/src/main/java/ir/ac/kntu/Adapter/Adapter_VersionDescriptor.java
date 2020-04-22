@@ -34,7 +34,7 @@ public class Adapter_VersionDescriptor extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         TextViewPlus textViewPlus = holder.itemView.findViewById(R.id.item_version_feature_text);
         textViewPlus.setText("*   " + list.get(position).getText());
-        textViewPlus.setOnClickListener(v -> Helper.toast(String.valueOf(position + 1), Constants.ToastMode.SUCCESS));
+        textViewPlus.setOnClickListener(v -> Helper.getInstance().toast(String.valueOf(position + 1), Constants.ToastMode.SUCCESS));
     }
 
     @Override

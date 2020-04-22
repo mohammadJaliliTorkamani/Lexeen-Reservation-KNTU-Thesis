@@ -66,14 +66,14 @@ public class Fragment_Register_Activation_Code extends Fragment {
 
     private void initializeViewContents(View view) {
         signUpContainer.setBackgroundResource(R.drawable.dr_login_orange_btn);
-        Helper.changeShapeColorToMainAppColor(signUpContainer);
+        Helper.getInstance().changeShapeColorToMainAppColor(signUpContainer);
         signUp.setVisibility(View.VISIBLE);
         progressbar.setVisibility(View.GONE);
         resend.setText("00:00");
         allowedToResend = false;
         normalUser = new Gson().fromJson(getArguments().getString("TO_REGISTER_SERIALIZED_OBJECT"), NormalUser.class);
         if (normalUser == null) {
-            Helper.toast(getString(R.string.error), Constants.ToastMode.ERROR);
+            Helper.getInstance().toast(getString(R.string.error), Constants.ToastMode.ERROR);
             getActivity().onBackPressed();
         }
 
@@ -82,11 +82,11 @@ public class Fragment_Register_Activation_Code extends Fragment {
         videoView.setVideoURI(uri);
         videoView.start();
 
-        countDownTimer = new CountDownTimer(Helper.GET_RESEND_VERIFICATION_CODE_INTERVAL(), 1000) {
+        countDownTimer = new CountDownTimer(Helper.getInstance().GET_RESEND_VERIFICATION_CODE_INTERVAL(), 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                int minute = Helper.getMinuteFromSecond(millisUntilFinished);
-                int second = Helper.getSecondFromSeconds(millisUntilFinished);
+                int minute = Helper.getInstance().getMinuteFromSecond(millisUntilFinished);
+                int second = Helper.getInstance().getSecondFromSeconds(millisUntilFinished);
                 resend.setText((minute < 10 ? "0" : "") + minute + ":" + (second < 10 ? "0" : "") + second);
                 allowedToResend = false;
                 resend.setClickable(false);
@@ -113,12 +113,12 @@ public class Fragment_Register_Activation_Code extends Fragment {
                         if (response.body() != null) {
                             switch (ServerResponse.ServerResponseCodes.getMeaningOf(response.body().getCode())) {
                                 case DONE:
-                                    Helper.toast(getString(R.string.activation_code_sent), Constants.ToastMode.SUCCESS);
+                                    Helper.getInstance().toast(getString(R.string.activation_code_sent), Constants.ToastMode.SUCCESS);
                                     countDownTimer.start();
                                     break;
                                 case UNKNOWN:
                                 case FAILED:
-                                    Helper.toast(getString(R.string.error) + " : " + response.body().getMessage(), Constants.ToastMode.ERROR);
+                                    Helper.getInstance().toast(getString(R.string.error) + " : " + response.body().getMessage(), Constants.ToastMode.ERROR);
                             }
                         } else {
                             Helper_Log.errorLog(Fragment_Register_Activation_Code.class);
@@ -132,7 +132,7 @@ public class Fragment_Register_Activation_Code extends Fragment {
                 })));
         signUp.setOnClickListener(v -> {
             if (code.getText().length() == 0) {
-                Helper.toast(getString(R.string.enter_activation_code), Constants.ToastMode.WARNING);
+                Helper.getInstance().toast(getString(R.string.enter_activation_code), Constants.ToastMode.WARNING);
             } else {
                 signUp.setVisibility(View.GONE);
                 progressbar.setVisibility(View.VISIBLE);
@@ -162,7 +162,7 @@ public class Fragment_Register_Activation_Code extends Fragment {
 
                                             break;
                                         case 1:
-                                            Helper.toast(getString(R.string.error) + " : " + response.body().getMessage(), Constants.ToastMode.ERROR);
+                                            Helper.getInstance().toast(getString(R.string.error) + " : " + response.body().getMessage(), Constants.ToastMode.ERROR);
                                             break;
                                     }
                                 } else

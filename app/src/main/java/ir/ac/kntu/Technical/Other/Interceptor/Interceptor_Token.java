@@ -25,7 +25,7 @@ public class Interceptor_Token implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        String token = Helper.getToken();
+        String token = Helper.getInstance().getToken();
         Request request = chain.request();
         if (token != null)
             request = request.newBuilder().header("token", token).build();

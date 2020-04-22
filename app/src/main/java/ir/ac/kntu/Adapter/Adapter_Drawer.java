@@ -61,7 +61,7 @@ public class Adapter_Drawer extends RecyclerView.Adapter {
         TextViewPlus text = holder.itemView.findViewById(R.id.drawer_list_item_text);
         ImageView image = holder.itemView.findViewById(R.id.drawer_list_item_image);
         ConstraintLayout item = holder.itemView.findViewById(R.id.drawer_list_item);
-        if (Helper.isLoggedIn()) {
+        if (Helper.getInstance().isLoggedIn()) {
             image.setImageResource(userList.get(position).getPicture());
             text.setText(userList.get(position).getTitle());
             item.setOnClickListener(v -> {
@@ -121,7 +121,7 @@ public class Adapter_Drawer extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return Helper.isLoggedIn() ? userList.size() : guestList.size();
+        return Helper.getInstance().isLoggedIn() ? userList.size() : guestList.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

@@ -60,10 +60,10 @@ public class Adapter_Cart extends RecyclerView.Adapter {
                             Food food = response.body();
                             try {
                                 counter.setText(String.valueOf(list.get(position).getCounter()));
-                                counterSymbol.setText(Helper.getCounterSymbol());
+                                counterSymbol.setText(Helper.getInstance().getCounterSymbol());
                                 name.setText(food.getName());
-                                price.setText(Helper.getOneDigitOrNon(list.get(position).getTotalCost(), true));
-                                priceUnit.setText(Helper.getPurchaseUnit());
+                                price.setText(Helper.getInstance().getOneDigitOrNon(list.get(position).getTotalCost(), true));
+                                priceUnit.setText(Helper.getInstance().getPurchaseUnit());
                                 name.setOnClickListener(v -> {
                                     Fragment fragment = new Fragment_FoodDescriptionDetail();
                                     Bundle bundle = new Bundle();

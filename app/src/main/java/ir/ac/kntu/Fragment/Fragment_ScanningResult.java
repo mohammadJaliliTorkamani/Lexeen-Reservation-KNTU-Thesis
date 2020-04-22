@@ -95,12 +95,12 @@ public class Fragment_ScanningResult extends Fragment {
     }
 
     private void initializeViewContents(View view) {
-        add.setBackgroundColor(Color.parseColor(Helper.getMainAppColor()));
+        add.setBackgroundColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
         restaurant = null;
         if (getArguments() != null)
             code = getArguments().getString("CODE");
         else
-            Helper.toast(getString(R.string.error_in_code_reading), Constants.ToastMode.ERROR);
+            Helper.getInstance().toast(getString(R.string.error_in_code_reading), Constants.ToastMode.ERROR);
 
 
         imageProgressBar.setVisibility(View.GONE);

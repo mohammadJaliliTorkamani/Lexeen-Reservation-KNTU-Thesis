@@ -39,7 +39,7 @@ public class Adapter_FAQ extends RecyclerView.Adapter<Adapter_FAQ.ViewHolder> {
         TextView question = holder.itemView.findViewById(R.id.faq_item_question);
         TextView answer = holder.itemView.findViewById(R.id.faq_item_answer);
         CircleImageView circleImageView = holder.itemView.findViewById(R.id.faq_item_circle);
-        circleImageView.setBackgroundColor(Color.parseColor(Helper.getMainAppColor()));
+        circleImageView.setBackgroundColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
         question.setText(list.get(position).getQuestion());
         answer.setText(list.get(position).getAnswer());
         setAnimation(holder.itemView, position);

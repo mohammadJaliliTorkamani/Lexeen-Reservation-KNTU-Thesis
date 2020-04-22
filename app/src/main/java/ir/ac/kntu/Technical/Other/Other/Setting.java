@@ -38,13 +38,14 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import es.dmoral.toasty.Toasty;
+import ir.ac.kntu.Interface.Client.Operable_Setting;
 import ir.ac.kntu.R;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
 import static ir.ac.kntu.Technical.Other.Other.ContextHelper.retrieveContext;
 
-public class Setting {
+public class Setting implements Operable_Setting {
     private static SharedPreferences preferences;
     private static Setting instance;
     private Context context;
@@ -52,7 +53,6 @@ public class Setting {
     private int mDevicewidth, mDeviceHeight;
 
     private Setting() {
-
     }
 
     public static Setting getInstance() {
@@ -61,6 +61,7 @@ public class Setting {
         return instance;
     }
 
+    @Override
     public void saveSetting(String table, String key, String value) {
         preferences = retrieveContext().getSharedPreferences(table, MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -69,11 +70,13 @@ public class Setting {
         editor.apply();
     }
 
+    @Override
     public String loadSetting(String table, String key, String defaultValue) {
         preferences = retrieveContext().getSharedPreferences(table, MODE_PRIVATE);
         return preferences.getString(key, defaultValue);
     }
 
+    @Override
     public void vibrate(long millis) {
         Vibrator v = (Vibrator) retrieveContext().getSystemService(Context.VIBRATOR_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -83,6 +86,7 @@ public class Setting {
         }
     }
 
+    @Override
     public boolean hasNetwork() {
         boolean isConnected = false;
         ConnectivityManager connectivityManager = (ConnectivityManager) retrieveContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -92,6 +96,7 @@ public class Setting {
         return isConnected;
     }
 
+    @Override
     public void changeStatusBarColor(Window window, boolean whiteMode) {
         /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             View decor = window.getDecorView();
@@ -106,13 +111,14 @@ public class Setting {
         }*/
     }
 
-
+    @Override
     public void copyToClipBoard(@NonNull Context context, @NonNull String text) {
         ClipboardManager clipboard = (ClipboardManager) retrieveContext().getSystemService(CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText(Constants.TAG, text);
         clipboard.setPrimaryClip(clip);
     }
 
+    @Override
     public String readAssetFile(String fileName) {
         StringBuilder toReturn = new StringBuilder();
         try {
@@ -129,27 +135,31 @@ public class Setting {
         return toReturn.toString();
     }
 
-
+    @Override
     public int getDeviceWidth() {
         return mDevicewidth;
     }
 
+    @Override
     public void setDeviceWidth(WindowManager windowManager) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
         mDevicewidth = (int) displayMetrics.widthPixels;
     }
 
+    @Override
     public int getDeviceHeight() {
         return mDeviceHeight;
     }
 
+    @Override
     public void setDeviceHeight(WindowManager windowManager) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
         mDeviceHeight = displayMetrics.heightPixels;
     }
 
+    @Override
     public void setItemWidth(View view, double devision) {
         ViewGroup.MarginLayoutParams layoutParams =
                 (ViewGroup.MarginLayoutParams) view.getLayoutParams();
@@ -157,6 +167,7 @@ public class Setting {
         view.requestLayout();
     }
 
+    @Override
     public void configureImageLoader() {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.ic_lexin_gray)
@@ -189,6 +200,7 @@ public class Setting {
 
     }
 
+    @Override
     public void configureToasty() {
         Toasty.Config.getInstance()
                 .tintIcon(true)
@@ -198,6 +210,7 @@ public class Setting {
                 .apply();
     }
 
+    @Override
     public void saveBitmap(String fileRawName, Bitmap bitmap, String directoryName) throws Exception {
         String file_path = Environment.getExternalStorageDirectory().getAbsolutePath() +
                 "/lexinPaymentBill";
@@ -212,6 +225,7 @@ public class Setting {
         fOut.close();
     }
 
+    @Override
     public void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         View view = activity.getCurrentFocus();
@@ -221,7 +235,7 @@ public class Setting {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-
+    @Override
     public boolean isApplicationInstalled(String packageName) {
         PackageManager pm = context.getPackageManager();
         try {
@@ -234,6 +248,7 @@ public class Setting {
         return false;
     }
 
+    @Override
     public boolean isConnected() {
         try {
             android.net.ConnectivityManager e = (android.net.ConnectivityManager) ContextHelper.retrieveContext().getSystemService(

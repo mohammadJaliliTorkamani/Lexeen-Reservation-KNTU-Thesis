@@ -150,7 +150,7 @@ public class Fragment_LocationPicker extends Fragment {
 
 
     private void initializeViewContents(View view) {
-        placeContainer.setBackgroundColor(Color.parseColor(Helper.getMainAppColor()));
+        placeContainer.setBackgroundColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
         detailAddressFrame.setVisibility(View.GONE);
         selectPlacePB.setVisibility(View.GONE);
         selectPlaceText.setVisibility(View.VISIBLE);
@@ -324,7 +324,7 @@ public class Fragment_LocationPicker extends Fragment {
                                                             hoveringMarker.setVisibility(View.INVISIBLE);
                                                             map.getUiSettings().setAllGesturesEnabled(false);
                                                         } else {
-                                                            Helper.toast(R.string.invalid_destination, Constants.ToastMode.INFO);
+                                                            Helper.getInstance().toast(R.string.invalid_destination, Constants.ToastMode.INFO);
                                                             back.callOnClick();
                                                         }
                                                     }
@@ -351,7 +351,7 @@ public class Fragment_LocationPicker extends Fragment {
                                     }));
 
                                 } else {//not enough cash
-                                    Helper.toast(R.string.no_enough_charge, Constants.ToastMode.INFO);
+                                    Helper.getInstance().toast(R.string.no_enough_charge, Constants.ToastMode.INFO);
                                     selectPlacePB.setVisibility(View.GONE);
                                     selectPlaceText.setVisibility(View.VISIBLE);
                                 }
@@ -376,17 +376,17 @@ public class Fragment_LocationPicker extends Fragment {
                 }
             } else {
                 if (blockNo.getText().length() == 0) {
-                    Helper.toast(R.string.enter_block_no, Constants.ToastMode.WARNING);
+                    Helper.getInstance().toast(R.string.enter_block_no, Constants.ToastMode.WARNING);
                 } else if (floorAndUnit.getText().length() == 0) {
-                    Helper.toast(R.string.enter_floor, Constants.ToastMode.WARNING);
+                    Helper.getInstance().toast(R.string.enter_floor, Constants.ToastMode.WARNING);
                 } else if (!floorAndUnit.getText().toString().contains(",")) {
-                    Helper.toast(R.string.bad_formatted_floor_and_unit, Constants.ToastMode.WARNING);
+                    Helper.getInstance().toast(R.string.bad_formatted_floor_and_unit, Constants.ToastMode.WARNING);
                 } else if (floorAndUnit.getText().toString().indexOf(",") == 0) {
-                    Helper.toast(R.string.bad_formatted_floor_and_unit, Constants.ToastMode.WARNING);
+                    Helper.getInstance().toast(R.string.bad_formatted_floor_and_unit, Constants.ToastMode.WARNING);
                 } else if (floorAndUnit.getText().toString().indexOf(",") == floorAndUnit.getText().toString().length() - 1) {
-                    Helper.toast(R.string.bad_formatted_floor_and_unit, Constants.ToastMode.WARNING);
-                } else if (!Helper.isInteger(floorAndUnit.getText().toString().split(",")[0], 10)) {
-                    Helper.toast(R.string.bad_formatted_floor_and_unit, Constants.ToastMode.WARNING);
+                    Helper.getInstance().toast(R.string.bad_formatted_floor_and_unit, Constants.ToastMode.WARNING);
+                } else if (!Helper.getInstance().isInteger(floorAndUnit.getText().toString().split(",")[0], 10)) {
+                    Helper.getInstance().toast(R.string.bad_formatted_floor_and_unit, Constants.ToastMode.WARNING);
                 } else {
                     Connector.createService(view, Operable_User.class, object -> {
                         try {
@@ -405,9 +405,9 @@ public class Fragment_LocationPicker extends Fragment {
                                     if (response.body() != null) {
                                         switch (ServerResponse.ServerResponseCodes.getMeaningOf(response.body().getCode())) {
                                             case DONE://so we have issue tracking no in message
-                                                Helper.toast(R.string.ordered_successfully, Constants.ToastMode.SUCCESS);
+                                                Helper.getInstance().toast(R.string.ordered_successfully, Constants.ToastMode.SUCCESS);
                                                 order.setOrderID(Integer.parseInt(response.body().getMessage()));
-                                                Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getRestaurantSelectionQRCode());
+                                                Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getInstance().getRestaurantSelectionQRCode());
                                                 Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).orderInterface().clearAll();
                                                 getFragmentManager().beginTransaction()
                                                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -415,11 +415,11 @@ public class Fragment_LocationPicker extends Fragment {
                                                         .commit();
                                                 break;
                                             case FAILED:  //so we have error message in message
-                                                Helper.toast(getString(R.string.delivery_ordered_fault) + "," + response.body().getMessage(), Constants.ToastMode.ERROR);
+                                                Helper.getInstance().toast(getString(R.string.delivery_ordered_fault) + "," + response.body().getMessage(), Constants.ToastMode.ERROR);
                                                 openMainFragment();
                                                 break;
                                             default: //so we have null in message
-                                                Helper.toast(getString(R.string.unknown_error), Constants.ToastMode.ERROR);
+                                                Helper.getInstance().toast(getString(R.string.unknown_error), Constants.ToastMode.ERROR);
                                                 openMainFragment();
                                                 break;
                                         }

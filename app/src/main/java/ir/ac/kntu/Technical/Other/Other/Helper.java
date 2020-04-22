@@ -29,22 +29,35 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 
 import es.dmoral.toasty.Toasty;
+import ir.ac.kntu.Interface.Client.Operable_Helper;
 import ir.ac.kntu.R;
 import saman.zamani.persiandate.PersianDate;
 import saman.zamani.persiandate.PersianDateFormat;
 
-public class Helper {
+public class Helper implements Operable_Helper {
+    private static Helper instance;
 
-    public static void error(int code, String message) {
+    private Helper() {
+    }
+
+    public static Helper getInstance() {
+        if (instance == null)
+            instance = new Helper();
+        return instance;
+    }
+
+    @Override
+    public void error(int code, String message) {
         Log.e(Constants.TAG, "code : " + code + " Message : " + message);
     }
 
-    public static void info(String message) {
+    @Override
+    public void info(String message) {
         Log.d(Constants.TAG, "Message : " + message);
     }
 
-
-    public static void toast(String str, Constants.ToastMode toastMode) {
+    @Override
+    public void toast(String str, Constants.ToastMode toastMode) {
         switch (toastMode) {
             case NORMAL:
                 Toasty.normal(ContextHelper.retrieveContext(), str).show();
@@ -69,16 +82,19 @@ public class Helper {
         }
     }
 
-    public static int dp2px(float dp) {
+    @Override
+    public int dp2px(float dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, ContextHelper.retrieveContext().getResources().getDisplayMetrics());
     }
 
-    public static void toast(@StringRes int string_resource, Constants.ToastMode toastMode) {
+    @Override
+    public void toast(@StringRes int string_resource, Constants.ToastMode toastMode) {
         Context context = ContextHelper.retrieveContext();
         toast(context.getString(string_resource), toastMode);
     }
 
-    public static String toCamelCase(String text) {
+    @Override
+    public String toCamelCase(String text) {
         if (text == null)
             return text;
         final StringBuilder ret = new StringBuilder(text.length());
@@ -93,7 +109,8 @@ public class Helper {
         return ret.toString();
     }
 
-    public static int getCategoryColor(int categoryIndex) {
+    @Override
+    public int getCategoryColor(int categoryIndex) {
         switch (categoryIndex % 9) {
             case 0:
                 return Color.parseColor("#ff669900");
@@ -118,7 +135,8 @@ public class Helper {
         }
     }
 
-    public static String getOneDigitOrNon(float price, boolean deleteRialZeros) {
+    @Override
+    public String getOneDigitOrNon(float price, boolean deleteRialZeros) {
         if (deleteRialZeros)
             price /= 1000;
         if (price == (int) (price))
@@ -127,7 +145,8 @@ public class Helper {
             return new DecimalFormat("#.00").format(price);
     }
 
-    public static String getOneDigitOrNon(double price, boolean deleteRialZeros) {
+    @Override
+    public String getOneDigitOrNon(double price, boolean deleteRialZeros) {
         if (deleteRialZeros)
             price /= 1000;
         if (price == (int) (price))
@@ -136,59 +155,69 @@ public class Helper {
             return new DecimalFormat("#.00").format(price);
     }
 
-    public static boolean isRightName(String name) {
+    @Override
+    public boolean isRightName(String name) {
         return !name.contains("*") && !name.contains("|") && !name.contains("&") && !name.contains("~")
                 && !name.contains("`") && !name.contains(".") && !name.contains("-") && !name.contains("=")
                 && !name.contains(",") && !name.contains("#") && !name.contains("+") && !name.contains("^")
                 && !name.contains("$") && !name.contains("!") && !name.contains("?") && !name.contains("%");
     }
 
-    public static boolean isRightPhone(String phone) {
+    @Override
+    public boolean isRightPhone(String phone) {
         return phone.substring(0, 1).equalsIgnoreCase("9") && isRightName(phone);
     }
 
-    public static String toLowerCase(String text) {
+    @Override
+    public String toLowerCase(String text) {
 
         return text.toLowerCase();
     }
 
-    public static float px2Dp(int px) {
+    @Override
+    public float px2Dp(int px) {
 //        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
         return px / ((float) ContextHelper.retrieveContext().getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 
-    public static String getTodaysShamsiDate(String pattern) {
+    @Override
+    public String getTodaysShamsiDate(String pattern) {
         PersianDate date = new PersianDate();
         PersianDateFormat dateFormatter = new PersianDateFormat(pattern);
         return dateFormatter.format(date);
     }
 
-    public static PersianDate getShamsiDateFromString(String date, String pattern) throws Exception {
+    @Override
+    public PersianDate getShamsiDateFromString(String date, String pattern) throws Exception {
         PersianDateFormat dateFormatter = new PersianDateFormat(pattern);
         return dateFormatter.parse(date, pattern);
     }
 
-    public static String getTodaysTime(String normalPattern, String accuratePattern, boolean accurateMode) {
+    @Override
+    public String getTodaysTime(String normalPattern, String accuratePattern, boolean accurateMode) {
         PersianDate date = new PersianDate();
         PersianDateFormat dateFormatter = new PersianDateFormat(accurateMode ? accuratePattern : normalPattern);
         return dateFormatter.format(date);
     }
 
-    public static long getCostCeilOf(double value) {
+    @Override
+    public long getCostCeilOf(double value) {
         if (value == (int) value)
             return (long) value;
         else
             return (long) (Math.floor(value + 1));
     }
 
-    public static Uri bitmapToUri(Bitmap bitmap) {
+    @Override
+    public Uri bitmapToUri(Bitmap bitmap) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(ContextHelper.retrieveContext().getContentResolver(), bitmap, "Title", null);
         return Uri.parse(path);
     }
 
-    public static String get2DigitsOfDigit(int number) {
+    @Override
+    public String get2DigitsOfDigit(int number) {
         if (number < 0)
             return "-1";
         else if (number < 10)
@@ -199,7 +228,8 @@ public class Helper {
             return ContextHelper.retrieveContext().getString(R.string.error);
     }
 
-    public static PersianDate stringToPersianDateTime(String selectedDate) {
+    @Override
+    public PersianDate stringToPersianDateTime(String selectedDate) {
         int year = Integer.parseInt(selectedDate.substring(0, 4));
         int month = Integer.parseInt(selectedDate.substring(5, 7));
         int day = Integer.parseInt(selectedDate.substring(8, 10));
@@ -208,7 +238,8 @@ public class Helper {
         return new PersianDate().setShYear(year).setShMonth(month).setShDay(day).setHour(hour).setMinute(minute);
     }
 
-    public static boolean isValidTimeForIntervalFromNow(PersianDate persianDate) {
+    @Override
+    public boolean isValidTimeForIntervalFromNow(PersianDate persianDate) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, Constants.VALID_ORDER_DATE_MINUTE_INTERVAL);
         Calendar gregorianCalendar = Calendar.getInstance();
@@ -216,7 +247,8 @@ public class Helper {
         return gregorianCalendar.compareTo(calendar) >= 0;
     }
 
-    public static boolean isValidTimeForIntervalFromNow(String persianDate_str) {
+    @Override
+    public boolean isValidTimeForIntervalFromNow(String persianDate_str) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, Constants.VALID_ORDER_DATE_MINUTE_INTERVAL);
         Calendar gregorianCalendar = Calendar.getInstance();
@@ -224,7 +256,8 @@ public class Helper {
         return gregorianCalendar.compareTo(calendar) >= 0;
     }
 
-    public static Bitmap svgToBitmap(int drawableId) {
+    @Override
+    public Bitmap svgToBitmap(int drawableId) {
         Drawable drawable = ContextCompat.getDrawable(ContextHelper.retrieveContext(), drawableId);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             drawable = (DrawableCompat.wrap(drawable)).mutate();
@@ -240,7 +273,8 @@ public class Helper {
         return bitmap;
     }
 
-    public static void setLockedOnGrayScale(ImageView imageView) {
+    @Override
+    public void setLockedOnGrayScale(ImageView imageView) {
         ColorMatrix matrix = new ColorMatrix();
         matrix.setSaturation(0);  //0 means grayscale
         ColorMatrixColorFilter cf = new ColorMatrixColorFilter(matrix);
@@ -248,32 +282,37 @@ public class Helper {
         imageView.setImageAlpha(255);   // 128 = 0.
     }
 
-    public static void setUnlockedForGrayScale(ImageView imageView) {
+    @Override
+    public void setUnlockedForGrayScale(ImageView imageView) {
         imageView.setColorFilter(null);
         imageView.setImageAlpha(255);
     }
 
-    public static int getMinuteFromSecond(long millisUntilFinished) {
+    @Override
+    public int getMinuteFromSecond(long millisUntilFinished) {
         int seconds = (int) (millisUntilFinished / 1000);
         return seconds / 60;
     }
 
-    public static int getSecondFromSeconds(long millisUntilFinished) {
+    @Override
+    public int getSecondFromSeconds(long millisUntilFinished) {
         int seconds = (int) (millisUntilFinished / 1000);
         return seconds % 60;
     }
 
-    public static int generateRandomNumber(int min, int max) {
+    @Override
+    public int generateRandomNumber(int min, int max) {
         return min + (int) (Math.random() * ((max - min) + 1));
     }
 
-    public static boolean containsNonPersianLanguage(String str) {
+    @Override
+    public boolean containsNonPersianLanguage(String str) {
         int codePointAt = Character.codePointAt(str, 0);
         return !((codePointAt >= 0x0600 && codePointAt <= 0x06FF) || (codePointAt >= 0xFB50 && codePointAt <= 0xFDFF) || (codePointAt >= 0xFE70 && codePointAt <= 0xFEFF));
     }
 
-
-    public static boolean isInteger(String s, int radix) {
+    @Override
+    public boolean isInteger(String s, int radix) {
         if (s.isEmpty()) return false;
         for (int i = 0; i < s.length(); i++) {
             if (i == 0 && s.charAt(i) == '-') {
@@ -285,7 +324,8 @@ public class Helper {
         return true;
     }
 
-    public static String getShamsiDateTimeFromGregortianString(String date_and_time_start) {
+    @Override
+    public String getShamsiDateTimeFromGregortianString(String date_and_time_start) {
         String date = date_and_time_start.split(" ")[0];
         String time = date_and_time_start.split(" ")[1];
         int year = Integer.parseInt(date.split("/")[0]);
@@ -296,7 +336,8 @@ public class Helper {
         return persianDate.getShYear() + "/" + persianDate.getShMonth() + "/" + persianDate.getShDay() + " " + time;
     }
 
-    public static boolean isPrime(int n) {
+    @Override
+    public boolean isPrime(int n) {
         for (int i = 2; 2 * i < n; i++) {
             if (n % i == 0)
                 return false;
@@ -309,16 +350,19 @@ public class Helper {
      *
      * @param view
      */
-    public static void changeStrokeColorToMainAppColor(View view) {
+    @Override
+    public void changeStrokeColorToMainAppColor(View view) {
         GradientDrawable drawable = (GradientDrawable) view.getBackground();
         drawable.setStroke(4, Color.parseColor(getMainAppColor())); // set stroke width and stroke color
     }
 
-    public static void changeShapeColorToMainAppColor(Drawable drawable) {
+    @Override
+    public void changeShapeColorToMainAppColor(Drawable drawable) {
         drawable.setColorFilter(Color.parseColor(getMainAppColor()), PorterDuff.Mode.SRC_IN);
     }
 
-    public static void changeShapeColorToMainAppColor(View view) {
+    @Override
+    public void changeShapeColorToMainAppColor(View view) {
         //MainActivity.info("THIS : "+getMainAppColor());
 
         view.getBackground().setColorFilter(Color.parseColor(getMainAppColor()), PorterDuff.Mode.SRC_IN);
@@ -368,52 +412,63 @@ public class Helper {
         }*/
     }
 
-    public static String getMainAppColor() {
+    @Override
+    public String getMainAppColor() {
         return Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_APP_MAIN_COLOR, String.format("#%06X", 0xFFFFFF & ContextHelper.retrieveContext().getResources().getColor(R.color.main_theme_color)));
     }
 
-    public static String getSharedKey() {
+    @Override
+    public String getSharedKey() {
         return Setting.getInstance().loadSetting(Constants._TABLE_PROFILE, Constants._KEY_SHARED_KEY, null);
     }
 
-    public static String getToken() {
+    @Override
+    public String getToken() {
         return Setting.getInstance().loadSetting(Constants._TABLE_PROFILE, Constants._KEY_TOKEN, null);
     }
 
-    public static boolean hasValidSharedKey() {
+    @Override
+    public boolean hasValidSharedKey() {
         return Setting.getInstance().loadSetting(Constants._TABLE_PROFILE, Constants._KEY_SHARED_KEY, null) != null;
     }
 
-    public static String getPurchaseUnit() {
+    @Override
+    public String getPurchaseUnit() {
         return Constants.PURCHASE_UNIT;
     }
 
-    public static String getRestaurantSelectionQRCode() {
+    @Override
+    public String getRestaurantSelectionQRCode() {
         return Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_QR_CODE, null);
     }
 
-    public static void animateTheFragment(Fragment fragment, FragmentManager fragmentManager) {
+    @Override
+    public void animateTheFragment(Fragment fragment, FragmentManager fragmentManager) {
 
     }
 
-    public static boolean isLoggedIn() {
+    @Override
+    public boolean isLoggedIn() {
         return !Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_LOGIN_STATE, "NEW").equalsIgnoreCase("NEW");
     }
 
-
-    public static String getCounterSymbol() {
+    @Override
+    public String getCounterSymbol() {
         return Constants.COUNTER_SYMBOL;
     }
 
-    public static String getDefautPrePhone() {
+    @Override
+    public String getDefautPrePhone() {
         return Constants.DEFAULT_PHONE_PREFIX;
     }
 
-    public static long GET_RESEND_VERIFICATION_CODE_INTERVAL() {
+    @Override
+    public long GET_RESEND_VERIFICATION_CODE_INTERVAL() {
         return Constants.RESEND_VERIFICATION_CODE_INTERVAL;
     }
 
-    public static boolean isFirstUse() {
+    @Override
+    public boolean isFirstUse() {
         return Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_FIRST_USE_STATE, null) == null;
 
     }
