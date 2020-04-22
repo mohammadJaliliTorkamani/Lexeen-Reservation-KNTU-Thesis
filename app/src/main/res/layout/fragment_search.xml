@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:layoutDirection="rtl"
+    android:paddingStart="@dimen/_16sdp"
+    android:paddingTop="@dimen/_5sdp"
+    android:paddingEnd="@dimen/_16sdp"
+    tools:context=".Fragment.Fragment_Search">
+
+
+    <ir.ac.kntu.Technical.CustomView.TextViewPlus
+        android:id="@+id/fragment_search_search_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="@string/search"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <LinearLayout
+        android:id="@+id/srch"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_34sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/fragment_search_search_tv"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_search_search_tv">
+
+        <ir.ac.kntu.Technical.CustomView.EditTextPlus
+            android:id="@+id/fragment_search_searchbox"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right|center_vertical"
+            android:layout_weight="80"
+            android:background="@drawable/dr_oval_search"
+            android:drawableEnd="@drawable/ic_search"
+            android:drawablePadding="@dimen/_14sdp"
+            android:gravity="start|center_vertical"
+            android:hint="@string/search_food"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/fragment_search_cancel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_search_search_tv" />
+
+        <ir.ac.kntu.Technical.CustomView.TextViewPlus
+            android:id="@+id/fragment_search_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="19"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:text="@string/discard"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/fragment_search_searchbox"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fragment_search_searchbox" />
+
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginBottom="@dimen/_12sdp"
+        android:background="@color/light_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/srch" />
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragment_search_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
+
+        <ir.ac.kntu.Technical.CustomView.TextViewPlus
+            android:id="@+id/fragment_search_rv_empty_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/not_found_any_result" />
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

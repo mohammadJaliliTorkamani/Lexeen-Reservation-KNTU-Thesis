@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="355dp"
+    android:layout_height="412dp"
+    android:layout_gravity="center"
+    android:background="@drawable/dr_round_corner_dialog"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="412dp">
+
+        <ir.ac.kntu.Technical.CustomView.TextViewPlus
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/order_code"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@id/dialog_order_qr_image"
+            app:layout_constraintEnd_toEndOf="@id/dialog_order_qr_image"
+            app:layout_constraintStart_toStartOf="@id/dialog_order_qr_image" />
+
+        <ImageView
+            android:id="@+id/dialog_order_qr_image"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toTopOf="@id/dialog_order_close"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dialog_order_title_container" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dialog_order_title_container"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@drawable/rec_curve_top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ir.ac.kntu.Technical.CustomView.TextViewPlus
+                android:id="@+id/dialog_order_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                app:bold="true"
+                app:layout_constraintBottom_toTopOf="@id/dialog_order_date_time"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ir.ac.kntu.Technical.CustomView.TextViewPlus
+                android:id="@+id/dialog_order_date_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/dialog_order_title"
+                app:layout_constraintStart_toStartOf="@id/dialog_order_title"
+                app:layout_constraintTop_toBottomOf="@id/dialog_order_title" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ir.ac.kntu.Technical.CustomView.TextViewPlus
+            android:id="@+id/dialog_order_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textSize="16sp"
+            app:customFont="fonts/latin/coutryside_personal_use.ttf"
+            app:layout_constraintEnd_toEndOf="@id/dialog_order_qr_image"
+            app:layout_constraintStart_toStartOf="@id/dialog_order_qr_image"
+            app:layout_constraintTop_toBottomOf="@id/dialog_order_qr_image" />
+
+        <ir.ac.kntu.Technical.CustomView.TextViewPlus
+            android:id="@+id/dialog_order_close"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@drawable/rec_curve_bottom"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:text="@string/close"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

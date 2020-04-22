@@ -1,0 +1,8 @@
+1. Artificial Intelligence - Food suggestions & diets
+2. Artificial Intelligence - Data mining selling
+3. Diet reserveMode selection (e.g vegetarian)
+4. Digital coin support
+5. BlockChain
+6. Supported number of people for one food
+7. voice search
+8. game of each table ( & it's cost )

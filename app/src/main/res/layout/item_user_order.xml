@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.github.captain_miao.optroundcardview.OptRoundCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp"
+    app:optRoundCardBackgroundColor="@android:color/white"
+    app:optRoundCardBottomEdges="true"
+    app:optRoundCardCornerRadius="8dp"
+    app:optRoundCardLeftBottomCorner="true"
+    app:optRoundCardLeftEdges="true"
+    app:optRoundCardLeftTopCorner="true"
+    app:optRoundCardRightBottomCorner="true"
+    app:optRoundCardRightEdges="true"
+    app:optRoundCardRightTopCorner="true"
+    app:optRoundCardTopEdges="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16sp"
+        android:paddingBottom="12dp">
+
+        <ImageView
+            android:id="@+id/user_order_item_qr_code"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/user_order_item_items" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/user_order_item_images_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/user_order_item_category_image_card"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:animateLayoutChanges="false"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                app:cardCornerRadius="6dp"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/user_order_item_category_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter" />
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/user_order_item_items"
+            android:layout_width="0dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="16dp"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:layout_constraintStart_toStartOf="@+id/user_order_item_images_container"
+            app:layout_constraintTop_toBottomOf="@id/user_order_item_images_container" />
+
+        <ir.ac.kntu.Technical.CustomView.TextViewPlus
+            android:id="@+id/user_order_item_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="4dp"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="@id/user_order_item_price_unit"
+            app:layout_constraintRight_toRightOf="@id/user_order_item_price_unit"
+            app:layout_constraintTop_toTopOf="@id/user_order_item_price_unit" />
+
+        <ir.ac.kntu.Technical.CustomView.TextViewPlus
+            android:id="@+id/user_order_item_price_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/user_order_item_date"
+            app:layout_constraintRight_toRightOf="@+id/user_order_item_items"
+            app:layout_constraintTop_toTopOf="@id/user_order_item_date" />
+
+
+        <ir.ac.kntu.Technical.CustomView.TextViewPlus
+            android:id="@+id/user_order_item_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            app:layout_constraintLeft_toLeftOf="@id/user_order_item_qr_code"
+            app:layout_constraintRight_toRightOf="@id/user_order_item_qr_code"
+            app:layout_constraintTop_toBottomOf="@+id/user_order_item_qr_code" />
+
+        <ir.ac.kntu.Technical.CustomView.TextViewPlus
+            android:id="@+id/user_order_item_restaurant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="@id/user_order_item_images_container"
+            app:layout_constraintRight_toLeftOf="@id/user_order_item_images_container"
+            app:layout_constraintTop_toTopOf="@id/user_order_item_images_container" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.github.captain_miao.optroundcardview.OptRoundCardView>

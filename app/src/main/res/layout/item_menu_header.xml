@@ -1,0 +1,114 @@
+<?xml version   ="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_header_toggle_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="12dp">
+
+    <View
+        android:id="@+id/item_header_top_side"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:background="#489E9E9E"
+        app:layout_constraintEnd_toEndOf="@id/item_header_card"
+        app:layout_constraintStart_toStartOf="@id/item_header_card"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/item_header_bottom_side"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:background="#489E9E9E"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/item_header_card"
+        app:layout_constraintStart_toStartOf="@+id/item_header_card" />
+
+    <View
+        android:id="@+id/item_header_right_side"
+        android:layout_width="0.5dp"
+        android:layout_height="0dp"
+        android:background="#489E9E9E"
+        app:layout_constraintBottom_toBottomOf="@+id/item_header_card"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/item_header_card" />
+
+    <View
+        android:id="@+id/item_header_left_side"
+        android:layout_width="0.5dp"
+        android:layout_height="0dp"
+        android:background="#489E9E9E"
+        app:layout_constraintBottom_toBottomOf="@+id/item_header_card"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/item_header_card" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/item_header_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardElevation="0dp"
+
+        app:layout_constraintBottom_toTopOf="@id/item_header_bottom_side"
+        app:layout_constraintLeft_toRightOf="@+id/item_header_left_side"
+        app:layout_constraintRight_toLeftOf="@id/item_header_right_side"
+        app:layout_constraintTop_toBottomOf="@id/item_header_top_side">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_60sdp">
+
+            <ImageView
+                android:id="@+id/item_header_item_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/ic_arrow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/iteam_header_frame_card"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_12sdp"
+                android:animateLayoutChanges="false"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                app:cardCornerRadius="@dimen/_4sdp"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/item_header_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="12dp" />
+            </androidx.cardview.widget.CardView>
+
+
+            <ir.ac.kntu.Technical.CustomView.TextViewPlus
+                android:id="@+id/item_header_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:text="title"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/_15ssp"
+                app:layout_constraintBottom_toBottomOf="@+id/iteam_header_frame_card"
+                app:layout_constraintStart_toEndOf="@+id/iteam_header_frame_card"
+                app:layout_constraintTop_toTopOf="@+id/iteam_header_frame_card" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

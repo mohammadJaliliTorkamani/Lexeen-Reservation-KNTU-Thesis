@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/neutral_background_color"
+    android:layoutDirection="rtl"
+    android:overScrollMode="never"
+    android:scrollbars="none"
+    tools:context=".Fragment.Fragment_Register_Activation_Code">
+
+    <VideoView
+        android:id="@+id/fragment_register_activation_code_videoview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ir.ac.kntu.Technical.CustomView.EditTextPlus
+                android:id="@+id/fragment_register_activation_code_code"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginEnd="48dp"
+                android:background="@drawable/dr_user_pass"
+                android:gravity="center"
+                android:hint="@string/activation_code"
+                android:inputType="number"
+                android:maxLength="5"
+                android:maxLines="1"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/black"
+                android:textSize="19sp"
+                app:layout_constraintBottom_toTopOf="@+id/fragment_register_activation_code_sing_up_constainer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/fragment_register_activation_code_sing_up_constainer"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="72dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="72dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/dr_login_orange_btn"
+                app:layout_constraintBottom_toTopOf="@+id/fragment_register_activation_code_not_send_container"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_register_activation_code_code">
+
+                <ir.ac.kntu.Technical.CustomView.TextViewPlus
+                    android:id="@+id/fragment_register_activation_code_sing_up_text"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center"
+                    android:text="@string/sign_up"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="19sp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ProgressBar
+                    android:id="@+id/fragment_register_activation_code_sing_up_progressbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/fragment_register_activation_code_not_send_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_register_activation_code_sing_up_constainer">
+
+                <ir.ac.kntu.Technical.CustomView.TextViewPlus
+                    android:id="@+id/fragment_register_activation_code_not_send_question_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/not_sent_activation_code"
+                    android:textColor="#f1f4f0"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />" />
+
+                <ir.ac.kntu.Technical.CustomView.TextViewPlus
+                    android:id="@+id/fragment_register_activation_code_resend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="00:00"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/fragment_register_activation_code_not_send_question_text"
+                    app:layout_constraintStart_toEndOf="@+id/fragment_register_activation_code_not_send_question_text"
+                    app:layout_constraintTop_toTopOf="@+id/fragment_register_activation_code_not_send_question_text" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

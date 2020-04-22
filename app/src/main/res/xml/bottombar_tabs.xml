@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+
+    <tab
+        activeColor="#171617"
+        badgeBackgroundColor="@color/badge_background_color"
+        badgeHidesWhenActive="true"
+        barColorWhenSelected="#FFFFFF"
+        icon="@drawable/ic_house"
+        id="@+id/tab_home"
+        inActiveColor="#c1c0c2"
+        title="@string/home" />
+
+    <tab
+        activeColor="#171617"
+        badgeBackgroundColor="@color/badge_background_color"
+        badgeHidesWhenActive="true"
+        barColorWhenSelected="#FFFFFF"
+        icon="@drawable/ic_menu"
+        id="@+id/tab_menu"
+        inActiveColor="#c1c0c2"
+        title="@string/category" />
+
+    <tab
+        activeColor="#171617"
+        badgeBackgroundColor="@color/badge_background_color"
+        badgeHidesWhenActive="true"
+        barColorWhenSelected="#FFFFFF"
+        icon="@drawable/ic_shop"
+        id="@+id/tab_shop"
+        inActiveColor="#c1c0c2 "
+        title="@string/shop" />
+</tabs>

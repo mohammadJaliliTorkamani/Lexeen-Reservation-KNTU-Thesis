@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/neutral_background_color"
+    android:paddingTop="16dp"
+    tools:context=".Fragment.Fragment_Wallet">
+
+
+    <ImageView
+        android:id="@+id/fragment_wallet_back_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:padding="12dp"
+        android:src="@drawable/ic_back_black"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/fragment_wallet_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/ic_wallet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_wallet_my_wallet" />
+
+
+    <ir.ac.kntu.Technical.CustomView.TextViewPlus
+        android:id="@+id/fragment_wallet_to_charge_value"
+        android:layout_width="240dp"
+        android:layout_height="56dp"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/wallet_value_gray_border"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLines="1"
+        android:text="مبلغ بر حسب تومان"
+        android:textColorHint="#46000000"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/fragment_wallet_rv"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_wallet_pic" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragment_wallet_rv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:layout_weight=".17"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@+id/fragment_wallet_purchase_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ir.ac.kntu.Technical.CustomView.TextViewPlus
+        android:id="@+id/fragment_wallet_my_wallet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/my_wallet"
+        android:textSize="@dimen/_20ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_wallet_back_iv" />
+
+    <ir.ac.kntu.Technical.CustomView.TextViewPlus
+        android:id="@+id/fragment_wallet_purchase_container"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/btm_bar_height"
+        android:layout_gravity="bottom"
+        android:layout_weight="0.06"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:text="@string/payment"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/_15ssp"
+        android:weightSum="100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

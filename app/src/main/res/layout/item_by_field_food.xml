@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/field_food_item_item"
+    android:layout_width="@dimen/_258sdp"
+    android:layout_height="280dp"
+    android:layout_gravity="center"
+    android:layout_marginStart="@dimen/_10sdp"
+    android:layout_marginEnd="@dimen/_10sdp"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/field_food_image_card"
+            android:layout_width="0dp"
+            android:layout_height="210dp"
+            android:background="@color/gray_default_background"
+            android:scaleType="centerCrop"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="0dp"
+            app:layout_constraintCircleRadius="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/field_food_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.cardview.widget.CardView>
+
+        <ir.ac.kntu.Technical.CustomView.TextViewPlus
+            android:id="@+id/field_food_food_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_9sdp"
+            android:layout_marginRight="@dimen/_9sdp"
+            android:gravity="start"
+            android:text=""
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/field_food_image_card" />
+
+        <ir.ac.kntu.Technical.CustomView.TextViewPlus
+            android:id="@+id/field_food_time_and_calorie_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_9sdp"
+            android:gravity="start"
+            android:text=""
+            android:textColor="@color/caption_gray"
+            android:textSize="@dimen/_8ssp"
+            app:layout_constraintRight_toRightOf="@+id/field_food_image_card"
+            app:layout_constraintTop_toBottomOf="@+id/field_food_food_name_tv" />
+
+        <ir.ac.kntu.Technical.CustomView.TextViewPlus
+            android:id="@+id/field_food_add"
+            android:layout_width="76dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="@dimen/_9sdp"
+            android:background="@drawable/rec_curve_stroke_2"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:text="@string/add"
+            android:textColor="@color/main_theme_color"
+            android:textColorHint="@android:color/black"
+            android:textSize="@dimen/_12ssp"
+            app:bold="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/field_food_image_card" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

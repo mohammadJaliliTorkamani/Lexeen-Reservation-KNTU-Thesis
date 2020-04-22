@@ -23,4 +23,5 @@
     <color name="badge_background_color">#F10E0E</color>
     <color name="home_bold_title">#020002</color>
     <color name="selected_class_blue">#469bf0</color>
+    <color name="neutral_background_color">#F8F8F8</color>
 </resources>

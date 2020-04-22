@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dr_round_corner_dialog"
+    android:paddingStart="20dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="16dp">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dialog_update_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/dialog_update_update"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_update_new_features" />
+
+    <ir.ac.kntu.Technical.CustomView.TextViewPlus
+        android:id="@+id/dialog_update_new_features"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/new_features_in_new_version"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_update_describe_text" />
+
+    <ir.ac.kntu.Technical.CustomView.TextViewPlus
+        android:id="@+id/dialog_update_version_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:bold="true"
+        app:layout_constraintBottom_toBottomOf="@id/dialog_update_new_features"
+        app:layout_constraintEnd_toStartOf="@id/dialog_update_new_features"
+        app:layout_constraintTop_toTopOf="@id/dialog_update_new_features" />
+
+
+    <ir.ac.kntu.Technical.CustomView.TextViewPlus
+        android:id="@+id/dialog_update_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/update"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ir.ac.kntu.Technical.CustomView.TextViewPlus
+        android:id="@+id/dialog_update_describe_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/update_describe_text"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_update_title" />
+
+
+    <ir.ac.kntu.Technical.CustomView.TextViewPlus
+        android:id="@+id/dialog_update_update"
+        android:layout_width="124dp"
+        android:layout_height="48dp"
+        android:background="@drawable/rec_curve_stroke"
+        android:gravity="center"
+        android:text="@string/update"
+        android:textColor="@color/main_theme_color"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/dialog_update_exit" />
+
+    <ir.ac.kntu.Technical.CustomView.TextViewPlus
+        android:id="@+id/dialog_update_exit"
+        android:layout_width="124dp"
+        android:layout_height="48dp"
+        android:background="@drawable/rec_curve_stroke"
+        android:gravity="center"
+        android:text="@string/exit"
+        android:textColor="@color/main_theme_color"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/dialog_update_update"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

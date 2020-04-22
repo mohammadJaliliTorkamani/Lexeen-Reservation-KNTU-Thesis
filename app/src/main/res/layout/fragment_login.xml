@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:fillViewport="true"
+    android:fitsSystemWindows="false"
+    android:layoutDirection="rtl"
+    android:overScrollMode="never"
+    android:scrollbars="none"
+    tools:context=".Fragment.Fragment_Login">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <VideoView
+            android:id="@+id/fragment_login_videoview"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="48dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/dr_user_pass"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_login_password"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ir.ac.kntu.Technical.CustomView.TextViewPlus
+                android:id="@+id/fragment_register_pre_phone_number"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:layoutDirection="ltr"
+                android:text="+98"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/fragment_register_phone_divider"
+                android:layout_width="1.5dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/fragment_register_pre_phone_number"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ir.ac.kntu.Technical.CustomView.EditTextPlus
+                android:id="@+id/fragment_login_phone_number"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/dr_user_pass"
+                android:drawableStart="@drawable/ic_user"
+                android:drawablePadding="16dp"
+                android:gravity="right|center_vertical"
+                android:hint="@string/username_or_phone_number"
+                android:inputType="number"
+                android:maxLength="10"
+                android:maxLines="1"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:textColor="@android:color/black"
+                android:textColorHint="#46000000"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toRightOf="@+id/fragment_register_phone_divider"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <ir.ac.kntu.Technical.CustomView.EditTextPlus
+            android:id="@+id/fragment_login_password"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp"
+            android:layout_marginBottom="64dp"
+            android:background="@drawable/dr_user_pass"
+            android:drawableStart="@drawable/ic_key"
+            android:drawablePadding="16dp"
+            android:gravity="right|center_vertical"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textColor="@android:color/black"
+            android:textColorHint="#46000000"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/fragment_login_login"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fragment_login_login"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginEnd="56dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/dr_login_orange_btn"
+            app:layout_constraintBottom_toTopOf="@+id/fagment_login_not_register_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ProgressBar
+                android:id="@+id/fragment_login_login_progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/fragment_login_login_text"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ir.ac.kntu.Technical.CustomView.TextViewPlus
+                android:id="@+id/fragment_login_login_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:gravity="center"
+                android:text="@string/login"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                app:bold="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ir.ac.kntu.Technical.CustomView.TextViewPlus
+            android:id="@+id/fragment_login_forget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/password_forgetness"
+            android:textColor="@android:color/white"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="@id/fragment_login_password"
+            app:layout_constraintTop_toBottomOf="@id/fragment_login_password" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fagment_login_not_register_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ir.ac.kntu.Technical.CustomView.TextViewPlus
+                android:id="@+id/fragment_login_do_not_registered"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dont_registered"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ir.ac.kntu.Technical.CustomView.TextViewPlus
+                android:id="@+id/fragment_login_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/sign_up"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                app:bold="true"
+                app:layout_constraintBottom_toBottomOf="@+id/fragment_login_do_not_registered"
+                app:layout_constraintStart_toEndOf="@+id/fragment_login_do_not_registered"
+                app:layout_constraintTop_toTopOf="@+id/fragment_login_do_not_registered"
+                app:underline="true" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
