@@ -7,6 +7,8 @@
     android:background="@android:color/white"
     android:layoutDirection="rtl"
     android:paddingStart="@dimen/_16sdp"
+    android:clickable="true"
+    android:focusable="true"
     android:paddingTop="@dimen/_5sdp"
     android:paddingEnd="@dimen/_16sdp"
     tools:context=".Fragment.Fragment_Search">

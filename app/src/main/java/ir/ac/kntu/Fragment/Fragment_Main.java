@@ -153,6 +153,7 @@ public class Fragment_Main extends Fragment {
         });
         expand_toolbar_iv.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
         search_iv.setOnClickListener(v -> {
+            Setting.getInstance().hideKeyboard(getActivity());
             if (!(getFragmentManager().findFragmentById(R.id.main_fragment_top_bb_frame) instanceof Fragment_Search))
                 getFragmentManager()
                         .beginTransaction()

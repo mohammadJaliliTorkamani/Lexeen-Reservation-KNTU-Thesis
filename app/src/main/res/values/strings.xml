@@ -155,6 +155,7 @@
     <string name="class_of">کلاس</string>
     <string name="confirm">تایید</string>
     <string name="invalid_destination">مقصد نامعتبر است</string>
+    <string name="location_access_not_permitted">محوز مکان وجود ندارد</string>
 
 
 </resources>

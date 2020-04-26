@@ -19,5 +19,5 @@
         android:gravity="center"
         android:maxLines="1"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/_10ssp" />
+        android:textSize="12sp" />
 </LinearLayout>

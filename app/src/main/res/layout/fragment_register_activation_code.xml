@@ -8,6 +8,8 @@
     android:layoutDirection="rtl"
     android:overScrollMode="never"
     android:scrollbars="none"
+    android:clickable="true"
+    android:focusable="true"
     tools:context=".Fragment.Fragment_Register_Activation_Code">
 
     <VideoView
@@ -89,6 +91,7 @@
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:indeterminateTint="@android:color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -115,7 +118,7 @@
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ir.ac.kntu.Technical.CustomView.TextViewPlus
                     android:id="@+id/fragment_register_activation_code_resend"

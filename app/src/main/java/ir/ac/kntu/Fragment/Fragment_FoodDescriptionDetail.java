@@ -128,34 +128,32 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
     }
 
     private void select_title_zero_and_one(View view) {
-        Connector.createService(view, Operable_Food.class, object -> {
-            object.getFoodField(id).enqueue(new retrofit2.Callback<List<String>>() {
-                @Override
-                public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                    if (response.body() != null) {
-                        if (response.body().get(0).equalsIgnoreCase("offer")) {
-                            mealType.setText("غذای پیشنهادی ما");
-                            mealTypeInfo.setText("%" + response.body().get(1) + "  تخفیف!");
-                        } else if (response.body().get(0).equalsIgnoreCase("today")) {
-                            mealType.setText("غذای امروز");
-                            mealTypeInfo.setText("پیشنهاد برای " + response.body().get(1));
-                        } else if (response.body().get(0).equalsIgnoreCase("popular")) {
-                            mealType.setText("غذای پر طرفدار");
-                            mealTypeInfo.setText("امتحان کنید !");
-                        } else {
-                            mealType.setVisibility(View.GONE);
-                            mealTypeInfo.setVisibility(View.GONE);
-                        }
-                    } else
-                        Helper_Log.errorLog(Fragment_FoodDescriptionDetail.class);
-                }
+        Connector.createService(view, Operable_Food.class, object -> object.getFoodField(id).enqueue(new retrofit2.Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.body() != null) {
+                    if (response.body().get(0).equalsIgnoreCase("offer")) {
+                        mealType.setText("غذای پیشنهادی ما");
+                        mealTypeInfo.setText("%" + response.body().get(1) + "  تخفیف!");
+                    } else if (response.body().get(0).equalsIgnoreCase("today")) {
+                        mealType.setText("غذای امروز");
+                        mealTypeInfo.setText("پیشنهاد برای " + response.body().get(1));
+                    } else if (response.body().get(0).equalsIgnoreCase("popular")) {
+                        mealType.setText("غذای پر طرفدار");
+                        mealTypeInfo.setText("امتحان کنید !");
+                    } else {
+                        mealType.setVisibility(View.GONE);
+                        mealTypeInfo.setVisibility(View.GONE);
+                    }
+                } else
+                    Helper_Log.errorLog(Fragment_FoodDescriptionDetail.class);
+            }
 
-                @Override
-                public void onFailure(Call<List<String>> call, Throwable t) {
-                    Helper_Log.errorLog(t, Fragment_FoodDescriptionDetail.class);
-                }
-            });
-        });
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                Helper_Log.errorLog(t, Fragment_FoodDescriptionDetail.class);
+            }
+        }));
     }
 
     private void initializeServerSupplied(View view, Runnable_SingleArg<Food> foodLoadWork, Runnable loadFailWork) {

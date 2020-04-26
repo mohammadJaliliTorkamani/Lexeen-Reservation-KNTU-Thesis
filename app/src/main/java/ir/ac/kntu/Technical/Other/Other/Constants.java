@@ -25,6 +25,12 @@ public class Constants {
     public static final String DEFAULT_PHONE_PREFIX = "0098";
     public static final long RESEND_VERIFICATION_CODE_INTERVAL = 90 * 1000;
     public static final String PURCHASE_UNIT = "T";
+    public static final long CONNECTION_READ_TIMEOUT = 10;
+    public static final long CONNECTION_WRITE_TIMEOUT = 10;
+    public static final long CONNECTION_TIMEOUT = 10;
+    public static final String BASE_URL = "https://aban.dev/kntu_project/api/";
+    public static final String HEADER_CACHE_CONTROL = "Cache-Control";
+    public static final String HEADER_PRAGMA = "Pragma";
 
     public enum ToastMode {
         SUCCESS, INFO, WARNING, ERROR, NORMAL

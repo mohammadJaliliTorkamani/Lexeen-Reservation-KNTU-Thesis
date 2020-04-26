@@ -7,6 +7,8 @@
     android:background="@android:color/white"
     android:orientation="vertical"
     android:overScrollMode="never"
+    android:clickable="true"
+    android:focusable="true"
     android:scrollbars="none"
     tools:context=".Fragment.Fragment_Cart">
 
@@ -168,7 +170,7 @@
                                 android:maxLines="1"
                                 android:text="T"
                                 android:textColor="@android:color/white"
-                                android:textSize="@dimen/_8ssp" />
+                                android:textSize="12sp" />
 
                             <ir.ac.kntu.Technical.CustomView.TextViewPlus
                                 android:id="@+id/fragment_cart_total_price"
@@ -178,7 +180,7 @@
                                 android:maxLines="1"
                                 android:text="0"
                                 android:textColor="@android:color/white"
-                                android:textSize="@dimen/_11ssp" />
+                                android:textSize="13sp" />
 
 
                         </LinearLayout>

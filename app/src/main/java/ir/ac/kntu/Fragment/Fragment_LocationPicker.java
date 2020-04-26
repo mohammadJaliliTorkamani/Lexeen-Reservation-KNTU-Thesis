@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,7 +40,6 @@ import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.annotation.Symbol;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
-import com.mapbox.mapboxsdk.style.layers.Layer;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 
@@ -54,7 +54,6 @@ import ir.ac.kntu.Interface.Retrofit.Operable_General;
 import ir.ac.kntu.Interface.Retrofit.Operable_User;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
-import ir.ac.kntu.Technical.CustomView.EditTextPlus;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
 import ir.ac.kntu.Technical.Other.Other.Constants;
 import ir.ac.kntu.Technical.Other.Other.ContextHelper;
@@ -91,8 +90,8 @@ public class Fragment_LocationPicker extends Fragment {
             .build();
     private MapView mapView;
     private MapService mapService = new MapService();
-    private EditTextPlus blockNo;
-    private EditTextPlus floorAndUnit;
+    private EditText blockNo;
+    private EditText floorAndUnit;
     private TextViewPlus selectPlaceText;
     private ProgressBar selectPlacePB;
     private LinearLayout detailAddressFrame;
@@ -101,7 +100,6 @@ public class Fragment_LocationPicker extends Fragment {
     private Order order;
     private FloatingActionButton myLocation;
     private CoordinatorLayout placeContainer;
-    private Layer droppedMarkerLayer;
     private int step;//0: location selection   1: selection completed & show polygon for final confirmation
     private ImageView hoveringMarker;
     private Symbol restaurantSymbol;
@@ -242,7 +240,7 @@ public class Fragment_LocationPicker extends Fragment {
                     if (granted)
                         enableLocationComponent();
                     else
-                        Toast.makeText(getContext(), "محوز مکان وجود ندارد", Toast.LENGTH_LONG).show();
+                        Helper.getInstance().toast(R.string.location_access_not_permitted, Constants.ToastMode.INFO);
                 }
             });
             permissionsManager.requestLocationPermissions(getActivity());

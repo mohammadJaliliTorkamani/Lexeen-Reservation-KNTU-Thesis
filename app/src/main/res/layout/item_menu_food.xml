@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/menu_item_food_card"
     android:layout_width="match_parent"
+    android:layoutDirection="rtl"
     android:layout_height="@dimen/_45sdp"
     android:layout_marginStart="12dp"
     android:layout_marginEnd="12dp">
@@ -78,7 +79,7 @@
                 android:maxLines="1"
                 android:text="T"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/_8ssp" />
+                android:textSize="13sp" />
 
             <ir.ac.kntu.Technical.CustomView.TextViewPlus
                 android:id="@+id/menu_item_food_item_price"
@@ -90,7 +91,7 @@
                 android:maxLines="1"
                 android:text="15600"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/_10ssp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -164,7 +165,8 @@
                     android:layout_height="wrap_content"
                     android:text="0"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/_16sdp"
+                    android:textSize="14sp"
+                    app:bold="true"
                     app:layout_constraintBottom_toBottomOf="@+id/menu_item_food_plus_container"
                     app:layout_constraintEnd_toStartOf="@+id/menu_item_food_plus_container"
                     app:layout_constraintTop_toTopOf="@+id/menu_item_food_plus_container" />
@@ -178,7 +180,7 @@
                     android:layout_marginBottom="@dimen/_8sdp"
                     android:text="food name"
                     android:textColor="@color/dark_gray"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="13sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

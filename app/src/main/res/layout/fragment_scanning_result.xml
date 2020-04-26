@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:clickable="true"
+    android:focusable="true"
     android:layout_height="match_parent"
     android:background="@color/neutral_background_color"
     tools:context=".Fragment.Fragment_ScanningResult">
@@ -31,7 +33,7 @@
                 android:layout_gravity="left"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:padding="12dp"
+                android:padding="7dp"
                 android:src="@drawable/ic_back_black" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -71,6 +73,7 @@
                             android:id="@+id/scanning_qr_result_restaurant_image_container_progressbar"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
+                            android:indeterminateTint="@color/main_theme_color"
                             android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -119,9 +122,9 @@
                     android:layout_height="wrap_content"
                     android:text="@string/name"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/_16ssp"
+                    android:textSize="15sp"
                     app:bold="true"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ir.ac.kntu.Technical.CustomView.TextViewPlus
@@ -129,8 +132,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/scanning_tv_value"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textSize="14sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -146,9 +149,9 @@
                     android:layout_height="wrap_content"
                     android:text="@string/category"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/_16ssp"
+                    android:textSize="15sp"
                     app:bold="true"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ir.ac.kntu.Technical.CustomView.TextViewPlus
@@ -156,8 +159,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/scanning_tv_value"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textSize="1sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -173,9 +176,9 @@
                     android:layout_height="wrap_content"
                     android:text="@string/phone"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/_16ssp"
+                    android:textSize="15sp"
                     app:bold="true"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ir.ac.kntu.Technical.CustomView.TextViewPlus
@@ -184,8 +187,8 @@
                     android:layout_height="wrap_content"
                     android:layoutDirection="ltr"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/scanning_tv_value"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:textSize="14sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -201,9 +204,9 @@
                     android:layout_height="wrap_content"
                     android:text="@string/postal_address"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/_16ssp"
+                    android:textSize="15sp"
                     app:bold="true"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ir.ac.kntu.Technical.CustomView.TextViewPlus
@@ -213,8 +216,8 @@
                     android:layout_marginTop="@dimen/_7sdp"
                     android:lineSpacingExtra="@dimen/line_spacing"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/scanning_tv_value"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textSize="14sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/scanning_qr_result_address_word" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -228,7 +231,7 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:text="@string/add"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/home_font_textview"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

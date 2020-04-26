@@ -54,7 +54,7 @@ public class Fragment_UserOrders extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView_layout_manager = new LinearLayoutManager(ContextHelper.retrieveContext(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(recyclerView_layout_manager);
-        recyclerView_adapter = new Adapter_UserFoodOder(getFragmentManager(), orders);
+        recyclerView_adapter = new Adapter_UserFoodOder(getFragmentManager(), getActivity(), orders);
         recyclerView.setAdapter(recyclerView_adapter);
     }
 

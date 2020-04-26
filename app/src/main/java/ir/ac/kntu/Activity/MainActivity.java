@@ -2,6 +2,9 @@ package ir.ac.kntu.Activity;
 
 
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -34,5 +37,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         Helper.getInstance().toast(R.string.on_exit_message, Constants.ToastMode.ERROR);
         super.onDestroy();
+    }
+
+
+    /**
+     * hides Keyboard when clicked outside of an edittext
+     *
+     * @param ev
+     * @return
+     */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View v = getCurrentFocus();
+
+        if (v != null &&
+                (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) &&
+                v instanceof EditText &&
+                !v.getClass().getName().startsWith("android.webkit.")) {
+            int scrcoords[] = new int[2];
+            v.getLocationOnScreen(scrcoords);
+            float x = ev.getRawX() + v.getLeft() - scrcoords[0];
+            float y = ev.getRawY() + v.getTop() - scrcoords[1];
+
+            if (x < v.getLeft() || x > v.getRight() || y < v.getTop() || y > v.getBottom())
+                Setting.getInstance().hideKeyboard(this);
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }

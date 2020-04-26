@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
@@ -34,7 +36,6 @@ import ir.ac.kntu.Interface.Retrofit.Operable_General;
 import ir.ac.kntu.Interface.Retrofit.Operable_Table;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
-import ir.ac.kntu.Technical.CustomView.EditTextPlus;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
 import ir.ac.kntu.Technical.Other.CustomRunnable.Runnable_MultiArg;
 import ir.ac.kntu.Technical.Other.Other.Constants;
@@ -60,7 +61,7 @@ public class Fragment_Table extends DialogFragment {
     private TextViewPlus selectedDateTime;
     private String dateTime;
     private CoordinatorLayout payContainer;
-    private EditTextPlus counter;
+    private EditText counter;
     private TextViewPlus payText;
     private ProgressBar payProgressbar;
 
@@ -112,6 +113,7 @@ public class Fragment_Table extends DialogFragment {
         manageListeners(view);
         Dialog dialog = builder.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         return dialog;
     }
 

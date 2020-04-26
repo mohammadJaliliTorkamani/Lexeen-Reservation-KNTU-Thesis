@@ -97,7 +97,6 @@ public class Activity_Payment extends AppCompatActivity {
 
                                 @Override
                                 public void onFailure(Call<ServerResponse> call, Throwable t) {
-                                    Helper.getInstance().toast("NOOOO", Constants.ToastMode.SUCCESS);
                                     Helper_Log.errorLog(t, Activity_Payment.class);
                                     startActivity(new Intent(Activity_Payment.this, MainActivity.class));
                                     finish();

@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/dr_round_corner_dialog"
     android:fillViewport="true"
+    android:clickable="true"
+    android:focusable="true"
     android:scrollbars="none"
     tools:context=".Fragment.Fragment_Table">
 
@@ -40,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/roof"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/_15ssp"
+                android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@id/fragment_table_roof_rv"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/fragment_table_roof_rv" />
@@ -72,9 +74,9 @@
                     android:layout_gravity="center_vertical|start"
                     android:text="تعداد نفرات"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/_15ssp" />
+                    android:textSize="15sp" />
 
-                <ir.ac.kntu.Technical.CustomView.EditTextPlus
+                <EditText
                     android:id="@+id/fragment_table_counter_value"
                     android:layout_width="80dp"
                     android:layout_height="34dp"
@@ -86,7 +88,7 @@
                     android:maxLength="2"
                     android:maxLines="1"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -101,7 +103,7 @@
                     android:layout_gravity="center_vertical|start"
                     android:text="زمان سفارش"
                     android:textColor="@android:color/black"
-                    android:textSize="@dimen/_15ssp" />
+                    android:textSize="15sp" />
 
                 <ir.ac.kntu.Technical.CustomView.TextViewPlus
                     android:id="@+id/fragment_table_selected_date_time_value"
@@ -116,7 +118,7 @@
                     android:minHeight="40dp"
                     android:orientation="horizontal"
                     android:paddingRight="8dp"
-                    android:textSize="@dimen/_13ssp" />
+                    android:textSize="14sp" />
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         </LinearLayout>
@@ -135,6 +137,7 @@
                 android:id="@+id/fragment_table_pay_pb"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:indeterminateTint="@android:color/white"
                 android:layout_gravity="center"
                 android:visibility="gone" />
 

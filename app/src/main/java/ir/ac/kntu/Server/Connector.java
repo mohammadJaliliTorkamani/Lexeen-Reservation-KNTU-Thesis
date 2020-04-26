@@ -31,10 +31,12 @@ import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static ir.ac.kntu.Technical.Other.Other.Constants.BASE_URL;
+import static ir.ac.kntu.Technical.Other.Other.Constants.HEADER_CACHE_CONTROL;
+import static ir.ac.kntu.Technical.Other.Other.Constants.HEADER_PRAGMA;
+
 public class Connector {
-    private static final String BASE_URL = "https://aban.dev/kntu_project/api/";
-    private static final String HEADER_CACHE_CONTROL = "Cache-Control";
-    private static final String HEADER_PRAGMA = "Pragma";
+
     private static Retrofit mRetrofit, mCachedRetrofit;
     private static Cache mCache;
     private static OkHttpClient mOkHttpClient, mCachedOkHttpClient;
@@ -43,9 +45,9 @@ public class Connector {
         if (mRetrofit == null) {
             // Add all interceptors you want (headers, URL, logging)
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
-                    .connectTimeout(7, TimeUnit.SECONDS)
-                    .readTimeout(7, TimeUnit.SECONDS)
-                    .writeTimeout(7, TimeUnit.SECONDS)
+                    .connectTimeout(Constants.CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+                    .readTimeout(Constants.CONNECTION_READ_TIMEOUT, TimeUnit.SECONDS)
+                    .writeTimeout(Constants.CONNECTION_WRITE_TIMEOUT, TimeUnit.SECONDS)
                     .addInterceptor(Interceptor_Token.getInstance(ContextHelper.retrieveContext()))
                     .addInterceptor(Interceptor_PusheID.getInstance(ContextHelper.retrieveContext()))
                     .addInterceptor(Interceptor_TargetQRCode.getInstance(ContextHelper.retrieveContext()))

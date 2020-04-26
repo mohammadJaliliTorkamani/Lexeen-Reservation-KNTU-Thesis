@@ -65,7 +65,7 @@
             android:gravity="center"
             android:text="@string/payment_bill"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/_18ssp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -90,7 +90,7 @@
             android:gravity="center"
             android:text="@string/navigate"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/_16ssp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

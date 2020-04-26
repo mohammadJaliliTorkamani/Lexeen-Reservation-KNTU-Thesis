@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
+    android:clickable="true"
+    android:focusable="true"
     android:layoutDirection="ltr"
     tools:context=".Fragment.Fragment_FoodDescriptionDetail">
 
@@ -19,6 +21,7 @@
         android:visibility="gone">
 
         <ProgressBar
+            android:indeterminateTint="@color/main_theme_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -189,7 +192,7 @@
                                 android:maxLines="2"
                                 android:text=""
                                 android:textColor="@android:color/black"
-                                android:textSize="@dimen/_12ssp"
+                                android:textSize="13sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toStartOf="@id/food_description_price_unit"
                                 app:layout_constraintStart_toStartOf="parent"
@@ -205,7 +208,7 @@
                                 android:maxLines="1"
                                 android:text=""
                                 android:textColor="@android:color/black"
-                                android:textSize="@dimen/_11ssp"
+                                android:textSize="12sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/food_description_price"
@@ -241,7 +244,7 @@
                             android:gravity="center"
                             android:text=""
                             android:textColor="@android:color/black"
-                            android:textSize="@dimen/_12ssp" />
+                            android:textSize="13sp" />
 
                     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -272,7 +275,7 @@
                             android:gravity="center"
                             android:text=""
                             android:textColor="@android:color/black"
-                            android:textSize="@dimen/_12ssp" />
+                            android:textSize="13sp" />
 
                     </androidx.coordinatorlayout.widget.CoordinatorLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -323,7 +326,7 @@
                     android:paddingStart="@dimen/_38sdp"
                     android:paddingEnd="@dimen/_38sdp"
                     android:textColor="#858585"
-                    android:textSize="@dimen/_10ssp"
+                    android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/food_description_description_title" />

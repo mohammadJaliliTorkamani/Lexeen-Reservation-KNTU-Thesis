@@ -1,5 +1,6 @@
 package ir.ac.kntu.Adapter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.Bitmap;
@@ -35,10 +36,12 @@ public class Adapter_UserFoodOder extends RecyclerView.Adapter {
     private FragmentManager fragmentManager;
     private List<Order> orders;
     private int lastPosition = -1;
+    private Activity activity;
 
-    public Adapter_UserFoodOder(FragmentManager fragmentManager, List<Order> orders) {
+    public Adapter_UserFoodOder(FragmentManager fragmentManager, Activity activity, List<Order> orders) {
         this.fragmentManager = fragmentManager;
         this.orders = orders;
+        this.activity = activity;
 
     }
 
@@ -87,7 +90,7 @@ public class Adapter_UserFoodOder extends RecyclerView.Adapter {
 
 
         qrCode.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(ContextHelper.retrieveContext());
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             View inflateView = LayoutInflater.from(ContextHelper.retrieveContext()).inflate(R.layout.dialog_order_code, null, false);
             builder.setView(inflateView);
             builder.setCancelable(true);

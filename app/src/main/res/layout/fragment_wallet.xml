@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/neutral_background_color"
     android:paddingTop="16dp"
+    android:clickable="true"
+    android:focusable="true"
     tools:context=".Fragment.Fragment_Wallet">
 
 
@@ -43,7 +45,7 @@
         android:maxLines="1"
         android:text="مبلغ بر حسب تومان"
         android:textColorHint="#46000000"
-        android:textSize="18sp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@id/fragment_wallet_rv"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -70,7 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/my_wallet"
-        android:textSize="@dimen/_20ssp"
+        android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_wallet_back_iv" />
@@ -86,7 +88,7 @@
         android:orientation="horizontal"
         android:text="@string/payment"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/_15ssp"
+        android:textSize="14sp"
         android:weightSum="100"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

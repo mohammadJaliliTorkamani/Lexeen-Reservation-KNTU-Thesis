@@ -8,4 +8,8 @@
         <item name="android:windowDisablePreview">true</item>
         <item name="colorAccent">@android:color/black</item>
     </style>
+
+    <style name="FAB_Theme" parent="Theme.MaterialComponents.Light">
+
+    </style>
 </resources>

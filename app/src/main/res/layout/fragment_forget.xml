@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:background="@android:color/black"
     android:fitsSystemWindows="false"
+    android:clickable="true"
+    android:focusable="true"
     android:layoutDirection="rtl"
     tools:context=".Fragment.Fragment_Forget">
 
@@ -104,6 +106,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            android:indeterminateTint="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/fragment_forget_recover_text"

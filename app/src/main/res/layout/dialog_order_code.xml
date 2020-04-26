@@ -36,7 +36,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/dialog_order_title_container"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_height="@dimen/_40sdp"
             android:background="@drawable/rec_curve_top"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +81,7 @@
         <ir.ac.kntu.Technical.CustomView.TextViewPlus
             android:id="@+id/dialog_order_close"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_height="@dimen/_40sdp"
             android:background="@drawable/rec_curve_bottom"
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"

@@ -37,6 +37,7 @@ public class EditTextPlus extends AppCompatEditText {
     }
 
     private void init() {
+        setFocusable(true);
         try {
             String customFont = getCustomFont(context, attrs);
             Typeface face = Typeface.createFromAsset(context.getAssets(), customFont == null ? DEFAULT_FARSI_FONT_ASSET_ADDRESS :

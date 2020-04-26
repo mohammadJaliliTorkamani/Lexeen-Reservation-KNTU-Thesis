@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -241,7 +242,7 @@ public class Fragment_Cart extends Fragment {
                     String selectedDate = (String) fragment_passed_object[0];
                     ProgressBar progressBar = (ProgressBar) fragment_passed_object[1];
                     TextViewPlus textViewPlus = (TextViewPlus) fragment_passed_object[2];
-                    EditTextPlus editTextPlus_numberOfPeople = (EditTextPlus) fragment_passed_object[3];
+                    EditText editText_numberOfPeople = (EditText) fragment_passed_object[3];
                     Runnable onSuccessfulOrdered = (Runnable) fragment_passed_object[4];
                     order.clearSpecifiedBills();
                     order.getSpecifiedBills().addAll(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getRestaurantSelectionQRCode()));
@@ -266,7 +267,7 @@ public class Fragment_Cart extends Fragment {
                                             }
 
 
-                                            isGoodRestaurantOrder(view, Integer.parseInt(editTextPlus_numberOfPeople.getText().toString()), orderExamineObject -> {
+                                            isGoodRestaurantOrder(view, Integer.parseInt(editText_numberOfPeople.getText().toString()), orderExamineObject -> {
                                                 if (orderExamineObject) {
                                                     if (currentCash >= order.getTotalPrice()) {//enough cash
                                                         Connector.createService(view, Operable_User.class, object -> object.order(order).enqueue(new Callback<ServerResponse>() {
@@ -294,8 +295,7 @@ public class Fragment_Cart extends Fragment {
                                                                                                 .getSupportFragmentManager()
                                                                                                 .beginTransaction()
                                                                                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                                                                                .addToBackStack("orders")
-                                                                                                .add(R.id.main_frame, new Fragment_UserOrders())
+                                                                                                .replace(R.id.main_frame, new Fragment_UserOrders())
                                                                                                 .commit();
                                                                                 } catch (ParseException e) {
                                                                                     e.printStackTrace();
@@ -471,6 +471,10 @@ public class Fragment_Cart extends Fragment {
             recyclerView_adapter.notifyDataSetChanged();
             totalPrice.setText(String.valueOf(0));
             totalPriceUnit.setText(Helper.getInstance().getPurchaseUnit());
+        });
+        set.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus)
+                Setting.getInstance().hideKeyboard(getActivity());
         });
         set.setOnClickListener(v ->
         {

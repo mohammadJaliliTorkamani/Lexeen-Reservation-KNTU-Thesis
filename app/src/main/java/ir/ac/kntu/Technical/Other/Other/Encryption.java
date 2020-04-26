@@ -1,6 +1,5 @@
 package ir.ac.kntu.Technical.Other.Other;
 
-import android.util.Log;
 import android.view.View;
 
 import ir.ac.kntu.Interface.Client.Operable_Encryption;
@@ -91,7 +90,6 @@ public class Encryption implements Operable_Encryption {
                 public void onResponse(Call<Long> call, Response<Long> response) {
                     if (response.body() != null) {
                         y = response.body();
-                        Log.d("ZZZZZZZZZZZZZZ", "" + y);
                         sharedKey = (long) (Math.pow(y, clientPrivateKey) % (P));
                         Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_SHARED_KEY, String.valueOf(sharedKey));
                         try {

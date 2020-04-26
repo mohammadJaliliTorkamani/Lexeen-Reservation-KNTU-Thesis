@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -200,6 +199,7 @@ public class Fragment_LandingPage extends Fragment {
     }
 
     private void manageListeners(View view) {
+
         filter.setOnClickListener(v -> {
             classes_rv.setVisibility(classes_rv.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
             restaurants_of.setVisibility(restaurants_of.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
@@ -237,7 +237,10 @@ public class Fragment_LandingPage extends Fragment {
                 Helper_Log.errorLog(t, Adapter_Drawer.class);
             }
         })));
-        expand.setOnClickListener(v -> drawerLayout.openDrawer(Gravity.RIGHT));
+        expand.setOnClickListener(v -> {
+            Setting.getInstance().hideKeyboard(getActivity());
+            drawerLayout.openDrawer(Gravity.RIGHT);
+        });
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
@@ -259,6 +262,7 @@ public class Fragment_LandingPage extends Fragment {
 
             }
         });
+
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -291,7 +295,6 @@ public class Fragment_LandingPage extends Fragment {
                                 mainAdapter.notifyDataSetChanged();
                             } else {
 
-                                Log.d("AAA", "AAAAAAAAAAAAAAAA");
                                 Helper_Log.errorLog(Fragment_LandingPage.class);
                             }
                         }
@@ -371,8 +374,6 @@ public class Fragment_LandingPage extends Fragment {
                                                             main_list.add(null);
                                                         mainAdapter.notifyDataSetChanged();
                                                     } else {
-
-                                                        Log.d("AAA", "AAAAAAAAAAAAAAAA");
                                                         Helper_Log.errorLog(Fragment_LandingPage.class);
                                                     }
                                                 }

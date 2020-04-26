@@ -8,6 +8,8 @@
     android:background="@color/neutral_background_color"
     android:layoutDirection="ltr"
     android:orientation="vertical"
+    android:clickable="true"
+    android:focusable="true"
     android:weightSum="100"
     tools:context=".Fragment.Fragment_LocationPicker">
 
@@ -24,6 +26,7 @@
             android:id="@+id/location_picker_select_place_pb"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:indeterminateTint="@android:color/white"
             android:layout_gravity="center"
             android:visibility="gone" />
 
@@ -97,7 +100,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/location_picker_back">
 
-            <ir.ac.kntu.Technical.CustomView.EditTextPlus
+            <EditText
                 android:id="@+id/location_picker_floor_and_unit"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -115,7 +118,7 @@
                 android:textColorHint="@color/gray_shadow"
                 android:textSize="18sp" />
 
-            <ir.ac.kntu.Technical.CustomView.EditTextPlus
+            <EditText
                 android:id="@+id/location_picker_block_no"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -143,6 +146,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:padding="16dp"
+        android:theme="@style/FAB_Theme"
         android:src="@android:drawable/ic_dialog_map"
         app:layout_constraintBottom_toTopOf="@id/location_picker_select_place_container"
         app:layout_constraintRight_toRightOf="parent" />
