@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/neutral_background_color"
-    android:paddingTop="16dp"
+    android:paddingTop="64dp"
     android:clickable="true"
     android:focusable="true"
     tools:context=".Fragment.Fragment_Wallet">
@@ -80,7 +80,8 @@
     <ir.ac.kntu.Technical.CustomView.TextViewPlus
         android:id="@+id/fragment_wallet_purchase_container"
         android:layout_width="0dp"
-        android:layout_height="@dimen/btm_bar_height"
+        android:layout_height="118dp"
+        android:paddingBottom="48dp"
         android:layout_gravity="bottom"
         android:layout_weight="0.06"
         android:foreground="?android:attr/selectableItemBackground"

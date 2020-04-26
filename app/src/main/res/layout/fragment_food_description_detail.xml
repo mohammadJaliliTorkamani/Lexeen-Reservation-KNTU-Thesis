@@ -34,9 +34,10 @@
     <LinearLayout
         android:id="@+id/food_description_linearLayout_bottom"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/btm_bar_height"
+        android:layout_height="100dp"
         android:layout_gravity="bottom"
         android:overScrollMode="always"
+        android:paddingBottom="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -336,8 +337,7 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="232dp"
-            android:fitsSystemWindows="true">
+            android:layout_height="232dp">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/food_description_collapsing_toolbar_layout"
@@ -375,7 +375,7 @@
                             android:id="@+id/food_description_back_icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical|end|top"
+                            android:layout_gravity="end|bottom"
                             android:layout_marginTop="4dp"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:padding="12dp"
@@ -387,7 +387,7 @@
                             android:id="@+id/food_description_buy_icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical|start|top"
+                            android:layout_gravity="start|bottom"
                             android:layout_marginTop="4dp"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:padding="12dp"

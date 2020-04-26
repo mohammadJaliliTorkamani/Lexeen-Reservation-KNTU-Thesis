@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -18,7 +19,6 @@ import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
@@ -97,18 +97,22 @@ public class Setting implements Operable_Setting {
     }
 
     @Override
-    public void changeStatusBarColor(Window window, boolean whiteMode) {
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            View decor = window.getDecorView();
-            if (whiteMode) {
-                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(ContextHelper.retrieveContext().getResources().getColor(android.R.color.white));
-            } else {
-                decor.setSystemUiVisibility(0);
-            }
-        }*/
+    public void makeScreenNoLimits(Activity activity, boolean noLimits) {
+        if (noLimits)
+            activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        else
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+    }
+
+    @Override
+    public void inverseBarColor(Activity activity, boolean black) {
+        if (!black) {
+            activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        } else {
+            activity.getWindow().getDecorView().setSystemUiVisibility(0);
+        }
+        activity.getWindow().setNavigationBarColor(Color.parseColor(black ? "#000000" : "#FFFFFF"));
+        activity.getWindow().setStatusBarColor(Color.parseColor(black ? "#000000" : "#FFFFFF"));
     }
 
     @Override

@@ -6,16 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/landing_page_background_color"
-    android:fitsSystemWindows="true"
     android:paddingStart="10dp"
     android:paddingTop="16dp"
     android:clickable="true"
     android:focusable="true"
+    android:fitsSystemWindows="false"
     android:paddingEnd="10dp"
     tools:context=".Fragment.Fragment_LandingPage">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:layout_marginTop="48dp"
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.Toolbar
@@ -127,6 +128,7 @@
             android:id="@+id/landing_page_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="48dp"
             android:layout_marginTop="16dp"
             android:overScrollMode="never"
             android:scrollbars="none"

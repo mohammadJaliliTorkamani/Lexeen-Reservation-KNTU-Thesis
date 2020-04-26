@@ -1,16 +1,23 @@
 package ir.ac.kntu.Activity;
 
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import ir.ac.kntu.Fragment.Fragment_FAQ;
+import ir.ac.kntu.Fragment.Fragment_FoodDescriptionDetail;
 import ir.ac.kntu.Fragment.Fragment_LandingPage;
 import ir.ac.kntu.Fragment.Fragment_Login;
+import ir.ac.kntu.Fragment.Fragment_Main;
+import ir.ac.kntu.Fragment.Fragment_Setting;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Technical.Other.Other.Constants;
 import ir.ac.kntu.Technical.Other.Other.Helper;
@@ -25,7 +32,10 @@ public class MainActivity extends AppCompatActivity {
         Setting.getInstance().setDeviceHeight(getWindowManager());
         Setting.getInstance().configureToasty();
         Setting.getInstance().configureImageLoader();
+        Setting.getInstance().makeScreenNoLimits(this, true);
+        Setting.getInstance().inverseBarColor(this, false);
         setContentView(R.layout.activity_main);
+//        manageListeners();
         getSupportFragmentManager()
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -64,4 +74,32 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.dispatchTouchEvent(ev);
     }
+
+    private void manageListeners() {
+        getSupportFragmentManager().addOnBackStackChangedListener(() -> {
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.main_frame);
+            configureScreenLimit(fragment);
+            configureInverseBarColor(fragment);
+            if (fragment instanceof Fragment_FoodDescriptionDetail || fragment instanceof Fragment_LandingPage) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+                getWindow().setStatusBarColor(Color.WHITE);
+            }
+        });
+    }
+
+    private void configureInverseBarColor(Fragment fragment) {
+        if (fragment instanceof Fragment_Main || fragment instanceof Fragment_Setting || fragment instanceof Fragment_FAQ)
+            Setting.getInstance().inverseBarColor(this, false);
+        else if (!(fragment instanceof Fragment_FoodDescriptionDetail))
+            Setting.getInstance().inverseBarColor(this, true);
+    }
+
+    private void configureScreenLimit(Fragment fragment) {
+        if (fragment instanceof Fragment_Setting || fragment instanceof Fragment_FAQ)
+            Setting.getInstance().makeScreenNoLimits(this, false);
+        else if (!(fragment instanceof Fragment_FoodDescriptionDetail))
+            Setting.getInstance().makeScreenNoLimits(this, true);
+    }
+
 }

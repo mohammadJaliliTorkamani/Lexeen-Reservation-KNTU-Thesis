@@ -71,7 +71,7 @@ public class Fragment_Main extends Fragment {
             view = inflater.inflate(R.layout.fragment_main, container, false);
         tabID = getArguments() != null ? getArguments().getInt("TAB_ID") : R.id.tab_home;
         findViews(view);
-        Setting.getInstance().changeStatusBarColor(getActivity().getWindow(), false);
+        Setting.getInstance().inverseBarColor(getActivity(), false);
         initializeViewContents(view);
         initializeOnlineContents(view);
         manageListeners(view);
