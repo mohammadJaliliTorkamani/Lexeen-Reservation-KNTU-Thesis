@@ -29,7 +29,7 @@ import ir.ac.kntu.Entity.Bill;
 import ir.ac.kntu.Entity.NormalUser;
 import ir.ac.kntu.Entity.Restaurant;
 import ir.ac.kntu.Entity.ServerResponse;
-import ir.ac.kntu.Interface.Retrofit.Operable_User;
+import ir.ac.kntu.Interface.Retrofit.Account_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
@@ -97,7 +97,7 @@ public class Fragment_Main extends Fragment {
     private void manageListeners(View view) {
 
 
-        logoutContainer.setOnClickListener(v -> Connector.createService(view, Operable_User.class, object -> object.logOut().enqueue(new Callback<ServerResponse>() {
+        logoutContainer.setOnClickListener(v -> Connector.createService(view, Account_Server_API.class, object -> object.logOut().enqueue(new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 if (response.body() != null) {
@@ -105,7 +105,7 @@ public class Fragment_Main extends Fragment {
                         case DONE:
                             Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_LOGIN_STATE, "NEW");
                             Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_TOKEN, null);
-                            Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_QR_CODE, null);
+                            Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_ENCRYPTED_QR_CODE, null);
                             Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_SHARED_KEY, null);
                             Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_FIRST_USE_STATE, null);
                             Helper.getInstance().toast(R.string.log_out_successfully, Constants.ToastMode.SUCCESS);
@@ -216,7 +216,11 @@ public class Fragment_Main extends Fragment {
         toolbar.setVisibility(View.VISIBLE);
         Restaurant restaurant = Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).restaurantInterface().getRestaurant(Helper.getInstance().getRestaurantSelectionQRCode());
         if (restaurant != null)
-            topName.setText(restaurant.getName());
+            try {
+                topName.setText(Encryption.getInstance().decrypt(restaurant.getName()));
+            } catch (Exception e) {
+                Helper_Log.errorLog(e, Fragment_Main.class);
+            }
         bottomBar.setSoundEffectsEnabled(false);
         bottomBar.setTabTitleTypeface("fonts/farsi/syekan.otf");
 
@@ -229,7 +233,7 @@ public class Fragment_Main extends Fragment {
 
     private void initDrawer_InfoMode(View view) {
         drawerHeaderUser.setVisibility(Helper.getInstance().isLoggedIn() ? View.VISIBLE : View.GONE);
-        Connector.createService(view, Operable_User.class, object -> object.getDrawerContent().enqueue(new Callback<NormalUser>() {
+        Connector.createService(view, Account_Server_API.class, object -> object.getDrawerContent().enqueue(new Callback<NormalUser>() {
             @Override
             public void onResponse(Call<NormalUser> call, Response<NormalUser> response) {
                 if (response.body() != null) {
@@ -237,10 +241,9 @@ public class Fragment_Main extends Fragment {
                     try {
                         normalUser.setName(Encryption.getInstance().decrypt(normalUser.getName()));
                         normalUser.setLastName(Encryption.getInstance().decrypt(normalUser.getLastName()));
-
                         drawer_profileName.setText(normalUser.getName() + " " + normalUser.getLastName());
-                        drawer_cash.setText(!normalUser.getPhone().equalsIgnoreCase("-1") ? Helper.getInstance().getOneDigitOrNon(normalUser.getCash(), false) : " ");
-                        drawer_cash_unit.setText(!normalUser.getPhone().equalsIgnoreCase("-1") ? Helper.getInstance().getPurchaseUnit() : "");
+                        drawer_cash.setText(Helper.getInstance().getOneDigitOrNon(normalUser.getCash(), false));
+                        drawer_cash_unit.setText(Helper.getInstance().getPurchaseUnit());
                     } catch (Exception e) {
                         Helper_Log.errorLog(e, Fragment_Main.class);
                     }

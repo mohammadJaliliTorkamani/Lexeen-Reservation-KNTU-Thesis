@@ -15,7 +15,7 @@ import java.util.List;
 
 import ir.ac.kntu.Adapter.Adapter_FAQ;
 import ir.ac.kntu.Entity.FAQ;
-import ir.ac.kntu.Interface.Retrofit.Operable_General;
+import ir.ac.kntu.Interface.Retrofit.General_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.Other.Other.ContextHelper;
@@ -61,7 +61,7 @@ public class Fragment_FAQ extends Fragment {
 
     private void initializeServerSupplied(View view) {
 
-        Connector.createService(view, Operable_General.class, object -> object.getFAQs("asc").enqueue(new Callback<List<FAQ>>() {
+        Connector.createService(view, General_Server_API.class, object -> object.getFAQs().enqueue(new Callback<List<FAQ>>() {
             @Override
             public void onResponse(Call<List<FAQ>> call, Response<List<FAQ>> response) {
                 if (response.body() != null) {
@@ -83,8 +83,7 @@ public class Fragment_FAQ extends Fragment {
     private List<FAQ> getShownList(List<FAQ> list) {
         List<FAQ> tempList = new LinkedList<>();
         for (FAQ item : list)
-            if (item.getShown() == 1)
-                tempList.add(item);
+            tempList.add(item);
         return tempList;
     }
 }

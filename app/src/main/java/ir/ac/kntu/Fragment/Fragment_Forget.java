@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import ir.ac.kntu.Entity.ServerResponse;
-import ir.ac.kntu.Interface.Retrofit.Operable_General;
+import ir.ac.kntu.Interface.Retrofit.Account_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.EditTextPlus;
@@ -83,7 +83,7 @@ public class Fragment_Forget extends Fragment {
             } else {
                 progressBar.setVisibility(View.VISIBLE);
                 recover.setVisibility(View.GONE);
-                Connector.createService(view, Operable_General.class, object -> object.checkSend(Helper.getInstance().getDefautPrePhone() + phone.getText().toString()).enqueue(new Callback<ServerResponse>() {
+                Connector.createService(view, Account_Server_API.class, object -> object.checkSend(Helper.getInstance().getDefautPrePhone() + phone.getText().toString()).enqueue(new Callback<ServerResponse>() {
                     @Override
                     public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                         if (response.body() != null) {

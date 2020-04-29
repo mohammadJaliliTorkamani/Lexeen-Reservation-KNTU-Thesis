@@ -13,8 +13,8 @@ import java.util.concurrent.TimeUnit;
 
 import ir.ac.kntu.Activity.MainActivity;
 import ir.ac.kntu.Technical.Other.CustomRunnable.Runnable_SingleArg;
-import ir.ac.kntu.Technical.Other.Interceptor.Interceptor_Encryption;
 import ir.ac.kntu.Technical.Other.Interceptor.Interceptor_PusheID;
+import ir.ac.kntu.Technical.Other.Interceptor.Interceptor_SharedKey;
 import ir.ac.kntu.Technical.Other.Interceptor.Interceptor_TargetQRCode;
 import ir.ac.kntu.Technical.Other.Interceptor.Interceptor_Token;
 import ir.ac.kntu.Technical.Other.Interceptor.Interceptor_VersionCode;
@@ -52,7 +52,7 @@ public class Connector {
                     .addInterceptor(Interceptor_PusheID.getInstance(ContextHelper.retrieveContext()))
                     .addInterceptor(Interceptor_TargetQRCode.getInstance(ContextHelper.retrieveContext()))
                     .addInterceptor(Interceptor_VersionCode.getInstance(ContextHelper.retrieveContext()))
-                    .addInterceptor(Interceptor_Encryption.getInstance())
+                    .addInterceptor(Interceptor_SharedKey.getInstance())
                     .addInterceptor(provideOfflineCacheInterceptor())
                     .addNetworkInterceptor(provideCacheInterceptor())
                     .addInterceptor(chain -> {
@@ -60,7 +60,7 @@ public class Connector {
                         if (response.code() == 774) {     //Kill the Current Session
                             Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_LOGIN_STATE, "NEW");
                             Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_TOKEN, null);
-                            Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_QR_CODE, null);
+                            Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_ENCRYPTED_QR_CODE, null);
                             Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_SHARED_KEY, null);
                             Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_FIRST_USE_STATE, null);
                             Intent intent = new Intent(ContextHelper.retrieveContext(), MainActivity.class);

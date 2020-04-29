@@ -62,8 +62,6 @@
     <string name="Lexin_tooltip" formatted="false">به آسانی بین رستوران های اسکن شده جابجا شوید</string>
     <string name="discount_code_not_valid_for_you" formatted="false">کد تخفیف وارد شده استفاده شده است</string>
     <string name="done" formatted="false">انجام شد</string>
-    <string name="guest_user" formatted="false">کاربر میهمان</string>
-    <string name="login_to_purchase" formatted="false">جهت پرداخت ابتدا وارد شوید</string>
     <string name="trasfering" formatted="false">در حال انتقال ...</string>
     <string name="saved" formatted="false">ذخیره شد</string>
     <string name="error_while_saving" formatted="false">خطا در ذخیره سازی</string>
@@ -79,7 +77,6 @@
     <string name="invalid_date_time" formatted="false">زمان سفارش معتبر نیست</string>
     <string name="discard" formatted="false">لفو</string>
     <string name="empty_value_to_charge" formatted="false">مبلغ وارد نشده است</string>
-    <string name="log_in" formatted="false">ورود</string>
     <string name="reminding" formatted="false">یادآور لکسین</string>
     <string name="select_place" formatted="false">انتخاب مکان</string>
     <string name="delivery_ordered_fault" formatted="false">سفارش تحویل غذا با خطا مواجه شد</string>
@@ -111,7 +108,6 @@
     <string name="password_forgetness" formatted="false">فراموشی کلمه عبور</string>
     <string name="not_sent_activation_code" formatted="false">کد فعالسازی را دریافت نکرده اید؟</string>
     <string name="resend" formatted="false">ارسال مجدد</string>
-    <string name="cancel_login" formatted="false">انصراف</string>
     <string name="log_out" formatted="false">خروج از حساب</string>
     <string name="you_have_one_order_as_described_below" formatted="false">شما یک سفارش با مشخصات زیر دارید</string>
     <string name="order_type" formatted="false">نوع سفارش</string>

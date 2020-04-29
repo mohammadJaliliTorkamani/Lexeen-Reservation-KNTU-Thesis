@@ -20,7 +20,7 @@ import com.pushpole.sdk.PushPole;
 
 import ir.ac.kntu.Entity.NormalUser;
 import ir.ac.kntu.Entity.ServerResponse;
-import ir.ac.kntu.Interface.Retrofit.Operable_General;
+import ir.ac.kntu.Interface.Retrofit.Account_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.EditTextPlus;
@@ -179,7 +179,7 @@ public class Fragment_Register extends Fragment {
                 NormalUser normalUser = new NormalUser(_firstName, _lastName, _phoneNumber, null, null, _pushe_id, _password, 0, isMale);
                 signUp.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
-                Connector.createService(view, Operable_General.class, object -> object.sendRegisterVerificationCode(_phoneNumber)
+                Connector.createService(view, Account_Server_API.class, object -> object.sendRegisterVerificationCode(_phoneNumber)
                         .enqueue(new Callback<ServerResponse>() {
                             @Override
                             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {

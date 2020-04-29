@@ -2,6 +2,7 @@ package ir.ac.kntu.Fragment;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import java.io.IOException;
 
 import ir.ac.kntu.Entity.AuthenticationResponse;
-import ir.ac.kntu.Interface.Retrofit.Operable_General;
+import ir.ac.kntu.Interface.Retrofit.Account_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.EditTextPlus;
@@ -103,12 +104,13 @@ public class Fragment_Login extends Fragment {
             } else if (password.isEmpty()) {
                 Helper.getInstance().toast(getString(R.string.empty_password), Constants.ToastMode.WARNING);
             } else {
-                loginText.setVisibility(View.GONE);
-                progressBar.setVisibility(View.VISIBLE);
-                Connector.createService(view, Operable_General.class, loginObject -> {
-                    try {
-                        exchangeKeys(getActivity().getWindow().getDecorView().findViewById(R.id.main_act), object -> loginObject.
-                                login(object, Helper.getInstance().getDefautPrePhone() + phone, password).enqueue(new Callback<AuthenticationResponse>() {
+                try {
+                    String hashedPassword = Helper.getInstance().hash(password);
+                    Log.d("XXXCC", hashedPassword);
+                    loginText.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.VISIBLE);
+                    Connector.createService(view, Account_Server_API.class, loginObject -> {
+                        loginObject.login(Helper.getInstance().getDefautPrePhone() + phone, hashedPassword).enqueue(new Callback<AuthenticationResponse>() {
                             @Override
                             public void onResponse(Call<AuthenticationResponse> call, Response<AuthenticationResponse> response) {
                                 loginText.setVisibility(View.VISIBLE);
@@ -120,15 +122,22 @@ public class Fragment_Login extends Fragment {
                                             Helper.getInstance().toast(authenticationResponse.getMessage(), Constants.ToastMode.ERROR);
                                             break;
                                         case SUCCESSFUL:
-                                            Helper.getInstance().toast(getString(R.string.welcome) + " !", Constants.ToastMode.SUCCESS);
-                                            Setting.getInstance().hideKeyboard(getActivity());
-                                            Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_TOKEN, authenticationResponse.getToken());
-                                            Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_LOGIN_STATE, "USER");
-                                            getFragmentManager()
-                                                    .beginTransaction()
-                                                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                                                    .replace(R.id.main_frame, new Fragment_LandingPage())
-                                                    .commit();
+                                            try {
+                                                Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_TOKEN, authenticationResponse.getToken());
+                                                exchangeKeys(getActivity().getWindow().getDecorView().findViewById(R.id.main_act), object -> {
+                                                    Helper.getInstance().toast(getString(R.string.welcome) + " !", Constants.ToastMode.SUCCESS);
+                                                    Setting.getInstance().hideKeyboard(getActivity());
+                                                    Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_LOGIN_STATE, "USER");
+                                                    getFragmentManager()
+                                                            .beginTransaction()
+                                                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                                            .replace(R.id.main_frame, new Fragment_LandingPage())
+                                                            .commit();
+                                                });
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+
 
                                             break;
                                     }
@@ -143,11 +152,11 @@ public class Fragment_Login extends Fragment {
                                 progressBar.setVisibility(View.GONE);
                                 Helper_Log.errorLog(t, Fragment_Login.class);
                             }
-                        }));
-                    } catch (IOException e) {
-                        Helper_Log.errorLog(e, Fragment_Login.class);
-                    }
-                });
+                        });
+                    });
+                } catch (Exception e) {
+                    Helper_Log.errorLog(e, Fragment_Login.class);
+                }
             }
         });
         register.setOnClickListener(v ->

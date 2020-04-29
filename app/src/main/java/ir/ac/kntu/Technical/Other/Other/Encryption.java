@@ -1,16 +1,17 @@
 package ir.ac.kntu.Technical.Other.Other;
 
+import android.util.Log;
 import android.view.View;
 
-import ir.ac.kntu.Interface.Client.Operable_Encryption;
-import ir.ac.kntu.Interface.Retrofit.Operable_General;
+import ir.ac.kntu.Interface.Client.Encryption_API;
+import ir.ac.kntu.Interface.Retrofit.Account_Server_API;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.Other.CustomRunnable.Runnable_SingleArg;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Encryption implements Operable_Encryption {
+public class Encryption implements Encryption_API {
     private static Encryption instance;
     private MCrypt cipher;
     private long clientPrivateKey;
@@ -63,12 +64,12 @@ public class Encryption implements Operable_Encryption {
 
     @Override
     public void generateG() {
-        this.G = Operable_Encryption.G;
+        this.G = Encryption_API.G;
     }
 
     @Override
     public void generatePrime() {
-        this.P = Operable_Encryption.Prime;
+        this.P = Encryption_API.Prime;
     }
 
     @Override
@@ -84,30 +85,31 @@ public class Encryption implements Operable_Encryption {
 
     @Override
     public void computeSharedSecretKey(View view, long privateKey, Runnable_SingleArg<Long> runnable) {
-        Connector.createService(view, Operable_General.class, object -> {
-            object.exchangeKeys(this.x).enqueue(new Callback<Long>() {
-                @Override
-                public void onResponse(Call<Long> call, Response<Long> response) {
-                    if (response.body() != null) {
-                        y = response.body();
-                        sharedKey = (long) (Math.pow(y, clientPrivateKey) % (P));
-                        Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_SHARED_KEY, String.valueOf(sharedKey));
-                        try {
-                            cipher = new MCrypt(sharedKey);
-                        } catch (Exception e) {
-                            Helper_Log.errorLog(e, Encryption.class);
-                        }
-                        runnable.run(sharedKey);
-                    } else {
-                        runnable.run((long) -1);
+        Connector.createService(view, Account_Server_API.class, object -> object.exchangeKeys(this.x).enqueue(new Callback<Long>() {
+            @Override
+            public void onResponse(Call<Long> call, Response<Long> response) {
+                if (response.body() != null) {
+                    y = response.body();
+                    sharedKey = (long) (Math.pow(y, clientPrivateKey) % (P));
+                    Log.d("XCXC", "" + sharedKey + "#" + privateKey);
+                    Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_SHARED_KEY, String.valueOf(sharedKey));
+                    try {
+                        cipher = new MCrypt(sharedKey);
+                    } catch (Exception e) {
+                        Helper_Log.errorLog(e, Encryption.class);
                     }
+                    runnable.run(sharedKey);
+                } else {
+                    Log.d("XCXC2", "" + privateKey + ",nulllll");
+                    runnable.run((long) -1);
                 }
+            }
 
-                @Override
-                public void onFailure(Call<Long> call, Throwable t) {
-                    Helper_Log.errorLog(t, Encryption.class);
-                }
-            });
-        });
+            @Override
+            public void onFailure(Call<Long> call, Throwable t) {
+                Log.d("XCXC2", "" + privateKey + "$" + t.getMessage());
+                Helper_Log.errorLog(t, Encryption.class);
+            }
+        }));
     }
 }

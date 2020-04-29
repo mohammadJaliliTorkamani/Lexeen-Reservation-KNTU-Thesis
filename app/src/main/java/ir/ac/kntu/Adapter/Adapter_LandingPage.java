@@ -28,7 +28,9 @@ import ir.ac.kntu.R;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
 import ir.ac.kntu.Technical.Other.Other.Constants;
 import ir.ac.kntu.Technical.Other.Other.ContextHelper;
+import ir.ac.kntu.Technical.Other.Other.Encryption;
 import ir.ac.kntu.Technical.Other.Other.Helper;
+import ir.ac.kntu.Technical.Other.Other.Helper_Log;
 import ir.ac.kntu.Technical.Other.Other.Setting;
 
 public class Adapter_LandingPage extends androidx.recyclerview.widget.RecyclerView.Adapter {
@@ -66,18 +68,22 @@ public class Adapter_LandingPage extends androidx.recyclerview.widget.RecyclerVi
         nonScanItem.setVisibility(list.get(position) != null ? View.VISIBLE : View.GONE);
 
         if (list.get(position) != null) { //was not scan item
-            ImageLoader.getInstance().displayImage(list.get(position).getPictures().get(0), image);
-            if (!list.get(position).isActive()) {
-                othersContainer.setBackground(null);
-                Helper.getInstance().setLockedOnGrayScale(image);
-                othersContainer.setBackground(ContextHelper.retrieveContext().getResources().getDrawable(R.drawable.dr_landing_page_item_gradient_inactive));
-            } else {
-                Helper.getInstance().setUnlockedForGrayScale(image);
-                othersContainer.setBackground(ContextHelper.retrieveContext().getResources().getDrawable(R.drawable.dr_landing_page_item_gradient_active));
+            try {
+                ImageLoader.getInstance().displayImage(Encryption.getInstance().decrypt(list.get(position).getPictures().get(0)), image);
+                if (!list.get(position).isActive()) {
+                    othersContainer.setBackground(null);
+                    Helper.getInstance().setLockedOnGrayScale(image);
+                    othersContainer.setBackground(ContextHelper.retrieveContext().getResources().getDrawable(R.drawable.dr_landing_page_item_gradient_inactive));
+                } else {
+                    Helper.getInstance().setUnlockedForGrayScale(image);
+                    othersContainer.setBackground(ContextHelper.retrieveContext().getResources().getDrawable(R.drawable.dr_landing_page_item_gradient_active));
+                }
+                name.setText(Encryption.getInstance().decrypt(list.get(position).getName()));
+                type.setText(Encryption.getInstance().decrypt(list.get(position).getType()));
+                address.setText(Encryption.getInstance().decrypt(list.get(position).getAddress().getCity()) + ", " + Encryption.getInstance().decrypt(list.get(position).getAddress().getStreet1()));
+            } catch (Exception e) {
+                Helper_Log.errorLog(e, Adapter_LandingPage.class);
             }
-            name.setText(list.get(position).getName());
-            type.setText(list.get(position).getType());
-            address.setText(list.get(position).getAddress().getCity() + ", " + list.get(position).getAddress().getStreet1());
         }
         scanItem.setOnClickListener(v -> Fragment_LandingPage.runScanner(activity, fragmentManager, null));
 
@@ -85,9 +91,14 @@ public class Adapter_LandingPage extends androidx.recyclerview.widget.RecyclerVi
             if (list.get(position).isActive()) {
                 Restaurant restaurant = list.get(position);
                 if (restaurant != null) {
-                    Setting.getInstance().saveSetting(Constants._TABLE_USER,
-                            Constants._KEY_RESTAURANT_SELECTION_QR_CODE,
-                            restaurant.getEncryptedCode());
+
+                    try {
+                        Setting.getInstance().saveSetting(Constants._TABLE_USER,
+                                Constants._KEY_RESTAURANT_SELECTION_ENCRYPTED_QR_CODE,
+                                Encryption.getInstance().decrypt(restaurant.getEncryptedCode()));
+                    } catch (Exception e) {
+                        Helper_Log.errorLog(e, Adapter_LandingPage.class);
+                    }
                     if (Database.getInstance(ContextHelper.retrieveContext(),
                             Constants._MAIN_DATABASE).restaurantInterface().getRestaurant(restaurant.getId()) == null) {
                         Database.getInstance(ContextHelper.retrieveContext(),

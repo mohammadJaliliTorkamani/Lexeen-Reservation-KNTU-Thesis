@@ -12,7 +12,7 @@ import java.util.List;
 
 import ir.ac.kntu.Entity.Bill;
 import ir.ac.kntu.Entity.Food;
-import ir.ac.kntu.Interface.Retrofit.Operable_Food;
+import ir.ac.kntu.Interface.Retrofit.Food_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
@@ -48,7 +48,7 @@ public class Adapter_Cart extends RecyclerView.Adapter {
         TextViewPlus price = holder.itemView.findViewById(R.id.cart_item_price);
         TextViewPlus priceUnit = holder.itemView.findViewById(R.id.cart_item_price_unit);
         if (list.get(position).getFoodID() != -1) {
-            Connector.createService(view, Operable_Food.class, object -> object.getFood(list.get(position).getFoodID()).enqueue(new Callback<Food>() {
+            Connector.createService(view, Food_Server_API.class, object -> object.getFood(list.get(position).getFoodID()).enqueue(new Callback<Food>() {
                 @Override
                 public void onResponse(Call<Food> call, Response<Food> response) {
                     if (response.body() != null) {

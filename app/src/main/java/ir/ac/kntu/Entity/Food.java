@@ -10,7 +10,6 @@ public class Food {
     private String description;
     private float price;
     private List<String> pictures;
-    private int likeNumber;
 
     public Food(int id, String name, long calories, String cookTimeMinutes, String description, float price, List<String> pictures, int likeNumber) {
         this.id = id;
@@ -20,7 +19,6 @@ public class Food {
         this.description = description;
         this.price = price;
         this.pictures = pictures;
-        this.likeNumber = likeNumber;
     }
 
     public int getId() {
@@ -77,13 +75,5 @@ public class Food {
 
     public void setPictures(List<String> pictures) {
         this.pictures = pictures;
-    }
-
-    public int getLikeNumber() {
-        return likeNumber;
-    }
-
-    public void setLikeNumber(int likeNumber) {
-        this.likeNumber = likeNumber;
     }
 }

@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        Helper.getInstance().toast(R.string.on_exit_message, Constants.ToastMode.ERROR);
+        Helper.getInstance().toast(R.string.on_exit_message, Constants.ToastMode.SUCCESS);
         super.onDestroy();
     }
 

@@ -18,7 +18,7 @@ import com.google.gson.Gson;
 import ir.ac.kntu.Entity.AuthenticationResponse;
 import ir.ac.kntu.Entity.NormalUser;
 import ir.ac.kntu.Entity.ServerResponse;
-import ir.ac.kntu.Interface.Retrofit.Operable_General;
+import ir.ac.kntu.Interface.Retrofit.Account_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.EditTextPlus;
@@ -106,7 +106,7 @@ public class Fragment_Register_Activation_Code extends Fragment {
     }
 
     private void manageListeners(View view) {
-        resend.setOnClickListener(v -> Connector.createService(view, Operable_General.class, object -> object.sendRegisterVerificationCode(normalUser.getPhone())
+        resend.setOnClickListener(v -> Connector.createService(view, Account_Server_API.class, object -> object.sendRegisterVerificationCode(normalUser.getPhone())
                 .enqueue(new Callback<ServerResponse>() {
                     @Override
                     public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
@@ -136,7 +136,7 @@ public class Fragment_Register_Activation_Code extends Fragment {
             } else {
                 signUp.setVisibility(View.GONE);
                 progressbar.setVisibility(View.VISIBLE);
-                Connector.createService(view, Operable_General.class, object -> {
+                Connector.createService(view, Account_Server_API.class, object -> {
                     try {
                         object.register(code.getText().toString(), normalUser.getName(), normalUser.getLastName(),
                                 normalUser.getPhone(), normalUser.getPassword(),

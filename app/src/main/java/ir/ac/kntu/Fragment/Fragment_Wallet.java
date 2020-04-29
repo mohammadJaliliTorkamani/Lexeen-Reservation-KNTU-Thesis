@@ -17,7 +17,7 @@ import java.util.List;
 
 import ir.ac.kntu.Activity.Activity_Payment;
 import ir.ac.kntu.Adapter.Adapter_AcceptableCashAmounts;
-import ir.ac.kntu.Interface.Retrofit.Operable_User;
+import ir.ac.kntu.Interface.Retrofit.General_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
@@ -52,7 +52,7 @@ public class Fragment_Wallet extends Fragment {
 
     private void initializeServerSupplied(View view) {
 
-        Connector.createService(view, Operable_User.class, object -> object.getAcceptableCashAmounts().enqueue(new Callback<List<Double>>() {
+        Connector.createService(view, General_Server_API.class, object -> object.getAcceptableCashAmounts().enqueue(new Callback<List<Double>>() {
             @Override
             public void onResponse(Call<List<Double>> call, Response<List<Double>> response) {
                 if (response.body() != null) {

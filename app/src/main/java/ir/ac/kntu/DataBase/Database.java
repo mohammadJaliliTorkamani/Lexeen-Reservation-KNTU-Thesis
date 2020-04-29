@@ -8,9 +8,9 @@ import androidx.room.RoomDatabase;
 import ir.ac.kntu.Entity.Bill;
 import ir.ac.kntu.Entity.Order;
 import ir.ac.kntu.Entity.Restaurant;
-import ir.ac.kntu.Interface.Room.Operable_Bill;
-import ir.ac.kntu.Interface.Room.Operable_Order;
-import ir.ac.kntu.Interface.Room.Operable_Restaurant;
+import ir.ac.kntu.Interface.Room.Bill_Database_API;
+import ir.ac.kntu.Interface.Room.Order_Database_API;
+import ir.ac.kntu.Interface.Room.Restaurant_Database_API;
 
 @androidx.room.Database(entities = {Restaurant.class, Bill.class, Order.class},
         version = 1, exportSchema = false)
@@ -40,10 +40,10 @@ public abstract class Database extends RoomDatabase {
     /*there is a prob here it seems its better to implement the above code in the main thread
      * so we need to implement it in the main thread
      * */
-    public abstract Operable_Bill billInterface();
+    public abstract Bill_Database_API billInterface();
 
-    public abstract Operable_Restaurant restaurantInterface();
+    public abstract Restaurant_Database_API restaurantInterface();
 
-    public abstract Operable_Order orderInterface();
+    public abstract Order_Database_API orderInterface();
 
 }

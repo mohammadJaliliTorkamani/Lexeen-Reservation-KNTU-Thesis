@@ -28,7 +28,7 @@ import java.util.List;
 import ir.ac.kntu.DataBase.Database;
 import ir.ac.kntu.Entity.Bill;
 import ir.ac.kntu.Entity.Food;
-import ir.ac.kntu.Interface.Retrofit.Operable_Food;
+import ir.ac.kntu.Interface.Retrofit.Food_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
@@ -128,7 +128,7 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
     }
 
     private void select_title_zero_and_one(View view) {
-        Connector.createService(view, Operable_Food.class, object -> object.getFoodField(id).enqueue(new retrofit2.Callback<List<String>>() {
+        Connector.createService(view, Food_Server_API.class, object -> object.getFoodField(id).enqueue(new retrofit2.Callback<List<String>>() {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if (response.body() != null) {
@@ -157,7 +157,7 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
     }
 
     private void initializeServerSupplied(View view, Runnable_SingleArg<Food> foodLoadWork, Runnable loadFailWork) {
-        Connector.createService(view, Operable_Food.class, object -> {
+        Connector.createService(view, Food_Server_API.class, object -> {
             object.getFood(id).enqueue(new retrofit2.Callback<ir.ac.kntu.Entity.Food>() {
                 @Override
                 public void onResponse(Call<ir.ac.kntu.Entity.Food> call, Response<ir.ac.kntu.Entity.Food> response) {

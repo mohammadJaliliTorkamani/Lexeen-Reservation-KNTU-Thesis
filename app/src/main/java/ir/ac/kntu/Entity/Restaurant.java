@@ -23,11 +23,10 @@ public class Restaurant {
     private int ownerID;
     private boolean active;
     private String restaurantClass;
-    private String site;
     private List<String> pictures;
 
 
-    public Restaurant(int id, boolean active, String encryptedCode, String name, String type, String phone, Address address, int ownerID, String site, String restaurantClass, List<String> pictures) {
+    public Restaurant(int id, boolean active, String encryptedCode, String name, String type, String phone, Address address, int ownerID, String restaurantClass, List<String> pictures) {
         this.id = id;
         this.restaurantClass = restaurantClass;
         this.encryptedCode = encryptedCode;
@@ -37,7 +36,6 @@ public class Restaurant {
         this.phone = phone;
         this.address = address;
         this.ownerID = ownerID;
-        this.site = site;
         this.pictures = pictures;
     }
 
@@ -95,14 +93,6 @@ public class Restaurant {
 
     public void setOwnerID(int ownerID) {
         this.ownerID = ownerID;
-    }
-
-    public String getSite() {
-        return site;
-    }
-
-    public void setSite(String site) {
-        this.site = site;
     }
 
     public List<String> getPictures() {

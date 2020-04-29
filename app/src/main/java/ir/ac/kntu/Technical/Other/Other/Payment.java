@@ -6,7 +6,7 @@ import com.zarinpal.ewallets.purchase.PaymentRequest;
 import com.zarinpal.ewallets.purchase.ZarinPal;
 
 import ir.ac.kntu.Entity.LexinMarchant;
-import ir.ac.kntu.Interface.Retrofit.Operable_General;
+import ir.ac.kntu.Interface.Retrofit.General_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.Other.CustomRunnable.Runnable_MultiArg;
@@ -27,7 +27,7 @@ public class Payment {
     }
 
     public void pay(View view, long priceToman, Runnable_MultiArg<Object> afterRun) {
-        Connector.createService(view, Operable_General.class, object -> object.getMarchantInfo().enqueue(new Callback<LexinMarchant>() {
+        Connector.createService(view, General_Server_API.class, object -> object.getMarchantInfo().enqueue(new Callback<LexinMarchant>() {
             @Override
             public void onResponse(Call<LexinMarchant> call, Response<LexinMarchant> response) {
                 if (response.body() != null) {

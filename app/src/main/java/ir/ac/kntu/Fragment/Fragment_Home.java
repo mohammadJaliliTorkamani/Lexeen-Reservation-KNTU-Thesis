@@ -21,7 +21,7 @@ import ir.ac.kntu.Adapter.Adapter_OurOfferFood;
 import ir.ac.kntu.Entity.FoodMenu;
 import ir.ac.kntu.Entity.Offer;
 import ir.ac.kntu.Entity.WeLove;
-import ir.ac.kntu.Interface.Retrofit.Operable_Food;
+import ir.ac.kntu.Interface.Retrofit.Food_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.Other.Other.ContextHelper;
@@ -144,7 +144,7 @@ public class Fragment_Home extends Fragment {
     }
 
     private void initializeServerSupplied(View view) {
-        Connector.createService(view, Operable_Food.class, object -> {
+        Connector.createService(view, Food_Server_API.class, object -> {
             Call<List<Offer>> call1 = object.getOurOffer();
             call1.enqueue(new Callback<List<Offer>>() {
                 @Override
@@ -164,7 +164,7 @@ public class Fragment_Home extends Fragment {
             });
         });
 
-        Connector.createService(view, Operable_Food.class, object -> {
+        Connector.createService(view, Food_Server_API.class, object -> {
             Call<List<WeLove>> call = object.getFoodsWeLove();
             call.enqueue(new Callback<List<WeLove>>() {
                 @Override
@@ -183,7 +183,7 @@ public class Fragment_Home extends Fragment {
                 }
             });
         });
-        Connector.createService(view, Operable_Food.class, object -> {
+        Connector.createService(view, Food_Server_API.class, object -> {
             Call<List<FoodMenu>> call = object.getFoodMenu();
             call.enqueue(new Callback<List<FoodMenu>>() {
                 @Override

@@ -20,7 +20,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import ir.ac.kntu.DataBase.Database;
 import ir.ac.kntu.Entity.Restaurant;
-import ir.ac.kntu.Interface.Retrofit.Operable_General;
+import ir.ac.kntu.Interface.Retrofit.Restaurant_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.ButtonPlus;
@@ -112,7 +112,7 @@ public class Fragment_ScanningResult extends Fragment {
     }
 
     private void initializeOnlineContents(View view) {
-        Connector.createService(view, Operable_General.class, object -> object.getRestaurantInfo(code).enqueue(new Callback<Restaurant>() {
+        Connector.createService(view, Restaurant_Server_API.class, object -> object.getRestaurantInfo(code).enqueue(new Callback<Restaurant>() {
             @Override
             public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
 
@@ -173,7 +173,7 @@ public class Fragment_ScanningResult extends Fragment {
         add.setOnClickListener(v -> {
             if (restaurant != null) {
                 Setting.getInstance().saveSetting(Constants._TABLE_USER,
-                        Constants._KEY_RESTAURANT_SELECTION_QR_CODE,
+                        Constants._KEY_RESTAURANT_SELECTION_ENCRYPTED_QR_CODE,
                         restaurant.getEncryptedCode());
                 if (Database.getInstance(ContextHelper.retrieveContext(),
                         Constants._MAIN_DATABASE).restaurantInterface().getRestaurant(restaurant.getId()) == null) {

@@ -38,14 +38,14 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import es.dmoral.toasty.Toasty;
-import ir.ac.kntu.Interface.Client.Operable_Setting;
+import ir.ac.kntu.Interface.Client.Setting_API;
 import ir.ac.kntu.R;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
 import static ir.ac.kntu.Technical.Other.Other.ContextHelper.retrieveContext;
 
-public class Setting implements Operable_Setting {
+public class Setting implements Setting_API {
     private static SharedPreferences preferences;
     private static Setting instance;
     private Context context;

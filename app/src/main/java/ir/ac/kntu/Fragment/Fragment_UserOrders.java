@@ -15,7 +15,7 @@ import java.util.List;
 
 import ir.ac.kntu.Adapter.Adapter_UserFoodOder;
 import ir.ac.kntu.Entity.Order;
-import ir.ac.kntu.Interface.Retrofit.Operable_Food;
+import ir.ac.kntu.Interface.Retrofit.Order_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
@@ -59,7 +59,7 @@ public class Fragment_UserOrders extends Fragment {
     }
 
     private void initializeServerSupplied(View view) {
-        Connector.createService(view, Operable_Food.class, object -> object.getOrders().enqueue(new Callback<List<Order>>() {
+        Connector.createService(view, Order_Server_API.class, object -> object.getOrders().enqueue(new Callback<List<Order>>() {
             @Override
             public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
                 if (response.body() != null) {

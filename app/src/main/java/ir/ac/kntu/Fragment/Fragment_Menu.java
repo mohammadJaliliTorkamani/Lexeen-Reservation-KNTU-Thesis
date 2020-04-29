@@ -14,7 +14,7 @@ import java.util.List;
 import ir.ac.kntu.Entity.FoodMenu;
 import ir.ac.kntu.Entity.MenuFoodInfoView;
 import ir.ac.kntu.Entity.MenuHeadingView;
-import ir.ac.kntu.Interface.Retrofit.Operable_Food;
+import ir.ac.kntu.Interface.Retrofit.Food_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.Other.Other.ContextHelper;
@@ -41,7 +41,7 @@ public class Fragment_Menu extends Fragment {
 
 
     private void initializeServerSupplied(View view) {
-        Connector.createService(view, Operable_Food.class, object -> {
+        Connector.createService(view, Food_Server_API.class, object -> {
             Call<List<FoodMenu>> call = object.getFoodMenu();
             call.enqueue(new Callback<List<FoodMenu>>() {
                 @Override

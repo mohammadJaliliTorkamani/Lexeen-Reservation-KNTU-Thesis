@@ -26,7 +26,7 @@ import ir.ac.kntu.Entity.FullDesk;
 import ir.ac.kntu.Entity.G_Desk;
 import ir.ac.kntu.Entity.GraphicChairSet;
 import ir.ac.kntu.Entity.TableInfo;
-import ir.ac.kntu.Interface.Retrofit.Operable_Table;
+import ir.ac.kntu.Interface.Retrofit.Table_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.Other.CustomRunnable.Runnable_SingleArg;
@@ -407,7 +407,7 @@ public class Adapter_Table extends RecyclerView.Adapter<Adapter_Table.ViewHolder
     }
 
     private void getChairsOf(View view, int deskID, Runnable_SingleArg<ChairSet> runnable) {
-        Connector.createService(view, Operable_Table.class, object -> object.getChairs(deskID).enqueue(new Callback<ChairSet>() {
+        Connector.createService(view, Table_Server_API.class, object -> object.getChairs(deskID).enqueue(new Callback<ChairSet>() {
             @Override
             public void onResponse(Call<ChairSet> call, Response<ChairSet> response) {
                 if (response.body() != null) {

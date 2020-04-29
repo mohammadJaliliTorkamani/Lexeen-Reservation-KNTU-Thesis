@@ -41,9 +41,10 @@ import ir.ac.kntu.Entity.Order;
 import ir.ac.kntu.Entity.RefactoredBills;
 import ir.ac.kntu.Entity.Restaurant;
 import ir.ac.kntu.Entity.ServerResponse;
-import ir.ac.kntu.Interface.Retrofit.Operable_Food;
-import ir.ac.kntu.Interface.Retrofit.Operable_General;
-import ir.ac.kntu.Interface.Retrofit.Operable_User;
+import ir.ac.kntu.Interface.Retrofit.Account_Server_API;
+import ir.ac.kntu.Interface.Retrofit.General_Server_API;
+import ir.ac.kntu.Interface.Retrofit.Order_Server_API;
+import ir.ac.kntu.Interface.Retrofit.Restaurant_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.EditTextPlus;
@@ -117,7 +118,7 @@ public class Fragment_Cart extends Fragment {
         Helper.getInstance().changeShapeColorToMainAppColor(sumView);
         Helper.getInstance().changeShapeColorToMainAppColor(topIconView);
         Helper.getInstance().changeShapeColorToMainAppColor(set);
-        Connector.createService(view, Operable_General.class, object -> object.getRestaurantInfo(Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_QR_CODE, null)).enqueue(new Callback<Restaurant>() {
+        Connector.createService(view, Restaurant_Server_API.class, object -> object.getRestaurantInfo(Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_ENCRYPTED_QR_CODE, null)).enqueue(new Callback<Restaurant>() {
             @Override
             public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
                 if (response.body() != null) {
@@ -177,7 +178,7 @@ public class Fragment_Cart extends Fragment {
     private void initializeList(View view) {
         if (!Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getRestaurantSelectionQRCode()).isEmpty()) {
             recyclerView.setVisibility(View.VISIBLE);
-            Connector.createService(view, Operable_Food.class, object -> object.completeBills(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getRestaurantSelectionQRCode())).enqueue(new Callback<List<Bill>>() {
+            Connector.createService(view, Order_Server_API.class, object -> object.completeBills(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getRestaurantSelectionQRCode())).enqueue(new Callback<List<Bill>>() {
                 @Override
                 public void onResponse(Call<List<Bill>> call, Response<List<Bill>> completedResponse) {
                     if (completedResponse.body() != null) {
@@ -252,7 +253,7 @@ public class Fragment_Cart extends Fragment {
                             progressBar.setVisibility(View.GONE);
                             textViewPlus.setVisibility(View.VISIBLE);
                         } else {
-                            Connector.createService(view, Operable_User.class, object -> object.getCash().enqueue(new Callback<Double>() {
+                            Connector.createService(view, Account_Server_API.class, object -> object.getCash().enqueue(new Callback<Double>() {
                                 @Override
                                 public void onResponse(Call<Double> call, Response<Double> response) {
                                     if (response.body() != null) {
@@ -270,7 +271,7 @@ public class Fragment_Cart extends Fragment {
                                             isGoodRestaurantOrder(view, Integer.parseInt(editText_numberOfPeople.getText().toString()), orderExamineObject -> {
                                                 if (orderExamineObject) {
                                                     if (currentCash >= order.getTotalPrice()) {//enough cash
-                                                        Connector.createService(view, Operable_User.class, object -> object.order(order).enqueue(new Callback<ServerResponse>() {
+                                                        Connector.createService(view, Order_Server_API.class, object -> object.order(order).enqueue(new Callback<ServerResponse>() {
                                                             @Override
                                                             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                                                                 if (response.body() != null) {
@@ -399,7 +400,7 @@ public class Fragment_Cart extends Fragment {
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
                             try {
-                                Connector.createService(view, Operable_User.class, object -> object.getCash().enqueue(new Callback<Double>() {
+                                Connector.createService(view, Account_Server_API.class, object -> object.getCash().enqueue(new Callback<Double>() {
                                     @Override
                                     public void onResponse(Call<Double> call, Response<Double> response) {
                                         if (response.body() != null) {
@@ -482,7 +483,7 @@ public class Fragment_Cart extends Fragment {
                 Helper.getInstance().toast(R.string.you_have_not_any_bill, Constants.ToastMode.WARNING);
             } else {
                 if (discountCode.getText().length() > 0) {
-                    Connector.createService(view, Operable_General.class, object -> object.getDiscountWithCode(discountCode.getText().toString()).enqueue(new Callback<Discount>() {
+                    Connector.createService(view, General_Server_API.class, object -> object.getDiscountWithCode(discountCode.getText().toString()).enqueue(new Callback<Discount>() {
                         @Override
                         public void onResponse(Call<Discount> call, Response<Discount> response) {
                             if (response.body() != null) {
@@ -518,7 +519,7 @@ public class Fragment_Cart extends Fragment {
     }
 
     private void isGoodRestaurantOrder(View view, final int n, Runnable_SingleArg<Boolean> runnable) {
-        Connector.createCachedService(view, Operable_General.class, object -> object.isGoodOrder(new RefactoredBills(order.getSpecifiedBills(), n)).enqueue(new Callback<ServerResponse>() {
+        Connector.createCachedService(view, Order_Server_API.class, object -> object.isGoodOrder(new RefactoredBills(order.getSpecifiedBills(), n)).enqueue(new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 if (response.body() != null) {

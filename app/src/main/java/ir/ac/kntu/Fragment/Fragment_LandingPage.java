@@ -46,8 +46,9 @@ import ir.ac.kntu.Entity.Restaurant;
 import ir.ac.kntu.Entity.RestaurantClass;
 import ir.ac.kntu.Entity.ServerResponse;
 import ir.ac.kntu.Entity.VersionFeature;
-import ir.ac.kntu.Interface.Retrofit.Operable_General;
-import ir.ac.kntu.Interface.Retrofit.Operable_User;
+import ir.ac.kntu.Interface.Retrofit.Account_Server_API;
+import ir.ac.kntu.Interface.Retrofit.General_Server_API;
+import ir.ac.kntu.Interface.Retrofit.Restaurant_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.EditTextPlus;
@@ -173,7 +174,7 @@ public class Fragment_LandingPage extends Fragment {
         classes_rv.setHasFixedSize(true);
         classes_layout_manager = new LinearLayoutManager(ContextHelper.retrieveContext(), RecyclerView.HORIZONTAL, false);
         classes_rv.setLayoutManager(classes_layout_manager);
-        classes_adapter = new Adapter_Classes(classes_list, restaurantClass -> Connector.createService(view, Operable_General.class, object -> object.getRestaurantList(restaurantClass.getName()).enqueue(new Callback<List<Restaurant>>() {
+        classes_adapter = new Adapter_Classes(classes_list, restaurantClass -> Connector.createService(view, Restaurant_Server_API.class, object -> object.getRestaurantList(restaurantClass.getName()).enqueue(new Callback<List<Restaurant>>() {
             @Override
             public void onResponse(Call<List<Restaurant>> call, Response<List<Restaurant>> response) {
                 if (response.body() != null) {
@@ -204,7 +205,7 @@ public class Fragment_LandingPage extends Fragment {
             classes_rv.setVisibility(classes_rv.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
             restaurants_of.setVisibility(restaurants_of.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
         });
-        logoutContainer.setOnClickListener(v -> Connector.createService(view, Operable_User.class, object -> object.logOut().enqueue(new Callback<ServerResponse>() {
+        logoutContainer.setOnClickListener(v -> Connector.createService(view, Account_Server_API.class, object -> object.logOut().enqueue(new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 if (response.body() != null) {
@@ -212,7 +213,7 @@ public class Fragment_LandingPage extends Fragment {
                         case DONE:
                             Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_LOGIN_STATE, "NEW");
                             Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_TOKEN, null);
-                            Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_QR_CODE, null);
+                            Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_ENCRYPTED_QR_CODE, null);
                             Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_SHARED_KEY, null);
                             Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_FIRST_USE_STATE, null);
                             Helper.getInstance().toast(R.string.log_out_successfully, Constants.ToastMode.SUCCESS);
@@ -279,7 +280,7 @@ public class Fragment_LandingPage extends Fragment {
                 filter.setVisibility(s.length() > 0 ? View.INVISIBLE : View.VISIBLE);
                 classes_rv.setVisibility(s.length() > 0 ? View.GONE : View.VISIBLE);
 
-                Connector.createService(view, Operable_General.class, object -> {
+                Connector.createService(view, Restaurant_Server_API.class, object -> {
                     String restaurantName = searchBar.getText().toString();
                     object.searchRestaurants(restaurantName).enqueue(new Callback<List<Restaurant>>() {
                         @Override
@@ -311,15 +312,15 @@ public class Fragment_LandingPage extends Fragment {
 
     private void initDrawer_InfoMode(View view) {
         drawerHeaderUser.setVisibility(Helper.getInstance().isLoggedIn() ? View.VISIBLE : View.GONE);
-        Connector.createService(view, Operable_User.class, object -> object.getDrawerContent().enqueue(new Callback<NormalUser>() {
+        Connector.createService(view, Account_Server_API.class, object -> object.getDrawerContent().enqueue(new Callback<NormalUser>() {
             @Override
             public void onResponse(Call<NormalUser> call, Response<NormalUser> response) {
                 if (response.body() != null) {
                     try {
                         NormalUser normalUser = response.body();
                         drawer_profileName.setText(Encryption.getInstance().decrypt(normalUser.getName()) + " " + Encryption.getInstance().decrypt(normalUser.getLastName()));
-                        drawer_cash.setText(!normalUser.getPhone().equalsIgnoreCase("-1") ? Helper.getInstance().getOneDigitOrNon(normalUser.getCash(), false) : " ");
-                        drawer_cash_unit.setText(!normalUser.getPhone().equalsIgnoreCase("-1") ? Helper.getInstance().getPurchaseUnit() : "");
+                        drawer_cash.setText(Helper.getInstance().getOneDigitOrNon(normalUser.getCash(), false));
+                        drawer_cash_unit.setText(Helper.getInstance().getPurchaseUnit());
                     } catch (Exception e) {
                         Helper_Log.errorLog(e, Fragment_LocationPicker.class);
                     }
@@ -344,7 +345,7 @@ public class Fragment_LandingPage extends Fragment {
     }
 
     private void initializeOnlineContents(View view) {
-        Connector.createService(view, Operable_General.class, object -> object.isLatestAppVersion().enqueue(new Callback<ServerResponse>() {
+        Connector.createService(view, General_Server_API.class, object -> object.isLatestAppVersion().enqueue(new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 if (response.body() != null) {
@@ -352,7 +353,7 @@ public class Fragment_LandingPage extends Fragment {
                         case DONE:
                             Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_APP_MAIN_COLOR, response.body().getMessage());
 
-                            Connector.createService(view, Operable_General.class, object -> object.getRestaurantClasses().enqueue(new Callback<List<RestaurantClass>>() {
+                            Connector.createService(view, Restaurant_Server_API.class, object -> object.getRestaurantClasses().enqueue(new Callback<List<RestaurantClass>>() {
                                 @Override
                                 public void onResponse(Call<List<RestaurantClass>> call, Response<List<RestaurantClass>> response) {
                                     if (response.body() != null) {
@@ -360,7 +361,7 @@ public class Fragment_LandingPage extends Fragment {
                                         classes_list.addAll(response.body());
                                         classes_adapter.notifyDataSetChanged();
 
-                                        Connector.createService(view, Operable_General.class, object -> {
+                                        Connector.createService(view, Restaurant_Server_API.class, object -> {
                                             object.getRestaurantList(classes_list.get(0).getName()).enqueue(new Callback<List<Restaurant>>() {
                                                 @Override
                                                 public void onResponse(Call<List<Restaurant>> call, Response<List<Restaurant>> response) {
@@ -403,16 +404,21 @@ public class Fragment_LandingPage extends Fragment {
                             builder.setCancelable(false);
                             Dialog dialog = builder.create();
                             RecyclerView recyclerView = inflateView.findViewById(R.id.dialog_update_recycler_view);
-                            List<VersionFeature> features = new Gson().fromJson(response.body().getMessage(), new TypeToken<List<VersionFeature>>() {
-                            }.getType());
-                            RecyclerView.Adapter adapter = new Adapter_VersionDescriptor(features);
-                            recyclerView.setHasFixedSize(true);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(ContextHelper.retrieveContext(), RecyclerView.VERTICAL, false));
-                            recyclerView.setAdapter(adapter);
-                            TextViewPlus versionCode = inflateView.findViewById(R.id.dialog_update_version_code);
-                            TextViewPlus update = inflateView.findViewById(R.id.dialog_update_update);
+                            try {
+                                List<VersionFeature> features = new Gson().fromJson(Encryption.getInstance().decrypt(response.body().getMessage()), new TypeToken<List<VersionFeature>>() {
+                                }.getType());
+                                RecyclerView.Adapter adapter = new Adapter_VersionDescriptor(features);
+                                recyclerView.setHasFixedSize(true);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(ContextHelper.retrieveContext(), RecyclerView.VERTICAL, false));
+                                recyclerView.setAdapter(adapter);
+                                TextViewPlus versionCode = inflateView.findViewById(R.id.dialog_update_version_code);
+                                versionCode.setText("( " + features.get(0).getVersionCode() + " )");
+                            } catch (Exception e) {
+                                Helper_Log.errorLog(e, Fragment_LandingPage.class);
+                            }
+
                             TextViewPlus exit = inflateView.findViewById(R.id.dialog_update_exit);
-                            versionCode.setText("( " + features.get(0).getVersionCode() + " )");
+                            TextViewPlus update = inflateView.findViewById(R.id.dialog_update_update);
                             update.setOnClickListener(v -> {
                                 final String packageName = ContextHelper.retrieveContext().getPackageName();
                                 if (Setting.getInstance().isApplicationInstalled(Constants.BAZAAR_PACKAGE_NAME)) {

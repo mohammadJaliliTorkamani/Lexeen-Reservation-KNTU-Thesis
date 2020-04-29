@@ -50,8 +50,9 @@ import ir.ac.kntu.DataBase.Database;
 import ir.ac.kntu.Entity.Order;
 import ir.ac.kntu.Entity.Restaurant;
 import ir.ac.kntu.Entity.ServerResponse;
-import ir.ac.kntu.Interface.Retrofit.Operable_General;
-import ir.ac.kntu.Interface.Retrofit.Operable_User;
+import ir.ac.kntu.Interface.Retrofit.Account_Server_API;
+import ir.ac.kntu.Interface.Retrofit.Order_Server_API;
+import ir.ac.kntu.Interface.Retrofit.Restaurant_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
@@ -160,13 +161,13 @@ public class Fragment_LocationPicker extends Fragment {
             map = mapboxMap;
             map.setStyle(new Style.Builder().fromUri(MapirStyle.MAIN_MOBILE_VECTOR_STYLE), style -> {
                 mapStyle = style;
-                Connector.createService(view, Operable_General.class, object ->
-                        object.getRestaurantInfo(Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_QR_CODE, null)).enqueue(new Callback<Restaurant>() {
+                Connector.createService(view, Restaurant_Server_API.class, object ->
+                        object.getRestaurantInfo(Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_ENCRYPTED_QR_CODE, null)).enqueue(new Callback<Restaurant>() {
                             @Override
                             public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
                                 if (response.body() != null) {
                                     enableLocationComponent();
-                                    addSymbolToMap(response.body().getName(), response.body().getAddress().getX(), response.body().getAddress().getY(), false);
+                                    addSymbolToMap(response.body().getName(), response.body().getAddress().getLatitude(), response.body().getAddress().getLongitude(), false);
                                     hoveringMarker = new ImageView(ContextHelper.retrieveContext());
                                     hoveringMarker.setImageResource(R.drawable.location_marker);
                                     FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
@@ -282,13 +283,13 @@ public class Fragment_LocationPicker extends Fragment {
                     selectPlaceText.setVisibility(View.GONE);
                     double latitude = map.getCameraPosition().target.getLatitude();
                     double longitude = map.getCameraPosition().target.getLongitude();
-                    Connector.createService(view, Operable_User.class, object -> object.getCash().enqueue(new Callback<Double>() {
+                    Connector.createService(view, Account_Server_API.class, object -> object.getCash().enqueue(new Callback<Double>() {
                         @Override
                         public void onResponse(Call<Double> call, Response<Double> response) {
                             if (response.body() != null) {
                                 double currentCash = response.body();
                                 if (currentCash >= order.getTotalPrice()) {//enough cash
-                                    Connector.createService(view, Operable_General.class, object1 -> object1.getRestaurantLocation().enqueue(new Callback<LatLng>() {
+                                    Connector.createService(view, Restaurant_Server_API.class, object1 -> object1.getRestaurantLocation().enqueue(new Callback<LatLng>() {
                                         @Override
                                         public void onResponse(Call<LatLng> call, Response<LatLng> response1) {
                                             if (response1.body() != null) {
@@ -386,7 +387,7 @@ public class Fragment_LocationPicker extends Fragment {
                 } else if (!Helper.getInstance().isInteger(floorAndUnit.getText().toString().split(",")[0], 10)) {
                     Helper.getInstance().toast(R.string.bad_formatted_floor_and_unit, Constants.ToastMode.WARNING);
                 } else {
-                    Connector.createService(view, Operable_User.class, object -> {
+                    Connector.createService(view, Order_Server_API.class, object -> {
                         try {
                             double latitude = map.getCameraPosition().target.getLatitude();
                             double longitude = map.getCameraPosition().target.getLongitude();

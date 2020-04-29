@@ -1,7 +1,5 @@
 package ir.ac.kntu.Technical.Other.Other;
 
-import java.security.MessageDigest;
-
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -17,7 +15,7 @@ public class MCrypt {
 
     public MCrypt(long sharedKey) throws Exception {
         String sharedKeyStr = String.valueOf(sharedKey);
-        String hashedString = hash(sharedKeyStr);
+        String hashedString = Helper.getInstance().hash(sharedKeyStr);
         if (hashedString.length() < 16)
             throw new Exception("not enough length");
         SecretKey = hashedString.substring(0, 16);
@@ -106,18 +104,6 @@ public class MCrypt {
         }
 
         return new String(decrypted).trim();
-    }
-
-    private String hash(String str) throws Exception {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(str.getBytes());
-        byte[] byteData = md.digest();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < byteData.length; i++) {
-            sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-        }
-
-        return sb.toString();
     }
 }
 

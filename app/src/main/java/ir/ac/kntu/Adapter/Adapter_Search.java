@@ -27,7 +27,9 @@ import ir.ac.kntu.Fragment.Fragment_FoodDescriptionDetail;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
 import ir.ac.kntu.Technical.Other.Other.ContextHelper;
+import ir.ac.kntu.Technical.Other.Other.Encryption;
 import ir.ac.kntu.Technical.Other.Other.Helper;
+import ir.ac.kntu.Technical.Other.Other.Helper_Log;
 
 public class Adapter_Search extends RecyclerView.Adapter {
     protected FragmentManager fragmentManager;
@@ -57,17 +59,20 @@ public class Adapter_Search extends RecyclerView.Adapter {
         ConstraintLayout constraintLayout = holder.itemView.findViewById(R.id.search_item_item);
         image.setBackgroundColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
 
-        text.setText(list.get(position).getName());
-        SvgLoader.pluck().with(activity).load(list.get(position).getPictures().get(4), image);
-        constraintLayout.setOnClickListener(v -> {
-            Fragment fragment = new Fragment_FoodDescriptionDetail();
-            Bundle bundle = new Bundle();
-            bundle.putInt("Food_ID", list.get(position).getId());
-
-            fragment.setArguments(bundle);
-            fragmentManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).addToBackStack("food_description").add(R.id.main_frame, fragment).commit();
-        });
-        setAnimation(holder.itemView, position);
+        try {
+            text.setText(Encryption.getInstance().decrypt(list.get(position).getName()));
+            SvgLoader.pluck().with(activity).load(Encryption.getInstance().decrypt(list.get(position).getPictures().get(0)), image);
+            constraintLayout.setOnClickListener(v -> {
+                Fragment fragment = new Fragment_FoodDescriptionDetail();
+                Bundle bundle = new Bundle();
+                bundle.putInt("Food_ID", list.get(position).getId());
+                fragment.setArguments(bundle);
+                fragmentManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).addToBackStack("food_description").add(R.id.main_frame, fragment).commit();
+            });
+            setAnimation(holder.itemView, position);
+        } catch (Exception e) {
+            Helper_Log.errorLog(e, Adapter_Search.class);
+        }
     }
 
     private void setAnimation(View viewToAnimate, int position) {

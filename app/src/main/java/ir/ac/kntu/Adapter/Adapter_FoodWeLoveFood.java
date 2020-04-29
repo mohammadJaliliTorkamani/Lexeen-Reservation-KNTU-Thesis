@@ -25,7 +25,7 @@ import java.util.List;
 
 import ir.ac.kntu.Entity.WeLove;
 import ir.ac.kntu.Fragment.Fragment_FoodDescriptionDetail;
-import ir.ac.kntu.Interface.Retrofit.Operable_Food;
+import ir.ac.kntu.Interface.Retrofit.Food_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
@@ -61,7 +61,7 @@ public class Adapter_FoodWeLoveFood extends RecyclerView.Adapter {
         ImageView image = holder.itemView.findViewById(R.id.food_we_love_image);
         CardView wholeItem = holder.itemView.findViewById(R.id.food_we_love_item_item);
 
-        Connector.createService(view, Operable_Food.class, object -> {
+        Connector.createService(view, Food_Server_API.class, object -> {
             Call<ir.ac.kntu.Entity.Food> call = object.getFood(list.get(position).getFoodID());
             call.enqueue(new retrofit2.Callback<ir.ac.kntu.Entity.Food>() {
                 @Override

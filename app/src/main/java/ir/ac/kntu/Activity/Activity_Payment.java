@@ -27,7 +27,7 @@ import java.util.List;
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 import ir.ac.kntu.Entity.ServerResponse;
-import ir.ac.kntu.Interface.Retrofit.Operable_User;
+import ir.ac.kntu.Interface.Retrofit.Account_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
@@ -63,7 +63,7 @@ public class Activity_Payment extends AppCompatActivity {
                     startActivity(new Intent(Activity_Payment.this, MainActivity.class));
                     finish();
                 } else {
-                    Connector.createService(constraintLayout, Operable_User.class, object -> {
+                    Connector.createService(constraintLayout, Account_Server_API.class, object -> {
                         try {
                             object.chargeWallet(Encryption.getInstance().encrypt(refID), (float) paymentRequest.getAmount()).enqueue(new Callback<ServerResponse>() {
                                 @Override

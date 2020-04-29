@@ -32,8 +32,8 @@ import ir.ac.kntu.DataBase.Database;
 import ir.ac.kntu.Entity.Bill;
 import ir.ac.kntu.Entity.Desk;
 import ir.ac.kntu.Entity.TableInfo;
-import ir.ac.kntu.Interface.Retrofit.Operable_General;
-import ir.ac.kntu.Interface.Retrofit.Operable_Table;
+import ir.ac.kntu.Interface.Retrofit.Restaurant_Server_API;
+import ir.ac.kntu.Interface.Retrofit.Table_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
@@ -118,7 +118,7 @@ public class Fragment_Table extends DialogFragment {
     }
 
     private void initializeOnlineContents(View view) {
-        Connector.createService(view, Operable_General.class, object -> object.getRoofs().enqueue(new Callback<List<Integer>>() {
+        Connector.createService(view, Restaurant_Server_API.class, object -> object.getRoofs().enqueue(new Callback<List<Integer>>() {
             @Override
             public void onResponse(Call<List<Integer>> call, Response<List<Integer>> response) {
                 if (response.body() != null) {
@@ -127,7 +127,7 @@ public class Fragment_Table extends DialogFragment {
                     roof_recyclerview_adapter.notifyDataSetChanged();
                     if (dateTime != null) {
                         int selectedRoofPos = ((Adapter_Roof) (roof_recyclerview_adapter)).getClickedPosition();
-                        Connector.createService(view, Operable_Table.class, object -> object.getDesks(roofs.get(selectedRoofPos), dateTime).enqueue(new Callback<List<Desk>>() {
+                        Connector.createService(view, Table_Server_API.class, object -> object.getDesks(roofs.get(selectedRoofPos), dateTime).enqueue(new Callback<List<Desk>>() {
                             @Override
                             public void onResponse(Call<List<Desk>> call, Response<List<Desk>> response) {
                                 if (response.body() != null) {
@@ -135,7 +135,7 @@ public class Fragment_Table extends DialogFragment {
                                         Helper.getInstance().toast(R.string.no_empty_desks, Constants.ToastMode.WARNING);
                                     else {
                                         int maxRow = getMaxRowOf(response.body());
-                                        Connector.createService(view, Operable_Table.class, object1 -> object1.getMaxColumnsOf().enqueue(new Callback<Integer>() {
+                                        Connector.createService(view, Table_Server_API.class, object1 -> object1.getMaxColumnsOf().enqueue(new Callback<Integer>() {
                                             @Override
                                             public void onResponse(Call<Integer> call, Response<Integer> response1) {
                                                 if (response1.body() != null) {

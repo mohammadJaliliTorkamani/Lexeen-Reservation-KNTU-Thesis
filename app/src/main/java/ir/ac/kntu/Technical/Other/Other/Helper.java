@@ -25,16 +25,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import java.io.ByteArrayOutputStream;
+import java.security.MessageDigest;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 
 import es.dmoral.toasty.Toasty;
-import ir.ac.kntu.Interface.Client.Operable_Helper;
+import ir.ac.kntu.Interface.Client.Helper_API;
 import ir.ac.kntu.R;
 import saman.zamani.persiandate.PersianDate;
 import saman.zamani.persiandate.PersianDateFormat;
 
-public class Helper implements Operable_Helper {
+public class Helper implements Helper_API {
     private static Helper instance;
 
     private Helper() {
@@ -439,7 +440,7 @@ public class Helper implements Operable_Helper {
 
     @Override
     public String getRestaurantSelectionQRCode() {
-        return Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_QR_CODE, null);
+        return Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_ENCRYPTED_QR_CODE, null);
     }
 
     @Override
@@ -471,5 +472,18 @@ public class Helper implements Operable_Helper {
     public boolean isFirstUse() {
         return Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_FIRST_USE_STATE, null) == null;
 
+    }
+
+    @Override
+    public String hash(String str) throws Exception {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(str.getBytes());
+        byte[] byteData = md.digest();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < byteData.length; i++) {
+            sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+        }
+
+        return sb.toString();
     }
 }

@@ -15,12 +15,12 @@ public class Address {
     private int floor;
     private String unit;
     private String orientation;
-    private double x;
-    private double y;
+    private double latitude;
+    private double longitude;
 
     public Address(int id, String country, String state, String city, String street1,
                    String street2, String alley1, String alley2, String block, int floor,
-                   String unit, String orientation, double x, double y) {
+                   String unit, String orientation, double latitude, double longitude) {
         this.id = id;
         this.country = country;
         this.state = state;
@@ -33,8 +33,8 @@ public class Address {
         this.floor = floor;
         this.unit = unit;
         this.orientation = orientation;
-        this.x = x;
-        this.y = y;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public int getId() {
@@ -133,20 +133,20 @@ public class Address {
         this.orientation = orientation;
     }
 
-    public double getX() {
-        return x;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setX(double x) {
-        this.x = x;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    public double getY() {
-        return y;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setY(double y) {
-        this.y = y;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     @NonNull
