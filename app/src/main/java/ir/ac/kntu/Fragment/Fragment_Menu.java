@@ -18,6 +18,7 @@ import ir.ac.kntu.Interface.Retrofit.Food_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.Other.Other.ContextHelper;
+import ir.ac.kntu.Technical.Other.Other.Encryption;
 import ir.ac.kntu.Technical.Other.Other.Helper_Log;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,11 +64,11 @@ public class Fragment_Menu extends Fragment {
 
     private void addExpandableItems(View view, List<FoodMenu> items) {
         for (FoodMenu foodMenu : items) {
-            expandablePlaceHolderView.addView(new MenuHeadingView(foodMenu.getCategory()));
+            expandablePlaceHolderView.addView(new MenuHeadingView(foodMenu.getCategory(), getActivity()));
             for (ir.ac.kntu.Entity.Food food : foodMenu.getFoodList()) {
-                expandablePlaceHolderView.addView(new MenuFoodInfoView(ContextHelper.retrieveContext(), getFragmentManager(), foodMenu.getCategory().getColor(), food, foodMenu.getFoodList().size() + 1)); //+1  is for arrow icon
+                expandablePlaceHolderView.addView(new MenuFoodInfoView(ContextHelper.retrieveContext(), getFragmentManager(), Encryption.getInstance().decrypt(foodMenu.getCategory().getColor()), food, foodMenu.getFoodList().size() + 1)); //+1  is for arrow icon
             }
-            expandablePlaceHolderView.addView(new MenuFoodInfoView(ContextHelper.retrieveContext(), getFragmentManager(), foodMenu.getCategory().getColor(), null, foodMenu.getFoodList().size() + 1));//+1  is for arrow icon
+            expandablePlaceHolderView.addView(new MenuFoodInfoView(ContextHelper.retrieveContext(), getFragmentManager(), Encryption.getInstance().decrypt(foodMenu.getCategory().getColor()), null, foodMenu.getFoodList().size() + 1));//+1  is for arrow icon
         }
 
     }

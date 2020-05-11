@@ -1,6 +1,5 @@
 package ir.ac.kntu.Adapter;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -29,6 +26,7 @@ import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
 import ir.ac.kntu.Technical.Other.Other.ContextHelper;
+import ir.ac.kntu.Technical.Other.Other.Encryption;
 import ir.ac.kntu.Technical.Other.Other.Helper;
 import ir.ac.kntu.Technical.Other.Other.Helper_Log;
 import ir.ac.kntu.Technical.Other.Other.Setting;
@@ -71,36 +69,8 @@ public class Adapter_OurOfferFood extends RecyclerView.Adapter {
                 @Override
                 public void onResponse(Call<ir.ac.kntu.Entity.Food> call, Response<ir.ac.kntu.Entity.Food> response) {
                     if (response.body() != null) {
-                        foodName.setText(response.body().getName());
-                        ImageLoader.getInstance().displayImage(response.body().getPictures().get(0), image, new ImageLoadingListener() {
-                            @Override
-                            public void onLoadingStarted(String imageUri, View view) {
-                                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                                image.setBackgroundColor(ContextHelper.retrieveContext().getResources().getColor(R.color.gray_default_background));
-                                image.setImageResource(R.drawable.ic_lexin_gray);
-                            }
-
-                            @Override
-                            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                                Helper_Log.errorLog(failReason.getCause(), Adapter_OurOfferFood.class);
-                                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                                image.setImageResource(R.drawable.ic_lexin_gray);
-                            }
-
-                            @Override
-                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                                image.setImageBitmap(loadedImage);
-                            }
-
-                            @Override
-                            public void onLoadingCancelled(String imageUri, View view) {
-                                Helper_Log.errorLog(Adapter_OurOfferFood.class);
-                                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                                image.setBackgroundColor(ContextHelper.retrieveContext().getResources().getColor(R.color.gray_default_background));
-                                image.setImageResource(R.drawable.ic_lexin_gray);
-                            }
-                        });
+                        foodName.setText(Encryption.getInstance().decrypt(response.body().getName()));
+                        Picasso.get().load(Encryption.getInstance().decrypt(response.body().getPictures().get(0))).into(image);
                     } else
                         Helper_Log.errorLog(Adapter_OurOfferFood.class);
                 }

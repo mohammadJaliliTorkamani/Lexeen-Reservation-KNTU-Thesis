@@ -34,7 +34,7 @@ public class Bill {
     public Bill(int lexinTableID) {
         this.lexinTableID = lexinTableID;
         this.foodID = -1;
-        this.restaurantQRCode = Helper.getInstance().getRestaurantSelectionQRCode();
+        this.restaurantQRCode = Helper.getInstance().getSelectedRestaurantDecryptedQRCode();
     }
 
     @Ignore
@@ -43,7 +43,7 @@ public class Bill {
         this.lexinTableID = lexinTableID;
         this.counter = counter;
         this.totalCost = totalCost;
-        this.restaurantQRCode = Helper.getInstance().getRestaurantSelectionQRCode();
+        this.restaurantQRCode = Helper.getInstance().getSelectedRestaurantDecryptedQRCode();
     }
 
     @Ignore
@@ -53,7 +53,7 @@ public class Bill {
         this.foodID = foodID;
         this.counter = counter;
         this.totalCost = totalCost;
-        this.restaurantQRCode = Helper.getInstance().getRestaurantSelectionQRCode();
+        this.restaurantQRCode = Helper.getInstance().getSelectedRestaurantDecryptedQRCode();
     }
 
 
@@ -62,7 +62,7 @@ public class Bill {
         this.foodID = foodID;
         this.counter = counter;
         this.lexinTableID = -1;
-        this.restaurantQRCode = Helper.getInstance().getRestaurantSelectionQRCode();
+        this.restaurantQRCode = Helper.getInstance().getSelectedRestaurantDecryptedQRCode();
     }
 
     @Ignore
@@ -70,7 +70,7 @@ public class Bill {
         this.foodID = foodID;
         this.lexinTableID = lexinTableID;
         this.counter = counter;
-        this.restaurantQRCode = Helper.getInstance().getRestaurantSelectionQRCode();
+        this.restaurantQRCode = Helper.getInstance().getSelectedRestaurantDecryptedQRCode();
     }
 
     public static int getNumberOfIDInList(int id, List<Bill> list) {

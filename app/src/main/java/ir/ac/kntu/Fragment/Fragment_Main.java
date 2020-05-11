@@ -105,7 +105,7 @@ public class Fragment_Main extends Fragment {
                         case DONE:
                             Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_LOGIN_STATE, "NEW");
                             Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_TOKEN, null);
-                            Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_ENCRYPTED_QR_CODE, null);
+                            Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_SELECTED_RESTAURANT_QR_CODE, null);
                             Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_SHARED_KEY, null);
                             Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_FIRST_USE_STATE, null);
                             Helper.getInstance().toast(R.string.log_out_successfully, Constants.ToastMode.SUCCESS);
@@ -214,7 +214,13 @@ public class Fragment_Main extends Fragment {
         drawerHeader.setBackgroundResource(R.drawable.ic_nav_rec);
         Helper.getInstance().changeShapeColorToMainAppColor(drawerHeader.getDrawable());
         toolbar.setVisibility(View.VISIBLE);
-        Restaurant restaurant = Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).restaurantInterface().getRestaurant(Helper.getInstance().getRestaurantSelectionQRCode());
+
+        String qrCode = Helper.getInstance().getSelectedRestaurantDecryptedQRCode();
+
+        Restaurant restaurant = Database
+                .getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE)
+                .restaurantInterface()
+                .getRestaurant(qrCode);
         if (restaurant != null)
             try {
                 topName.setText(Encryption.getInstance().decrypt(restaurant.getName()));
@@ -301,7 +307,7 @@ public class Fragment_Main extends Fragment {
     }
 
     public void updateBadge() {
-        int counter = Bill.getTotalFoodItems(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getRestaurantSelectionQRCode()));
+        int counter = Bill.getTotalFoodItems(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode()));
         bottomBar.getTabAtPosition(2).setBadgeCount(counter);
     }
 }

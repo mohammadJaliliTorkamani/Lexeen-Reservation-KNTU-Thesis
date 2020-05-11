@@ -279,7 +279,7 @@ public class Fragment_Table extends DialogFragment {
 
         });
         payText.setOnClickListener(v -> {
-            List<Bill> selectedDeskBills = Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getToReserveLexinTables(Helper.getInstance().getRestaurantSelectionQRCode());
+            List<Bill> selectedDeskBills = Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getToReserveLexinTables(Helper.getInstance().getSelectedRestaurantDecryptedQRCode());
             if (!selectedDeskBills.isEmpty()) {
                 if (counter.getText() == null || counter.getText().toString().isEmpty() || Integer.parseInt(counter.getText().toString()) < 1)
                     Helper.getInstance().toast(R.string.invalid_number_of_customers, Constants.ToastMode.ERROR);

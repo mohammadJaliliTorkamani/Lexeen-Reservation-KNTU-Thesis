@@ -16,7 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -69,7 +69,7 @@ public class Adapter_LandingPage extends androidx.recyclerview.widget.RecyclerVi
 
         if (list.get(position) != null) { //was not scan item
             try {
-                ImageLoader.getInstance().displayImage(Encryption.getInstance().decrypt(list.get(position).getPictures().get(0)), image);
+                Picasso.get().load(Encryption.getInstance().decrypt(list.get(position).getPictures().get(0))).into(image);
                 if (!list.get(position).isActive()) {
                     othersContainer.setBackground(null);
                     Helper.getInstance().setLockedOnGrayScale(image);
@@ -91,18 +91,14 @@ public class Adapter_LandingPage extends androidx.recyclerview.widget.RecyclerVi
             if (list.get(position).isActive()) {
                 Restaurant restaurant = list.get(position);
                 if (restaurant != null) {
-
+                    restaurant.setQrCode(Encryption.getInstance().decrypt(restaurant.getQrCode()));
                     try {
-                        Setting.getInstance().saveSetting(Constants._TABLE_USER,
-                                Constants._KEY_RESTAURANT_SELECTION_ENCRYPTED_QR_CODE,
-                                Encryption.getInstance().decrypt(restaurant.getEncryptedCode()));
+                        Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_SELECTED_RESTAURANT_QR_CODE, restaurant.getQrCode());
                     } catch (Exception e) {
                         Helper_Log.errorLog(e, Adapter_LandingPage.class);
                     }
-                    if (Database.getInstance(ContextHelper.retrieveContext(),
-                            Constants._MAIN_DATABASE).restaurantInterface().getRestaurant(restaurant.getId()) == null) {
-                        Database.getInstance(ContextHelper.retrieveContext(),
-                                Constants._MAIN_DATABASE).restaurantInterface().insert(restaurant);
+                    if (Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).restaurantInterface().getRestaurant(restaurant.getId()) == null) {
+                        Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).restaurantInterface().insert(restaurant);
                     }
                     Fragment_Main mainFragment = new Fragment_Main();
                     fragmentManager
@@ -114,7 +110,7 @@ public class Adapter_LandingPage extends androidx.recyclerview.widget.RecyclerVi
 
                 }
             } else
-                Helper.getInstance().toast(list.get(position).getName() + " " + ContextHelper.retrieveContext().getString(R.string.restaurant_is_not_member), Constants.ToastMode.INFO);
+                Helper.getInstance().toast(Encryption.getInstance().decrypt(list.get(position).getName()) + " " + ContextHelper.retrieveContext().getString(R.string.restaurant_is_not_member), Constants.ToastMode.INFO);
         });
         setAnimation(holder.itemView, position);
     }

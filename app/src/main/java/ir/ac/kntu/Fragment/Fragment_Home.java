@@ -235,7 +235,7 @@ public class Fragment_Home extends Fragment {
         by_field_list_rv.setHasFixedSize(true);
         by_field_list_rv_layout_manager = new LinearLayoutManager(ContextHelper.retrieveContext(), RecyclerView.HORIZONTAL, false);
         by_field_list_rv.setLayoutManager(by_field_list_rv_layout_manager);
-        by_field_list_rv_adapter = new Adapter_ByFieldList(view, _list_by_field, 0, (Adapter_ByFieldFood) by_field_content_rv_adapter);
+        by_field_list_rv_adapter = new Adapter_ByFieldList(view, getActivity(), _list_by_field, 0, (Adapter_ByFieldFood) by_field_content_rv_adapter);
         by_field_list_rv.setItemAnimator(slideInRightAnimator);
         by_field_list_rv.setAdapter(by_field_list_rv_adapter);
 

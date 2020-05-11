@@ -13,7 +13,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.DisplayMetrics;
@@ -24,14 +23,6 @@ import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,7 +30,6 @@ import java.io.InputStream;
 
 import es.dmoral.toasty.Toasty;
 import ir.ac.kntu.Interface.Client.Setting_API;
-import ir.ac.kntu.R;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
@@ -169,39 +159,6 @@ public class Setting implements Setting_API {
                 (ViewGroup.MarginLayoutParams) view.getLayoutParams();
         layoutParams.width = (int) (getDeviceWidth() / devision);
         view.requestLayout();
-    }
-
-    @Override
-    public void configureImageLoader() {
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.ic_lexin_gray)
-                .showImageForEmptyUri(R.drawable.ic_lexin_gray)
-                .showImageOnFail(R.drawable.ic_lexin_gray)
-                .resetViewBeforeLoading(false)
-                .delayBeforeLoading(50)
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .considerExifParams(false)
-                .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
-                .bitmapConfig(Bitmap.Config.ARGB_8888)
-                .displayer(new FadeInBitmapDisplayer(600))
-                .handler(new Handler())
-                .build();
-//                .preProcessor()
-//		        .postProcessor()
-//		        .extraForDownloader()
-//                .decodingOptions()
-
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(ContextHelper.retrieveContext())
-                .threadPriority(Thread.NORM_PRIORITY - 2)
-                .denyCacheImageMultipleSizesInMemory()
-                .discCacheFileNameGenerator(new Md5FileNameGenerator())
-                .tasksProcessingOrder(QueueProcessingType.LIFO)
-                .defaultDisplayImageOptions(options)
-                .build();
-
-        ImageLoader.getInstance().init(config);
-
     }
 
     @Override

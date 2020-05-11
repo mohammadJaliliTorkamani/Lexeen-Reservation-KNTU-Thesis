@@ -95,12 +95,12 @@ public class Fragment_Cart extends Fragment {
      */
     public static void addToCart(int foodID, int finalNumberOfFood, boolean clearRest) {
         if (clearRest)
-            Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getInstance().getRestaurantSelectionQRCode());
+            Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode());
         if (finalNumberOfFood == 0) {
-            Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().deleteWithFoodID(foodID, Helper.getInstance().getRestaurantSelectionQRCode());
+            Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().deleteWithFoodID(foodID, Helper.getInstance().getSelectedRestaurantDecryptedQRCode());
         } else {
-            if (!Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(foodID, Helper.getInstance().getRestaurantSelectionQRCode()).isEmpty()) {
-                Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().updateCounterOfBillByFoodID(foodID, finalNumberOfFood, Helper.getInstance().getRestaurantSelectionQRCode());
+            if (!Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(foodID, Helper.getInstance().getSelectedRestaurantDecryptedQRCode()).isEmpty()) {
+                Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().updateCounterOfBillByFoodID(foodID, finalNumberOfFood, Helper.getInstance().getSelectedRestaurantDecryptedQRCode());
             } else
                 Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().insert(new Bill(foodID, finalNumberOfFood));
         }
@@ -118,7 +118,7 @@ public class Fragment_Cart extends Fragment {
         Helper.getInstance().changeShapeColorToMainAppColor(sumView);
         Helper.getInstance().changeShapeColorToMainAppColor(topIconView);
         Helper.getInstance().changeShapeColorToMainAppColor(set);
-        Connector.createService(view, Restaurant_Server_API.class, object -> object.getRestaurantInfo(Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_ENCRYPTED_QR_CODE, null)).enqueue(new Callback<Restaurant>() {
+        Connector.createService(view, Restaurant_Server_API.class, object -> object.getRestaurantInfo(Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_SELECTED_RESTAURANT_QR_CODE, null)).enqueue(new Callback<Restaurant>() {
             @Override
             public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
                 if (response.body() != null) {
@@ -176,9 +176,9 @@ public class Fragment_Cart extends Fragment {
     }
 
     private void initializeList(View view) {
-        if (!Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getRestaurantSelectionQRCode()).isEmpty()) {
+        if (!Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode()).isEmpty()) {
             recyclerView.setVisibility(View.VISIBLE);
-            Connector.createService(view, Order_Server_API.class, object -> object.completeBills(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getRestaurantSelectionQRCode())).enqueue(new Callback<List<Bill>>() {
+            Connector.createService(view, Order_Server_API.class, object -> object.completeBills(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode())).enqueue(new Callback<List<Bill>>() {
                 @Override
                 public void onResponse(Call<List<Bill>> call, Response<List<Bill>> completedResponse) {
                     if (completedResponse.body() != null) {
@@ -246,7 +246,7 @@ public class Fragment_Cart extends Fragment {
                     EditText editText_numberOfPeople = (EditText) fragment_passed_object[3];
                     Runnable onSuccessfulOrdered = (Runnable) fragment_passed_object[4];
                     order.clearSpecifiedBills();
-                    order.getSpecifiedBills().addAll(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getRestaurantSelectionQRCode()));
+                    order.getSpecifiedBills().addAll(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode()));
                     try {
                         if (!Helper.getInstance().isValidTimeForIntervalFromNow(selectedDate)) {
                             Helper.getInstance().toast(R.string.invalid_date_time, Constants.ToastMode.INFO);
@@ -288,7 +288,7 @@ public class Fragment_Cart extends Fragment {
                                                                                 try {
                                                                                     calendar.setTime(new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.US).parse(gregorianDate));
                                                                                     AlarmReminder.getInstance().remindSingleMode(calendar, order);
-                                                                                    Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getInstance().getRestaurantSelectionQRCode());
+                                                                                    Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode());
                                                                                     Fragment_Table.getInstance().dismiss();
                                                                                     FragmentActivity activity = getActivity();
                                                                                     if (activity != null)
@@ -308,7 +308,7 @@ public class Fragment_Cart extends Fragment {
                                                                         case FAILED:  //so we have error message in message
                                                                             progressBar.setVisibility(View.GONE);
                                                                             textViewPlus.setVisibility(View.VISIBLE);
-                                                                            Helper.getInstance().toast(getString(R.string.ordered_fault) + "," + response.body().getMessage(), Constants.ToastMode.ERROR);
+                                                                            Helper.getInstance().toast(getString(R.string.ordered_fault) + "," + Encryption.getInstance().decrypt(response.body().getMessage()), Constants.ToastMode.ERROR);
                                                                             Fragment_Table.getInstance().dismiss();
                                                                             initializeList(view);
                                                                             break;
@@ -463,7 +463,7 @@ public class Fragment_Cart extends Fragment {
         });
         clear.setOnClickListener(v ->
         {
-            Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getInstance().getRestaurantSelectionQRCode());
+            Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode());
             ((Fragment_Main) getFragmentManager().findFragmentById(R.id.main_frame)).updateBadge();
             order.clearSpecifiedBills();
             clear.setVisibility(View.GONE);

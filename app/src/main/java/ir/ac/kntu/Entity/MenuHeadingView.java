@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentActivity;
 
 import com.ahmadrosid.svgloader.SvgLoader;
 import com.mindorks.placeholderview.annotations.Layout;
@@ -28,6 +29,7 @@ import com.mindorks.placeholderview.annotations.expand.SingleTop;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
 import ir.ac.kntu.Technical.Other.Other.ContextHelper;
+import ir.ac.kntu.Technical.Other.Other.Encryption;
 import ir.ac.kntu.Technical.Other.Other.Helper;
 import ir.ac.kntu.Technical.Other.Other.Helper_Log;
 
@@ -70,23 +72,25 @@ public class MenuHeadingView {
     int childPosition;
 
     private Category category;
+    private Activity activity;
 
 
-    public MenuHeadingView(Category category) {
+    public MenuHeadingView(Category category, FragmentActivity activity) {
         this.category = category;
+        this.activity = activity;
     }
 
     @Resolve
     public void onResolved() {
         try {
-            SvgLoader.pluck().with((Activity) imageCard.getContext()).load(category.getLogos().get(0), imageIcon);
+            SvgLoader.pluck().with(activity).load(Encryption.getInstance().decrypt(category.getLogos().get(0)), imageIcon);
         } catch (Exception e) {
             Helper_Log.errorLog(e, MenuHeadingView.class);
         }
         card.startAnimation(AnimationUtils.loadAnimation(ContextHelper.retrieveContext(), R.anim.scale_both));
         toggleIcon.setImageDrawable(ContextHelper.retrieveContext().getResources().getDrawable(R.drawable.ic_arrow));
-        headingTxt.setText(category.getName());
-        imageCard.setCardBackgroundColor(Color.parseColor(category.getColor()));
+        headingTxt.setText(Encryption.getInstance().decrypt(category.getName()));
+        imageCard.setCardBackgroundColor(Color.parseColor(Encryption.getInstance().decrypt(category.getColor())));
         topSide.setVisibility(android.view.View.VISIBLE);
         bottomSide.setVisibility(android.view.View.VISIBLE);
         rightSide.setVisibility(android.view.View.VISIBLE);
@@ -112,7 +116,7 @@ public class MenuHeadingView {
 
 
         imageCard.setBackgroundResource(R.drawable.dr_rec_top_radius);
-        ((GradientDrawable) imageCard.getBackground()).setColor(Color.parseColor(category.getColor()));
+        ((GradientDrawable) imageCard.getBackground()).setColor(Color.parseColor(Encryption.getInstance().decrypt(category.getColor())));
 
 
         ViewGroup.MarginLayoutParams imageLayoutParams = (ViewGroup.MarginLayoutParams) imageCard.getLayoutParams();
@@ -141,7 +145,7 @@ public class MenuHeadingView {
 
         imageCard.setBackgroundResource(R.drawable.dr_rec_category);
 
-        ((GradientDrawable) imageCard.getBackground()).setColor(Color.parseColor(category.getColor()));
+        ((GradientDrawable) imageCard.getBackground()).setColor(Color.parseColor(Encryption.getInstance().decrypt(category.getColor())));
 
 
         ConstraintLayout.LayoutParams layoutParams1 = (ConstraintLayout.LayoutParams) imageCard.getLayoutParams();

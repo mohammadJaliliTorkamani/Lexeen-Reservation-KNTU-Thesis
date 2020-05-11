@@ -2,6 +2,7 @@ package ir.ac.kntu.Fragment;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +15,8 @@ import android.widget.ProgressBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import ir.ac.kntu.DataBase.Database;
 import ir.ac.kntu.Entity.Restaurant;
@@ -27,6 +27,7 @@ import ir.ac.kntu.Technical.CustomView.ButtonPlus;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
 import ir.ac.kntu.Technical.Other.Other.Constants;
 import ir.ac.kntu.Technical.Other.Other.ContextHelper;
+import ir.ac.kntu.Technical.Other.Other.Encryption;
 import ir.ac.kntu.Technical.Other.Other.Helper;
 import ir.ac.kntu.Technical.Other.Other.Helper_Log;
 import ir.ac.kntu.Technical.Other.Other.Setting;
@@ -124,33 +125,29 @@ public class Fragment_ScanningResult extends Fragment {
                     type.setText(restaurant.getType());
                     phone.setText(restaurant.getPhone());
                     address.setText(restaurant.getAddress().toString());
-                    ImageLoader.getInstance().displayImage(restaurant.getPictures().get(0), image, new ImageLoadingListener() {
-                        @Override
-                        public void onLoadingStarted(String imageUri, View view) {
 
+                    Picasso.get().load(Encryption.getInstance().decrypt(restaurant.getPictures().get(0))).into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            image.setImageBitmap(bitmap);
+                            image.setVisibility(View.VISIBLE);
+                            imageProgressBar.setVisibility(View.GONE);
                         }
 
                         @Override
-                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                            Helper_Log.errorLog(failReason.getCause(), Fragment_ScanningResult.class);
+                        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                            Helper_Log.errorLog(e, Fragment_ScanningResult.class);
                             imageProgressBar.setVisibility(View.GONE);
                             image.setBackgroundColor(Color.BLACK);
                             image.setVisibility(View.VISIBLE);
                         }
 
                         @Override
-                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                            image.setVisibility(View.VISIBLE);
-                            imageProgressBar.setVisibility(View.GONE);
-                        }
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
 
-                        @Override
-                        public void onLoadingCancelled(String imageUri, View view) {
-                            imageProgressBar.setVisibility(View.GONE);
-                            image.setBackgroundColor(Color.BLACK);
-                            image.setVisibility(View.VISIBLE);
                         }
                     });
+
                     startAnimations(view);
                 } else {
                     Helper_Log.errorLog(Fragment_ScanningResult.class);
@@ -173,8 +170,8 @@ public class Fragment_ScanningResult extends Fragment {
         add.setOnClickListener(v -> {
             if (restaurant != null) {
                 Setting.getInstance().saveSetting(Constants._TABLE_USER,
-                        Constants._KEY_RESTAURANT_SELECTION_ENCRYPTED_QR_CODE,
-                        restaurant.getEncryptedCode());
+                        Constants._KEY_SELECTED_RESTAURANT_QR_CODE,
+                        restaurant.getQrCode());
                 if (Database.getInstance(ContextHelper.retrieveContext(),
                         Constants._MAIN_DATABASE).restaurantInterface().getRestaurant(restaurant.getId()) == null) {
                     Database.getInstance(ContextHelper.retrieveContext(),

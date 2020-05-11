@@ -19,15 +19,18 @@ import ir.ac.kntu.Entity.FoodMenu;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
 import ir.ac.kntu.Technical.Other.Other.ContextHelper;
+import ir.ac.kntu.Technical.Other.Other.Encryption;
 
 public class Adapter_ByFieldList extends RecyclerView.Adapter {
     private View view;
+    private Activity activity;
     private List<FoodMenu> foodMenu;
     private int clickedIndex;
     private Adapter_ByFieldFood by_field_content_rv_adapter;
 
-    public Adapter_ByFieldList(View view, List<FoodMenu> _list_by_field, int clickedIndex, Adapter_ByFieldFood food_adapter) {
+    public Adapter_ByFieldList(View view, Activity activity, List<FoodMenu> _list_by_field, int clickedIndex, Adapter_ByFieldFood food_adapter) {
         this.view = view;
+        this.activity = activity;
         this.foodMenu = _list_by_field;
         this.clickedIndex = clickedIndex;
         this.by_field_content_rv_adapter = food_adapter;
@@ -44,19 +47,17 @@ public class Adapter_ByFieldList extends RecyclerView.Adapter {
         ConstraintLayout constraintLayout = holder.itemView.findViewById(R.id.by_field_item);
         TextViewPlus catName = holder.itemView.findViewById(R.id.by_field_cat_name);
         ImageView image = holder.itemView.findViewById(R.id.by_field_item_image);
-        catName.setText(foodMenu.get(position).getCategory().getName());
+        catName.setText(Encryption.getInstance().decrypt(foodMenu.get(position).getCategory().getName()));
 
         if (clickedIndex == position) {
             constraintLayout.setBackgroundResource(getRandomFoodListItemBackground(-1));
             catName.setTextColor(Color.WHITE);
-            SvgLoader.pluck().with((Activity) view.getContext())
-                    .load(foodMenu.get(position).getCategory().getLogos().get(0), image);
+            SvgLoader.pluck().with(activity).load(Encryption.getInstance().decrypt(foodMenu.get(position).getCategory().getLogos().get(0)), image);
 
         } else {
             constraintLayout.setBackgroundResource(R.drawable.dr_by_field_black_border_white);
             catName.setTextColor(Color.BLACK);
-            SvgLoader.pluck().with((Activity) view.getContext())
-                    .load(foodMenu.get(position).getCategory().getLogos().get(1), image);
+            SvgLoader.pluck().with(activity).load(Encryption.getInstance().decrypt(foodMenu.get(position).getCategory().getLogos().get(1)), image);
         }
         constraintLayout.setOnClickListener(v -> {
             if (clickedIndex != position) {

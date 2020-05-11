@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.io.IOException;
 
+import ir.ac.kntu.Technical.Other.Other.Encryption;
 import ir.ac.kntu.Technical.Other.Other.Helper;
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -26,10 +27,10 @@ public class Interceptor_TargetQRCode implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        String code = Helper.getInstance().getRestaurantSelectionQRCode();
+        String code = Helper.getInstance().getSelectedRestaurantDecryptedQRCode();
         Request request = chain.request();
         if (code != null)
-            request = request.newBuilder().header("code", Helper.getInstance().getRestaurantSelectionQRCode()).build();
+            request = request.newBuilder().header("code", Encryption.getInstance().encrypt(Helper.getInstance().getSelectedRestaurantDecryptedQRCode())).build();
         return chain.proceed(request);
     }
 }

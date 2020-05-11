@@ -17,6 +17,7 @@ import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
 import ir.ac.kntu.Technical.Other.Other.ContextHelper;
+import ir.ac.kntu.Technical.Other.Other.Encryption;
 import ir.ac.kntu.Technical.Other.Other.Helper;
 import ir.ac.kntu.Technical.Other.Other.Helper_Log;
 import retrofit2.Call;
@@ -56,7 +57,7 @@ public class Adapter_Cart extends RecyclerView.Adapter {
                         try {
                             counter.setText(String.valueOf(list.get(position).getCounter()));
                             counterSymbol.setText(Helper.getInstance().getCounterSymbol());
-                            name.setText(food.getName());
+                            name.setText(Encryption.getInstance().decrypt(food.getName()));
                             price.setText(Helper.getInstance().getOneDigitOrNon(list.get(position).getTotalCost(), true));
                             priceUnit.setText(Helper.getInstance().getPurchaseUnit());
                         } catch (Exception e) {

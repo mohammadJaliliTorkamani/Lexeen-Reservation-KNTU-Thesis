@@ -139,7 +139,7 @@ public class Fragment_Register_Activation_Code extends Fragment {
                 Connector.createService(view, Account_Server_API.class, object -> {
                     try {
                         object.register(code.getText().toString(), normalUser.getName(), normalUser.getLastName(),
-                                normalUser.getPhone(), normalUser.getPassword(),
+                                normalUser.getPhone(), Helper.getInstance().hash(normalUser.getPassword()),
                                 normalUser.isMale()).enqueue(new Callback<AuthenticationResponse>() {
                             @Override
                             public void onResponse(Call<AuthenticationResponse> call, Response<AuthenticationResponse> response) {

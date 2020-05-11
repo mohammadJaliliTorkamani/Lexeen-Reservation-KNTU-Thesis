@@ -1,6 +1,5 @@
 package ir.ac.kntu.Adapter;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,9 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -33,8 +30,8 @@ import ir.ac.kntu.R;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
 import ir.ac.kntu.Technical.Other.Other.Constants;
 import ir.ac.kntu.Technical.Other.Other.ContextHelper;
+import ir.ac.kntu.Technical.Other.Other.Encryption;
 import ir.ac.kntu.Technical.Other.Other.Helper;
-import ir.ac.kntu.Technical.Other.Other.Helper_Log;
 import ir.ac.kntu.Technical.Other.Other.Setting;
 
 public class Adapter_ByFieldFood extends RecyclerView.Adapter {
@@ -70,13 +67,13 @@ public class Adapter_ByFieldFood extends RecyclerView.Adapter {
         TextViewPlus add = holder.itemView.findViewById(R.id.field_food_add);
         TextViewPlus foodName = holder.itemView.findViewById(R.id.field_food_food_name_tv);
         TextViewPlus timeAndCalorie = holder.itemView.findViewById(R.id.field_food_time_and_calorie_tv);
-        foodName.setText(list.get(toShowCategoryIndex).getFoodList().get(position).getName());
+        foodName.setText(Encryption.getInstance().decrypt(list.get(toShowCategoryIndex).getFoodList().get(position).getName()));
         timeAndCalorie.setText(list.get(toShowCategoryIndex).getFoodList().get(position).getCookTimeMinutes() + " " + ContextHelper.retrieveContext().getString(R.string.min) + " . " + list.get(toShowCategoryIndex).getFoodList().get(position).getCalories() + " " + ContextHelper.retrieveContext().getString(R.string.calories));
 
 
         add.setOnClickListener(v -> {
             Food food = list.get(toShowCategoryIndex).getFoodList().get(position);
-            List<Bill> billList = Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(food.getId(), Helper.getInstance().getRestaurantSelectionQRCode());
+            List<Bill> billList = Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(food.getId(), Helper.getInstance().getSelectedRestaurantDecryptedQRCode());
 
             int counter = billList.isEmpty() ? 0 : billList.get(0).getCounter();
             counter++;
@@ -86,35 +83,7 @@ public class Adapter_ByFieldFood extends RecyclerView.Adapter {
         });
         Helper.getInstance().changeStrokeColorToMainAppColor(add);
         add.setTextColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
-        ImageLoader.getInstance().displayImage(list.get(toShowCategoryIndex).getFoodList().get(position).getPictures().get(0), image, new ImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String imageUri, View view) {
-                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                image.setBackgroundColor(ContextHelper.retrieveContext().getResources().getColor(R.color.gray_default_background));
-                image.setImageResource(R.drawable.ic_lexin_gray);
-            }
-
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                Helper_Log.errorLog(failReason.getCause(), Adapter_ByFieldFood.class);
-                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                image.setImageResource(R.drawable.ic_lexin_gray);
-            }
-
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                image.setImageBitmap(loadedImage);
-            }
-
-            @Override
-            public void onLoadingCancelled(String imageUri, View view) {
-                Helper_Log.errorLog(Adapter_ByFieldFood.class);
-                image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                image.setBackgroundColor(ContextHelper.retrieveContext().getResources().getColor(R.color.gray_default_background));
-                image.setImageResource(R.drawable.ic_lexin_gray);
-            }
-        });
+        Picasso.get().load(Encryption.getInstance().decrypt(list.get(toShowCategoryIndex).getFoodList().get(position).getPictures().get(0))).into(image);
         cardView.setOnClickListener(v -> {
             Fragment_FoodDescriptionDetail fragment = new Fragment_FoodDescriptionDetail();
             Bundle bundle = new Bundle();

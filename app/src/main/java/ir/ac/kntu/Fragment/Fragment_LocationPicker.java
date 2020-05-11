@@ -162,7 +162,7 @@ public class Fragment_LocationPicker extends Fragment {
             map.setStyle(new Style.Builder().fromUri(MapirStyle.MAIN_MOBILE_VECTOR_STYLE), style -> {
                 mapStyle = style;
                 Connector.createService(view, Restaurant_Server_API.class, object ->
-                        object.getRestaurantInfo(Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_ENCRYPTED_QR_CODE, null)).enqueue(new Callback<Restaurant>() {
+                        object.getRestaurantInfo(Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_SELECTED_RESTAURANT_QR_CODE, null)).enqueue(new Callback<Restaurant>() {
                             @Override
                             public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
                                 if (response.body() != null) {
@@ -387,6 +387,8 @@ public class Fragment_LocationPicker extends Fragment {
                 } else if (!Helper.getInstance().isInteger(floorAndUnit.getText().toString().split(",")[0], 10)) {
                     Helper.getInstance().toast(R.string.bad_formatted_floor_and_unit, Constants.ToastMode.WARNING);
                 } else {
+                    selectPlacePB.setVisibility(View.VISIBLE);
+                    selectPlaceText.setVisibility(View.GONE);
                     Connector.createService(view, Order_Server_API.class, object -> {
                         try {
                             double latitude = map.getCameraPosition().target.getLatitude();
@@ -406,7 +408,7 @@ public class Fragment_LocationPicker extends Fragment {
                                             case DONE://so we have issue tracking no in message
                                                 Helper.getInstance().toast(R.string.ordered_successfully, Constants.ToastMode.SUCCESS);
                                                 order.setOrderID(Integer.parseInt(response.body().getMessage()));
-                                                Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getInstance().getRestaurantSelectionQRCode());
+                                                Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode());
                                                 Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).orderInterface().clearAll();
                                                 getFragmentManager().beginTransaction()
                                                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -414,7 +416,7 @@ public class Fragment_LocationPicker extends Fragment {
                                                         .commit();
                                                 break;
                                             case FAILED:  //so we have error message in message
-                                                Helper.getInstance().toast(getString(R.string.delivery_ordered_fault) + "," + response.body().getMessage(), Constants.ToastMode.ERROR);
+                                                Helper.getInstance().toast(getString(R.string.delivery_ordered_fault) + "," + Encryption.getInstance().decrypt(response.body().getMessage()), Constants.ToastMode.ERROR);
                                                 openMainFragment();
                                                 break;
                                             default: //so we have null in message

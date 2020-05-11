@@ -174,7 +174,7 @@ public class Fragment_LandingPage extends Fragment {
         classes_rv.setHasFixedSize(true);
         classes_layout_manager = new LinearLayoutManager(ContextHelper.retrieveContext(), RecyclerView.HORIZONTAL, false);
         classes_rv.setLayoutManager(classes_layout_manager);
-        classes_adapter = new Adapter_Classes(classes_list, restaurantClass -> Connector.createService(view, Restaurant_Server_API.class, object -> object.getRestaurantList(restaurantClass.getName()).enqueue(new Callback<List<Restaurant>>() {
+        classes_adapter = new Adapter_Classes(classes_list, restaurantClass -> Connector.createService(view, Restaurant_Server_API.class, object -> object.getRestaurantList(Encryption.getInstance().decrypt(restaurantClass.getName())).enqueue(new Callback<List<Restaurant>>() {
             @Override
             public void onResponse(Call<List<Restaurant>> call, Response<List<Restaurant>> response) {
                 if (response.body() != null) {
@@ -213,7 +213,7 @@ public class Fragment_LandingPage extends Fragment {
                         case DONE:
                             Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_LOGIN_STATE, "NEW");
                             Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_TOKEN, null);
-                            Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_ENCRYPTED_QR_CODE, null);
+                            Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_SELECTED_RESTAURANT_QR_CODE, null);
                             Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_SHARED_KEY, null);
                             Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_FIRST_USE_STATE, null);
                             Helper.getInstance().toast(R.string.log_out_successfully, Constants.ToastMode.SUCCESS);
@@ -351,7 +351,7 @@ public class Fragment_LandingPage extends Fragment {
                 if (response.body() != null) {
                     switch (ServerResponse.ServerResponseCodes.getMeaningOf(response.body().getCode())) {
                         case DONE:
-                            Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_APP_MAIN_COLOR, response.body().getMessage());
+                            Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_APP_MAIN_COLOR, Encryption.getInstance().decrypt(response.body().getMessage()));
 
                             Connector.createService(view, Restaurant_Server_API.class, object -> object.getRestaurantClasses().enqueue(new Callback<List<RestaurantClass>>() {
                                 @Override
@@ -362,7 +362,7 @@ public class Fragment_LandingPage extends Fragment {
                                         classes_adapter.notifyDataSetChanged();
 
                                         Connector.createService(view, Restaurant_Server_API.class, object -> {
-                                            object.getRestaurantList(classes_list.get(0).getName()).enqueue(new Callback<List<Restaurant>>() {
+                                            object.getRestaurantList(Encryption.getInstance().decrypt(classes_list.get(0).getName())).enqueue(new Callback<List<Restaurant>>() {
                                                 @Override
                                                 public void onResponse(Call<List<Restaurant>> call, Response<List<Restaurant>> response) {
                                                     if (response.body() != null) {

@@ -439,8 +439,8 @@ public class Helper implements Helper_API {
     }
 
     @Override
-    public String getRestaurantSelectionQRCode() {
-        return Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_RESTAURANT_SELECTION_ENCRYPTED_QR_CODE, null);
+    public String getSelectedRestaurantDecryptedQRCode() {
+        return Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_SELECTED_RESTAURANT_QR_CODE, null);
     }
 
     @Override

@@ -29,6 +29,7 @@ import ir.ac.kntu.R;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
 import ir.ac.kntu.Technical.Other.Other.Constants;
 import ir.ac.kntu.Technical.Other.Other.ContextHelper;
+import ir.ac.kntu.Technical.Other.Other.Encryption;
 import ir.ac.kntu.Technical.Other.Other.Helper;
 
 @Layout(R.layout.item_menu_food)
@@ -118,10 +119,10 @@ public class MenuFoodInfoView {
             priceContainer.setLayoutParams(layoutParams);
             container.setVisibility(android.view.View.VISIBLE);
             frameContainer.setVisibility(android.view.View.VISIBLE);
-            name.setText(food.getName());
+            name.setText(Encryption.getInstance().decrypt(food.getName()));
             price.setText(Helper.getInstance().getOneDigitOrNon(food.getPrice(), true));
             priceUnit.setText(Helper.getInstance().getPurchaseUnit());
-            List<Bill> list = Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(food.getId(), Helper.getInstance().getRestaurantSelectionQRCode());
+            List<Bill> list = Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(food.getId(), Helper.getInstance().getSelectedRestaurantDecryptedQRCode());
             counter.setText(String.valueOf(!list.isEmpty() ? list.get(0).getCounter() : 0));
             card.setOnClickListener(v -> {
                 Fragment fragment = new Fragment_FoodDescriptionDetail();
@@ -136,7 +137,7 @@ public class MenuFoodInfoView {
                 if (newNumber <= Constants.MAX_ADD_TO_CART_NUMBER) {
                     counter.setText(String.valueOf(newNumber));
                     Fragment_Cart.addToCart(food.getId(), newNumber, false);
-                    int counter = Bill.getTotalFoodItems(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getRestaurantSelectionQRCode()));
+                    int counter = Bill.getTotalFoodItems(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode()));
                     ((Fragment_Main) fragmentManager.findFragmentById(R.id.main_frame)).updateBadge();
 
                 }

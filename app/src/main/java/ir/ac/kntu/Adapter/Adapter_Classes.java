@@ -15,6 +15,8 @@ import ir.ac.kntu.R;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
 import ir.ac.kntu.Technical.Other.CustomRunnable.Runnable_SingleArg;
 import ir.ac.kntu.Technical.Other.Other.ContextHelper;
+import ir.ac.kntu.Technical.Other.Other.Encryption;
+import ir.ac.kntu.Technical.Other.Other.Helper_Log;
 
 public class Adapter_Classes extends RecyclerView.Adapter {
     private List<RestaurantClass> list;
@@ -37,7 +39,11 @@ public class Adapter_Classes extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         TextViewPlus item = holder.itemView.findViewById(R.id.item_restaurant_class_view);
-        item.setText(ContextHelper.retrieveContext().getString(R.string.class_of) + " " + list.get(position).getName());
+        try {
+            item.setText(ContextHelper.retrieveContext().getString(R.string.class_of) + " " + Encryption.getInstance().decrypt(list.get(position).getName()));
+        } catch (Exception e) {
+            Helper_Log.errorLog(e, Adapter_Classes.class);
+        }
         item.setTextColor(selectedIndex == position ? Color.WHITE : Color.BLACK);
         item.setBackgroundResource(selectedIndex == position ? R.drawable.dr_restaurant_class_selected_item : R.drawable.dr_restaurant_class_unselected_item);
         item.setOnClickListener(v -> {

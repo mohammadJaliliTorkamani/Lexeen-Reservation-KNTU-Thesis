@@ -72,7 +72,7 @@ public class Fragment_Setting extends Fragment {
             startActivity(browserIntent);
         });
         openSourceCont.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(ContextHelper.retrieveContext());
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             View inflateView = LayoutInflater.from(ContextHelper.retrieveContext())
                     .inflate(R.layout.layout_open_source, null, false);
             builder.setView(inflateView);

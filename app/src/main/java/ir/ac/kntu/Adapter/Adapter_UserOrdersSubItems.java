@@ -15,6 +15,7 @@ import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
 import ir.ac.kntu.Technical.Other.Other.ContextHelper;
+import ir.ac.kntu.Technical.Other.Other.Encryption;
 import ir.ac.kntu.Technical.Other.Other.Helper;
 import ir.ac.kntu.Technical.Other.Other.Helper_Log;
 import retrofit2.Call;
@@ -45,7 +46,7 @@ public class Adapter_UserOrdersSubItems extends RecyclerView.Adapter {
                 public void onResponse(Call<ir.ac.kntu.Entity.Food> call, Response<ir.ac.kntu.Entity.Food> response) {
                     if (response.body() != null) {
                         text1.setText(Helper.getInstance().getCounterSymbol() + "  " + bills.get(position).getCounter());
-                        text2.setText(response.body().getName());
+                        text2.setText(Encryption.getInstance().decrypt(response.body().getName()));
                     } else
                         Helper_Log.errorLog(Adapter_UserOrdersSubItems.class);
                 }

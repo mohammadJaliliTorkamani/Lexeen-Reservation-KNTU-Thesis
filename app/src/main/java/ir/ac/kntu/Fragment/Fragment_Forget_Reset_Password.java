@@ -90,43 +90,49 @@ public class Fragment_Forget_Reset_Password extends Fragment {
             } else {
                 progressBar.setVisibility(View.VISIBLE);
                 enter.setVisibility(View.GONE);
-                Connector.createService(view, Account_Server_API.class, object -> object.resetForgotPassword(password.getText().toString(), getArguments().getString("PHONE")).enqueue(new Callback<ServerResponse>() {
-                    @Override
-                    public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                        if (response.body() != null) {
-                            switch (ServerResponse.ServerResponseCodes.getMeaningOf(response.body().getCode())) {
-                                case DONE:
-                                    Helper.getInstance().toast(R.string.password_successfully_changed, Constants.ToastMode.SUCCESS);
-                                    Fragment fragment = new Fragment_Login();
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("USERNAME", response.body().getMessage());
-                                    bundle.putString("PASSWORD", password.getText().toString());
-                                    fragment.setArguments(bundle);
-                                    Setting.getInstance().hideKeyboard(getActivity());
-                                    getFragmentManager()
-                                            .beginTransaction()
-                                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                                            .replace(R.id.main_frame, fragment)
-                                            .commit();
-                                    break;
-                                case FAILED:
-                                case UNKNOWN:
-                                    Helper.getInstance().toast(getString(R.string.error) + " : " + response.body().getMessage(), Constants.ToastMode.ERROR);
-                                    break;
+                Connector.createService(view, Account_Server_API.class, object -> {
+                    try {
+                        object.resetForgotPassword(Helper.getInstance().hash(password.getText().toString()), getArguments().getString("PHONE")).enqueue(new Callback<ServerResponse>() {
+                            @Override
+                            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                                if (response.body() != null) {
+                                    switch (ServerResponse.ServerResponseCodes.getMeaningOf(response.body().getCode())) {
+                                        case DONE:
+                                            Helper.getInstance().toast(R.string.password_successfully_changed, Constants.ToastMode.SUCCESS);
+                                            Fragment fragment = new Fragment_Login();
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("USERNAME", getArguments().getString("PHONE"));
+                                            bundle.putString("PASSWORD", password.getText().toString());
+                                            fragment.setArguments(bundle);
+                                            Setting.getInstance().hideKeyboard(getActivity());
+                                            getFragmentManager()
+                                                    .beginTransaction()
+                                                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                                    .replace(R.id.main_frame, fragment)
+                                                    .commit();
+                                            break;
+                                        case FAILED:
+                                        case UNKNOWN:
+                                            Helper.getInstance().toast(getString(R.string.error) + " : " + response.body().getMessage(), Constants.ToastMode.ERROR);
+                                            break;
+                                    }
+                                } else
+                                    Helper_Log.errorLog(Fragment_Forget_Reset_Password.class);
+                                progressBar.setVisibility(View.GONE);
+                                enter.setVisibility(View.VISIBLE);
                             }
-                        } else
-                            Helper_Log.errorLog(Fragment_Forget_Reset_Password.class);
-                        progressBar.setVisibility(View.GONE);
-                        enter.setVisibility(View.VISIBLE);
-                    }
 
-                    @Override
-                    public void onFailure(Call<ServerResponse> call, Throwable t) {
-                        Helper_Log.errorLog(t, Fragment_Forget_Reset_Password.class);
-                        progressBar.setVisibility(View.GONE);
-                        enter.setVisibility(View.VISIBLE);
+                            @Override
+                            public void onFailure(Call<ServerResponse> call, Throwable t) {
+                                Helper_Log.errorLog(t, Fragment_Forget_Reset_Password.class);
+                                progressBar.setVisibility(View.GONE);
+                                enter.setVisibility(View.VISIBLE);
+                            }
+                        });
+                    } catch (Exception e) {
+                        Helper_Log.errorLog(e, Fragment_Forget_Reset_Password.class);
                     }
-                }));
+                });
             }
         });
     }

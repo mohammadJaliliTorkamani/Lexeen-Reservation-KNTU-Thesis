@@ -63,7 +63,7 @@ dependencies {
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
     implementation 'com.github.GrenderG:Toasty:1.4.2'
-    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.jaredrummler:animated-svg-view:1.0.6'
     implementation 'com.lijiankun24:shadowlayout:1.1.0'
     implementation 'ir.map:map-sdk:4.0.0'

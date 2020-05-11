@@ -29,6 +29,7 @@
             <ImageView
                 android:id="@+id/our_offer_item_image"
                 android:layout_width="match_parent"
+                android:scaleType="centerCrop"
                 android:layout_height="match_parent"
                 android:foreground="@drawable/dr_gradient_effect" />
         </androidx.cardview.widget.CardView>

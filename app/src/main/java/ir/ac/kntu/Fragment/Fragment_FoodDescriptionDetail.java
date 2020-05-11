@@ -4,6 +4,7 @@ package ir.ac.kntu.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,9 +20,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.List;
 
@@ -35,6 +35,7 @@ import ir.ac.kntu.Technical.CustomView.TextViewPlus;
 import ir.ac.kntu.Technical.Other.CustomRunnable.Runnable_SingleArg;
 import ir.ac.kntu.Technical.Other.Other.Constants;
 import ir.ac.kntu.Technical.Other.Other.ContextHelper;
+import ir.ac.kntu.Technical.Other.Other.Encryption;
 import ir.ac.kntu.Technical.Other.Other.Helper;
 import ir.ac.kntu.Technical.Other.Other.Helper_Log;
 import retrofit2.Call;
@@ -88,29 +89,26 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
         setAnimations();
         manageListeners(view);
         initializeServerSupplied(view, food -> {
-            ImageLoader.getInstance().displayImage(food.getPictures().get(0), expandedImage, new ImageLoadingListener() {
+
+            Picasso.get().load(Encryption.getInstance().decrypt(food.getPictures().get(0))).into(new Target() {
                 @Override
-                public void onLoadingStarted(String imageUri, View view) {
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    expandedImage.setImageBitmap(bitmap);
                     startPostponedEnterTransition();
                 }
 
                 @Override
-                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
                     startPostponedEnterTransition();
                 }
 
                 @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    startPostponedEnterTransition();
-                }
-
-                @Override
-                public void onLoadingCancelled(String imageUri, View view) {
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
                     startPostponedEnterTransition();
                 }
             });
-            foodName.setText(food.getName());
-            expandFoodName.setTitle(food.getName());
+            foodName.setText(Encryption.getInstance().decrypt(food.getName()));
+            expandFoodName.setTitle(Encryption.getInstance().decrypt(food.getName()));
             expandFoodName.setCollapsedTitleGravity(Gravity.CENTER_VERTICAL);
 
             priceText.setText(Helper.getInstance().getOneDigitOrNon(food.getPrice(), true));
@@ -118,7 +116,7 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
 
             calorieText.setText(Helper.getInstance().getOneDigitOrNon(food.getCalories(), false) + " " + getString(R.string.cal));
             cookTimeText.setText(food.getCookTimeMinutes() + " " + getString(R.string.min));
-            description.setText(food.getDescription());
+            description.setText(Encryption.getInstance().decrypt(food.getDescription()));
             select_title_zero_and_one(view);
         }, () -> {
             Helper_Log.errorLog(Fragment_FoodDescriptionDetail.class);
@@ -132,13 +130,11 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
             @Override
             public void onResponse(Call<List<String>> call, Response<List<String>> response) {
                 if (response.body() != null) {
-                    if (response.body().get(0).equalsIgnoreCase("offer")) {
+                    String retVal = Encryption.getInstance().decrypt(response.body().get(0));
+                    if (retVal.equalsIgnoreCase("offer")) {
                         mealType.setText("غذای پیشنهادی ما");
                         mealTypeInfo.setText("%" + response.body().get(1) + "  تخفیف!");
-                    } else if (response.body().get(0).equalsIgnoreCase("today")) {
-                        mealType.setText("غذای امروز");
-                        mealTypeInfo.setText("پیشنهاد برای " + response.body().get(1));
-                    } else if (response.body().get(0).equalsIgnoreCase("popular")) {
+                    } else if (retVal.equalsIgnoreCase("popular")) {
                         mealType.setText("غذای پر طرفدار");
                         mealTypeInfo.setText("امتحان کنید !");
                     } else {
@@ -208,13 +204,13 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
         expandedImage.setColorFilter(ContextHelper.retrieveContext().getResources().getColor(R.color.food_description_black_mask_color));
         buyIcon.setMaxBadgeValue(Constants.MAX_ADD_TO_CART_NUMBER);
         buyIcon.setBadgeTextFont(Typeface.createFromAsset(ContextHelper.retrieveContext().getAssets(), "fonts/farsi/syekan.otf"));
-        int badgeCounterValue = Bill.getTotalFoodItems(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getRestaurantSelectionQRCode()));
+        int badgeCounterValue = Bill.getTotalFoodItems(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode()));
         if (badgeCounterValue == 0)
             buyIcon.clearBadge();
         else
             buyIcon.setBadgeValue(badgeCounterValue);
-        if (!Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(id, Helper.getInstance().getRestaurantSelectionQRCode()).isEmpty()) {
-            counter.setText(String.valueOf(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(id, Helper.getInstance().getRestaurantSelectionQRCode()).get(0).getCounter()));
+        if (!Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(id, Helper.getInstance().getSelectedRestaurantDecryptedQRCode()).isEmpty()) {
+            counter.setText(String.valueOf(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithFoodID(id, Helper.getInstance().getSelectedRestaurantDecryptedQRCode()).get(0).getCounter()));
         } else {
             counter.setText("0");
         }
@@ -263,7 +259,7 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
                 else
                     Helper.getInstance().toast(food.getName() + " از سبد خرید حذف شد", Constants.ToastMode.SUCCESS);
             }
-            int counter = Bill.getTotalFoodItems(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getRestaurantSelectionQRCode()));
+            int counter = Bill.getTotalFoodItems(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode()));
             if (counter == 0)
                 buyIcon.clearBadge();
             else

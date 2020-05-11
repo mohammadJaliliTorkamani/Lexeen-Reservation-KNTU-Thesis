@@ -351,8 +351,8 @@ public class Adapter_Table extends RecyclerView.Adapter<Adapter_Table.ViewHolder
                 for (List<FullDesk> component : connectedComponents) {
                     for (FullDesk fullDesk : component) {
                         fullDesk.getG_desk().setOnClickListener(fullDesk.getDesk().isReserved() ? null : v -> {
-                            if (!Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithLexinTableID(fullDesk.getDesk().getLexinTableID(), Helper.getInstance().getRestaurantSelectionQRCode()).isEmpty()) {
-                                Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().deleteWithLexinTableID(fullDesk.getDesk().getLexinTableID(), Helper.getInstance().getRestaurantSelectionQRCode());
+                            if (!Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getWithLexinTableID(fullDesk.getDesk().getLexinTableID(), Helper.getInstance().getSelectedRestaurantDecryptedQRCode()).isEmpty()) {
+                                Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().deleteWithLexinTableID(fullDesk.getDesk().getLexinTableID(), Helper.getInstance().getSelectedRestaurantDecryptedQRCode());
                                 for (FullDesk item : component)
                                     item.getG_desk().setReserveMode(G_Desk.Mode.NOT_RESERVED);
                             } else {

@@ -15,7 +15,7 @@ import ir.ac.kntu.Technical.Other.Other.StringListTypeConverter;
 public class Restaurant {
     @PrimaryKey(autoGenerate = false)
     private int id;
-    private String encryptedCode;
+    private String qrCode;
     private String name;
     private String type;
     private String phone;
@@ -26,10 +26,10 @@ public class Restaurant {
     private List<String> pictures;
 
 
-    public Restaurant(int id, boolean active, String encryptedCode, String name, String type, String phone, Address address, int ownerID, String restaurantClass, List<String> pictures) {
+    public Restaurant(int id, boolean active, String qrCode, String name, String type, String phone, Address address, int ownerID, String restaurantClass, List<String> pictures) {
         this.id = id;
         this.restaurantClass = restaurantClass;
-        this.encryptedCode = encryptedCode;
+        this.qrCode = qrCode;
         this.name = name;
         this.active = active;
         this.type = type;
@@ -47,12 +47,12 @@ public class Restaurant {
         this.id = id;
     }
 
-    public String getEncryptedCode() {
-        return encryptedCode;
+    public String getQrCode() {
+        return qrCode;
     }
 
-    public void setEncryptedCode(String encryptedCode) {
-        this.encryptedCode = encryptedCode;
+    public void setQrCode(String qrCode) {
+        this.qrCode = qrCode;
     }
 
     public String getName() {

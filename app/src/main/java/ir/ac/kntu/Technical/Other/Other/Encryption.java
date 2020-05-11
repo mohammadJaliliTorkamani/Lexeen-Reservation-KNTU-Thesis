@@ -31,7 +31,7 @@ public class Encryption implements Encryption_API {
     }
 
     @Override
-    public String encrypt(String str) throws Exception {
+    public String encrypt(String str) {
         String sharedKey = Helper.getInstance().getSharedKey();
         if (sharedKey == null)
             return str;
@@ -43,11 +43,16 @@ public class Encryption implements Encryption_API {
                 Helper_Log.errorLog(e, Encryption.class);
             }
         }
-        return cipher.encrypt(str);
+        try {
+            return cipher.encrypt(str);
+        } catch (Exception e) {
+            Helper_Log.errorLog(e, Encryption.class);
+            return str;
+        }
     }
 
     @Override
-    public String decrypt(String str) throws Exception {
+    public String decrypt(String str) {
         String sharedKey = Helper.getInstance().getSharedKey();
         if (sharedKey == null)
             return str;
@@ -59,7 +64,12 @@ public class Encryption implements Encryption_API {
                 Helper_Log.errorLog(e, Encryption.class);
             }
         }
-        return cipher.decrypt(str);
+        try {
+            return cipher.decrypt(str);
+        } catch (Exception e) {
+            Helper_Log.errorLog(e, Encryption.class);
+            return str;
+        }
     }
 
     @Override
