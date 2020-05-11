@@ -1,6 +1,5 @@
 package ir.ac.kntu.Technical.Other.Other;
 
-import android.util.Log;
 import android.view.View;
 
 import ir.ac.kntu.Interface.Client.Encryption_API;
@@ -101,7 +100,6 @@ public class Encryption implements Encryption_API {
                 if (response.body() != null) {
                     y = response.body();
                     sharedKey = (long) (Math.pow(y, clientPrivateKey) % (P));
-                    Log.d("XCXC", "" + sharedKey + "#" + privateKey);
                     Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_SHARED_KEY, String.valueOf(sharedKey));
                     try {
                         cipher = new MCrypt(sharedKey);
@@ -110,14 +108,12 @@ public class Encryption implements Encryption_API {
                     }
                     runnable.run(sharedKey);
                 } else {
-                    Log.d("XCXC2", "" + privateKey + ",nulllll");
                     runnable.run((long) -1);
                 }
             }
 
             @Override
             public void onFailure(Call<Long> call, Throwable t) {
-                Log.d("XCXC2", "" + privateKey + "$" + t.getMessage());
                 Helper_Log.errorLog(t, Encryption.class);
             }
         }));

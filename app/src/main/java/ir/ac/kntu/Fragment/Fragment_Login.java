@@ -2,7 +2,6 @@ package ir.ac.kntu.Fragment;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,7 +105,6 @@ public class Fragment_Login extends Fragment {
             } else {
                 try {
                     String hashedPassword = Helper.getInstance().hash(password);
-                    Log.d("XXXCC", hashedPassword);
                     loginText.setVisibility(View.GONE);
                     progressBar.setVisibility(View.VISIBLE);
                     Connector.createService(view, Account_Server_API.class, loginObject -> {

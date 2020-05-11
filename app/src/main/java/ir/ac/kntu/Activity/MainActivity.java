@@ -4,7 +4,6 @@ package ir.ac.kntu.Activity;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -35,11 +34,7 @@ public class MainActivity extends AppCompatActivity {
         Setting.getInstance().makeScreenNoLimits(this, true);
         Setting.getInstance().inverseBarColor(this, false);
         setContentView(R.layout.activity_main);
-        try {
-            Log.d("ZXCZ", Helper.getInstance().hash("ffffffff"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
 //        manageListeners();
         getSupportFragmentManager()
                 .beginTransaction()
