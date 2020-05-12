@@ -79,7 +79,7 @@ public class Adapter_ByFieldFood extends RecyclerView.Adapter {
             counter++;
             Fragment_Cart.addToCart(food.getId(), counter, false);
             ((Fragment_Main) fragmentManager.findFragmentById(R.id.main_frame)).updateBadge();
-            Helper.getInstance().toast(list.get(toShowCategoryIndex).getFoodList().get(position).getName() + " به سید خرید اضافه شد", Constants.ToastMode.SUCCESS);
+            Helper.getInstance().toast(Encryption.getInstance().decrypt(list.get(toShowCategoryIndex).getFoodList().get(position).getName()) + " به سید خرید اضافه شد", Constants.ToastMode.SUCCESS);
         });
         Helper.getInstance().changeStrokeColorToMainAppColor(add);
         add.setTextColor(Color.parseColor(Helper.getInstance().getMainAppColor()));

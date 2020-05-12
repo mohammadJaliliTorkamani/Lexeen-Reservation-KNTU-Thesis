@@ -255,9 +255,9 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
             Fragment_Cart.addToCart(id, Integer.parseInt(counter.getText().toString().trim()), false);
             if (food != null) {
                 if (Integer.parseInt(counter.getText().toString().trim()) > 0)
-                    Helper.getInstance().toast(counter.getText().toString().trim() + " " + food.getName() + " به سبد خرید اضافه شد", Constants.ToastMode.SUCCESS);
+                    Helper.getInstance().toast(counter.getText().toString().trim() + " " + Encryption.getInstance().decrypt(food.getName()) + " به سبد خرید اضافه شد", Constants.ToastMode.SUCCESS);
                 else
-                    Helper.getInstance().toast(food.getName() + " از سبد خرید حذف شد", Constants.ToastMode.SUCCESS);
+                    Helper.getInstance().toast(Encryption.getInstance().decrypt(food.getName()) + " از سبد خرید حذف شد", Constants.ToastMode.SUCCESS);
             }
             int counter = Bill.getTotalFoodItems(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode()));
             if (counter == 0)

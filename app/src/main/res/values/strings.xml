@@ -152,6 +152,8 @@
     <string name="confirm">تایید</string>
     <string name="invalid_destination">مقصد نامعتبر است</string>
     <string name="location_access_not_permitted">محوز مکان وجود ندارد</string>
+    <string name="copied_to_clipboard">کپی شد</string>
+    <string name="deliver_to_address">تحویل به آدرس</string>
 
 
 </resources>

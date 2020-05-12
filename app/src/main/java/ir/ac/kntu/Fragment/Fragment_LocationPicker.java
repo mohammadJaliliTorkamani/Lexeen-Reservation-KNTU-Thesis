@@ -410,9 +410,12 @@ public class Fragment_LocationPicker extends Fragment {
                                                 order.setOrderID(Integer.parseInt(response.body().getMessage()));
                                                 Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode());
                                                 Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).orderInterface().clearAll();
+                                                getFragmentManager().popBackStack();
+                                                getFragmentManager().popBackStack();
                                                 getFragmentManager().beginTransaction()
                                                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                                        .replace(R.id.main_frame, new Fragment_UserOrders())
+                                                        .addToBackStack("user_orders")
+                                                        .add(R.id.main_frame, new Fragment_UserOrders())
                                                         .commit();
                                                 break;
                                             case FAILED:  //so we have error message in message

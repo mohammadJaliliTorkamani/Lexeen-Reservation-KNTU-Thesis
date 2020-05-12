@@ -27,16 +27,24 @@ import androidmads.library.qrgenearator.QRGEncoder;
 import ir.ac.kntu.Entity.Order;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Technical.CustomView.TextViewPlus;
+import ir.ac.kntu.Technical.Other.Other.Constants;
 import ir.ac.kntu.Technical.Other.Other.ContextHelper;
 import ir.ac.kntu.Technical.Other.Other.Encryption;
 import ir.ac.kntu.Technical.Other.Other.Helper;
 import ir.ac.kntu.Technical.Other.Other.Helper_Log;
+import ir.ac.kntu.Technical.Other.Other.Setting;
+import ir.map.servicesdk.MapService;
+import ir.map.servicesdk.ResponseListener;
+import ir.map.servicesdk.model.base.MapirError;
+import ir.map.servicesdk.response.ReverseGeoCodeResponse;
 
 public class Adapter_UserFoodOder extends RecyclerView.Adapter {
     private FragmentManager fragmentManager;
     private List<Order> orders;
     private int lastPosition = -1;
     private Activity activity;
+    private MapService mapService = new MapService();
+
 
     public Adapter_UserFoodOder(FragmentManager fragmentManager, Activity activity, List<Order> orders) {
         this.fragmentManager = fragmentManager;
@@ -81,6 +89,21 @@ public class Adapter_UserFoodOder extends RecyclerView.Adapter {
 
         foodIconCard.setBackgroundResource(orders.get(position).isDelivery() ? R.drawable.dr_gray_border : 0);
         foodIcon.setImageResource(orders.get(position).isDelivery() ? R.drawable.ic_delivery_motorbike : R.drawable.ic_sample_chairs);
+        foodIcon.setOnClickListener(v -> {
+            if (orders.get(position).isDelivery()) {
+                mapService.reverseGeoCode(orders.get(position).getLatitude(), orders.get(position).getLongitude(), new ResponseListener<ReverseGeoCodeResponse>() {
+                    @Override
+                    public void onSuccess(ReverseGeoCodeResponse response) {
+                        Helper.getInstance().toast(ContextHelper.retrieveContext().getString(R.string.deliver_to_address) + " : " + response.getAddress(), Constants.ToastMode.INFO);
+                    }
+
+                    @Override
+                    public void onError(MapirError error) {
+                        Helper_Log.errorLog(Adapter_UserFoodOder.class);
+                    }
+                });
+            }
+        });
 
         RecyclerView.Adapter adapter = new Adapter_UserOrdersSubItems(orders.get(position).getSpecifiedBills());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ContextHelper.retrieveContext(), RecyclerView.VERTICAL, false);
@@ -93,7 +116,7 @@ public class Adapter_UserFoodOder extends RecyclerView.Adapter {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             View inflateView = LayoutInflater.from(ContextHelper.retrieveContext()).inflate(R.layout.dialog_order_code, null, false);
             builder.setView(inflateView);
-            builder.setCancelable(true);
+            builder.setCancelable(false);
             Dialog dialog = builder.create();
             ImageView qr = inflateView.findViewById(R.id.dialog_order_qr_image);
             ConstraintLayout titleContainer = inflateView.findViewById(R.id.dialog_order_title_container);
@@ -106,6 +129,10 @@ public class Adapter_UserFoodOder extends RecyclerView.Adapter {
             Helper.getInstance().changeShapeColorToMainAppColor(titleContainer);
             Helper.getInstance().changeShapeColorToMainAppColor(close);
             close.setOnClickListener(v1 -> dialog.dismiss());
+            qr.setOnClickListener(v1 -> {
+                Setting.getInstance().copyToClipBoard(ContextHelper.retrieveContext(), Encryption.getInstance().decrypt(orders.get(position).getQrCodeValue()));
+                Helper.getInstance().toast(R.string.copied_to_clipboard, Constants.ToastMode.SUCCESS);
+            });
             title.setText(orders.get(position).isDelivery() ? "رسید تحویل" : "رسید رزرو");
             try {
                 Bitmap bitmap = new QRGEncoder(Encryption.getInstance().decrypt(orders.get(position).getQrCodeValue()), null, QRGContents.Type.TEXT, 480).encodeAsBitmap();
@@ -116,6 +143,7 @@ public class Adapter_UserFoodOder extends RecyclerView.Adapter {
 
             try {
                 code.setText(Encryption.getInstance().decrypt(orders.get(position).getQrCodeValue()));
+                code.setOnClickListener(v1 -> qr.callOnClick());
                 dateTime.setText(Encryption.getInstance().decrypt(orders.get(position).getDate_and_time_start()));
             } catch (Exception e) {
                 Helper_Log.errorLog(e, Adapter_UserFoodOder.class);

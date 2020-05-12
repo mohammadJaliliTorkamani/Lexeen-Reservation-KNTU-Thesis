@@ -105,10 +105,13 @@ public class Fragment_Forget_Reset_Password extends Fragment {
                                             bundle.putString("PASSWORD", password.getText().toString());
                                             fragment.setArguments(bundle);
                                             Setting.getInstance().hideKeyboard(getActivity());
+                                            getFragmentManager().popBackStack();//pop the current fragment
+                                            getFragmentManager().popBackStack();//pop the previous fragment
                                             getFragmentManager()
                                                     .beginTransaction()
                                                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                                                    .replace(R.id.main_frame, fragment)
+                                                    .addToBackStack("login")
+                                                    .add(R.id.main_frame, fragment)
                                                     .commit();
                                             break;
                                         case FAILED:
