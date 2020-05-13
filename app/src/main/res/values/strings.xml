@@ -130,14 +130,11 @@
     <string name="no_permission_granted">مجوز مربوطه داده نشد</string>
     <string name="log_out_successfully">خروج از حساب کاربری با موفقیت انجام شد</string>
     <string name="search_your_favorite_food_easily">به راحتی غذای محبوب خود را جستجو کنید</string>
-    <string name="not_good_order">عدم تناسب صورتحساب با میز انتخاب شده</string>
     <string name="password_successfully_changed">کلمه عبور با موفقیت تغییر یافت</string>
     <string name="invalid_number_of_customers">تعداد وارد شده معتبر نیست</string>
     <string name="block_num">پلاک</string>
-    <string name="floor_and_unit">طبقه , واحد</string>
     <string name="enter_floor">طبقه را وارد کنید</string>
     <string name="enter_block_no">پلاک را وارد کنید</string>
-    <string name="bad_formatted_floor_and_unit">قالب طبقه و واحد درست نیست</string>
     <string name="minimum_price_is">حداقل مبلغ صورت حساب جهت استفاده از این تخفیف :</string>
     <string name="no_empty_desks">در حال حاضر میز خالی وجود ندارد</string>
     <string name="close">بستن</string>
@@ -154,6 +151,11 @@
     <string name="location_access_not_permitted">محوز مکان وجود ندارد</string>
     <string name="copied_to_clipboard">کپی شد</string>
     <string name="deliver_to_address">تحویل به آدرس</string>
+    <string name="floor">طبقه</string>
+    <string name="unit">واحد</string>
+    <string name="enter_unit">واحد را وارد کنید</string>
+    <string name="bad_formatted_floor">قالب پلاک درست نیست</string>
+    <string name="bad_formatted_unit">قالب واحد درست نیست</string>
 
 
 </resources>

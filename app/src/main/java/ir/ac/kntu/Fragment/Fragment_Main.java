@@ -23,6 +23,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.roughike.bottombar.BottomBar;
 import com.tooltip.Tooltip;
 
+import java.util.List;
+
 import ir.ac.kntu.Adapter.Adapter_Drawer;
 import ir.ac.kntu.DataBase.Database;
 import ir.ac.kntu.Entity.Bill;
@@ -176,13 +178,33 @@ public class Fragment_Main extends Fragment {
                     fragment = new Fragment_Cart();
                     break;
             }
-            if (fragment != null)
-                getFragmentManager()
-                        .beginTransaction()
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .addToBackStack(tabId == R.id.tab_home ? " home" : tabId == R.id.tab_menu ? "menu" : "cart")
-                        .add(R.id.main_fragment_top_bb_frame, fragment)
-                        .commit();
+            if (fragment != null) {
+
+                //check if exist in stack (second place of stack), just pop to reach it. otherwise add it to stack
+                List<Fragment> fragmentList = getFragmentManager().getFragments();
+                if (fragmentList.size() > 1) {
+                    String doubtToExistFragmentName = fragmentList.get(fragmentList.size() - 2).getClass().getSimpleName();
+                    if (doubtToExistFragmentName.equals(Fragment_Home.class.getSimpleName()) && fragment instanceof Fragment_Home)
+                        getFragmentManager().popBackStack();
+                    else if (doubtToExistFragmentName.equals(Fragment_Menu.class.getSimpleName()) && fragment instanceof Fragment_Menu)
+                        getFragmentManager().popBackStack();
+                    else if (doubtToExistFragmentName.equals(Fragment_Cart.class.getSimpleName()) && fragment instanceof Fragment_Cart)
+                        getFragmentManager().popBackStack();
+                    else
+                        getFragmentManager()
+                                .beginTransaction()
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .addToBackStack(tabId == R.id.tab_home ? " home" : tabId == R.id.tab_menu ? "menu" : "cart")
+                                .add(R.id.main_fragment_top_bb_frame, fragment)
+                                .commit();
+                } else
+                    getFragmentManager()
+                            .beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .addToBackStack(tabId == R.id.tab_home ? " home" : tabId == R.id.tab_menu ? "menu" : "cart")
+                            .add(R.id.main_fragment_top_bb_frame, fragment)
+                            .commit();
+            }
         });
 
         landingPage.setOnClickListener(v -> getFragmentManager()
@@ -190,6 +212,16 @@ public class Fragment_Main extends Fragment {
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.main_frame, new Fragment_LandingPage())
                 .commit());
+
+        getFragmentManager().addOnBackStackChangedListener(() -> {
+
+            if (getFragmentManager() != null && getFragmentManager().getFragments().size() > 0) { //first is Fragment_Main (we don't count it)
+                String className = getFragmentManager().findFragmentById(R.id.main_fragment_top_bb_frame).getClass().getSimpleName();
+                int tabID = className.equals(Fragment_Home.class.getSimpleName()) ? R.id.tab_home : className.equals(Fragment_Menu.class.getSimpleName()) ? R.id.tab_menu : className.equals(Fragment_Cart.class.getSimpleName()) ? R.id.tab_shop : -1;
+                if (tabID != -1 && bottomBar.getCurrentTabId() != tabID)
+                    bottomBar.selectTabWithId(tabID);
+            }
+        });
     }
 
     private void findViews(View view) {

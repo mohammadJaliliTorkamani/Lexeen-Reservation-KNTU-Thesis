@@ -104,7 +104,6 @@ public class Adapter_LandingPage extends androidx.recyclerview.widget.RecyclerVi
                     fragmentManager
                             .beginTransaction()
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                            .addToBackStack("main")
                             .replace(R.id.main_frame, mainFragment)
                             .commit();
 

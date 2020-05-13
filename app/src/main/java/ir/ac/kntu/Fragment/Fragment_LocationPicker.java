@@ -1,6 +1,6 @@
 package ir.ac.kntu.Fragment;
 
-import android.graphics.BitmapFactory;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -15,11 +15,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -27,6 +27,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
+import com.mapbox.geojson.LineString;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.geometry.LatLngBounds;
@@ -37,11 +38,14 @@ import com.mapbox.mapboxsdk.location.modes.CameraMode;
 import com.mapbox.mapboxsdk.location.modes.RenderMode;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.plugins.annotation.LineManager;
+import com.mapbox.mapboxsdk.plugins.annotation.LineOptions;
 import com.mapbox.mapboxsdk.plugins.annotation.Symbol;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
+import com.mapbox.mapboxsdk.utils.BitmapUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +96,8 @@ public class Fragment_LocationPicker extends Fragment {
     private MapView mapView;
     private MapService mapService = new MapService();
     private EditText blockNo;
-    private EditText floorAndUnit;
+    private EditText floor;
+    private EditText unit;
     private TextViewPlus selectPlaceText;
     private ProgressBar selectPlacePB;
     private LinearLayout detailAddressFrame;
@@ -105,6 +110,8 @@ public class Fragment_LocationPicker extends Fragment {
     private ImageView hoveringMarker;
     private Symbol restaurantSymbol;
     private Symbol destinationSymbol;
+    private SymbolManager sampleSymbolManager;
+    private LineManager lineManager;
 
 
     @Nullable
@@ -128,15 +135,15 @@ public class Fragment_LocationPicker extends Fragment {
         selectPlaceText = view.findViewById(R.id.location_picker_select_place_text);
         back = view.findViewById(R.id.location_picker_back);
         myLocation = view.findViewById(R.id.location_picker_my_location);
-        floorAndUnit = view.findViewById(R.id.location_picker_floor_and_unit);
         blockNo = view.findViewById(R.id.location_picker_block_no);
+        floor = view.findViewById(R.id.location_picker_floor);
+        unit = view.findViewById(R.id.location_picker_unit);
         detailAddressFrame = view.findViewById(R.id.location_picker_top_address_detail_frame);
     }
 
     private void initDroppedMarker(@NonNull Style loadedMapStyle) {
         // Add the marker image to map
-        loadedMapStyle.addImage("dropped-icon-image", BitmapFactory.decodeResource(
-                getResources(), R.drawable.resturant_marker));
+        loadedMapStyle.addImage("dropped-icon-image", BitmapUtils.getBitmapFromDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_pin, null)));
         loadedMapStyle.addSource(new GeoJsonSource("dropped-marker-source-id"));
         loadedMapStyle.addLayer(new SymbolLayer(DROPPED_MARKER_LAYER_ID,
                 "dropped-marker-source-id").withProperties(
@@ -161,15 +168,17 @@ public class Fragment_LocationPicker extends Fragment {
             map = mapboxMap;
             map.setStyle(new Style.Builder().fromUri(MapirStyle.MAIN_MOBILE_VECTOR_STYLE), style -> {
                 mapStyle = style;
+                sampleSymbolManager = new SymbolManager(mapView, map, mapStyle);
+                lineManager = new LineManager(mapView, map, mapStyle, "hw-secondary-tertiary");
                 Connector.createService(view, Restaurant_Server_API.class, object ->
                         object.getRestaurantInfo(Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_SELECTED_RESTAURANT_QR_CODE, null)).enqueue(new Callback<Restaurant>() {
                             @Override
                             public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
                                 if (response.body() != null) {
                                     enableLocationComponent();
-                                    addSymbolToMap(response.body().getName(), response.body().getAddress().getLatitude(), response.body().getAddress().getLongitude(), false);
+                                    addSymbolToMap(response.body().getAddress().getLatitude(), response.body().getAddress().getLongitude(), false);
                                     hoveringMarker = new ImageView(ContextHelper.retrieveContext());
-                                    hoveringMarker.setImageResource(R.drawable.location_marker);
+                                    hoveringMarker.setImageResource(R.drawable.ic_pin);
                                     FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                                             ViewGroup.LayoutParams.WRAP_CONTENT,
                                             ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
@@ -190,22 +199,16 @@ public class Fragment_LocationPicker extends Fragment {
         });
     }
 
-    private void addSymbolToMap(String name, double latitude, double longitude, boolean isDestinationSymbol) {
-        mapStyle.addImage("sample_image_id", getResources().getDrawable(R.drawable.resturant_marker));
-        // create symbol manager object
-        SymbolManager sampleSymbolManager = new SymbolManager(mapView, map, mapStyle);
-        sampleSymbolManager.addClickListener(symbol -> Toast.makeText(ContextHelper.retrieveContext(), name, Toast.LENGTH_SHORT).show());
-        // set non-data-driven properties, such as:
+    private void addSymbolToMap(double latitude, double longitude, boolean isDestinationSymbol) {
+        Bitmap bitmap = BitmapUtils.getBitmapFromDrawable(ResourcesCompat.getDrawable(getResources(), isDestinationSymbol ? R.drawable.ic_pin : R.drawable.ic_food_store, null));
+        mapStyle.addImage("sample_image_id_" + isDestinationSymbol, bitmap);
         sampleSymbolManager.setIconAllowOverlap(true);
         sampleSymbolManager.setIconRotationAlignment(ICON_ROTATION_ALIGNMENT_VIEWPORT);
-        // Add symbol at specified lat/lon
         SymbolOptions sampleSymbolOptions = new SymbolOptions();
         sampleSymbolOptions.withLatLng(new LatLng(latitude, longitude));
-        sampleSymbolOptions.withIconImage("sample_image_id");
+        sampleSymbolOptions.withIconImage("sample_image_id_" + isDestinationSymbol);
         sampleSymbolOptions.withIconSize(1.0f);
-        // save created Symbol Object for later access
         Symbol sampleSymbol = sampleSymbolManager.create(sampleSymbolOptions);
-
         if (isDestinationSymbol)
             destinationSymbol = sampleSymbol;
         else
@@ -261,18 +264,13 @@ public class Fragment_LocationPicker extends Fragment {
             if (step == 0) {
                 getActivity().onBackPressed();
             } else {
+                sampleSymbolManager.delete(destinationSymbol);
+                lineManager.deleteAll();
+                map.getUiSettings().setAllGesturesEnabled(true);
                 step = 0;
                 selectPlaceText.setText(R.string.select_place);
                 detailAddressFrame.setVisibility(View.GONE);
                 hoveringMarker.setVisibility(View.VISIBLE);
-
-                map.getUiSettings().setAllGesturesEnabled(true);
-                if (destinationSymbol != null) {
-                    SymbolManager sampleSymbolManager = new SymbolManager(mapView, map, mapStyle);
-                    sampleSymbolManager.delete(destinationSymbol);
-                }
-
-
             }
         });
         selectPlaceText.setOnClickListener(v -> {
@@ -289,65 +287,52 @@ public class Fragment_LocationPicker extends Fragment {
                             if (response.body() != null) {
                                 double currentCash = response.body();
                                 if (currentCash >= order.getTotalPrice()) {//enough cash
-                                    Connector.createService(view, Restaurant_Server_API.class, object1 -> object1.getRestaurantLocation().enqueue(new Callback<LatLng>() {
+                                    double restaurantLatitude = restaurantSymbol.getLatLng().getLatitude();
+                                    double restaurantLongitude = restaurantSymbol.getLatLng().getLongitude();
+                                    RouteRequest requestBody = new RouteRequest.Builder(
+                                            latitude, longitude,
+                                            restaurantLatitude, restaurantLongitude,
+                                            RouteType.WALKING
+                                    ).build();
+                                    addSymbolToMap(latitude, longitude, true);
+                                    mapService.route(requestBody, new ResponseListener<RouteResponse>() {
                                         @Override
-                                        public void onResponse(Call<LatLng> call, Response<LatLng> response1) {
-                                            if (response1.body() != null) {
-                                                RouteRequest requestBody = new RouteRequest.Builder(
-                                                        response1.body().getLatitude(), response1.body().getLongitude(),
-                                                        latitude, longitude,
-                                                        RouteType.DRIVING
-                                                ).build();
-                                                mapService.route(requestBody, new ResponseListener<RouteResponse>() {
-                                                    @Override
-                                                    public void onSuccess(RouteResponse response) {
-                                                        if (!response.getRoutes().isEmpty()) {
-                                                            step++;
-                                                            selectPlaceText.setText(getString(R.string.confirm));
-                                                            Animation animation = AnimationUtils.loadAnimation(ContextHelper.retrieveContext(), R.anim.slide_down);
-                                                            animation.setFillAfter(true);
-                                                            detailAddressFrame.setVisibility(View.INVISIBLE);
-                                                            detailAddressFrame.startAnimation(animation);
-                                                            selectPlacePB.setVisibility(View.GONE);
-                                                            selectPlaceText.setVisibility(View.VISIBLE);
+                                        public void onSuccess(RouteResponse response) {
+                                            if (!response.getRoutes().isEmpty()) {
+                                                showRouteOnMap(response.getRoutes().get(0).getGeometry());
+                                                step++;
+                                                selectPlaceText.setText(getString(R.string.confirm));
+                                                Animation animation = AnimationUtils.loadAnimation(ContextHelper.retrieveContext(), R.anim.slide_down);
+                                                animation.setFillAfter(true);
+                                                detailAddressFrame.setVisibility(View.INVISIBLE);
+                                                detailAddressFrame.startAnimation(animation);
+                                                selectPlacePB.setVisibility(View.GONE);
+                                                selectPlaceText.setVisibility(View.VISIBLE);
 
-                                                            List<LatLng> sampleLatLngList = new ArrayList<>();
-                                                            sampleLatLngList.add(new LatLng(response1.body().getLatitude(), response1.body().getLongitude()));
-                                                            sampleLatLngList.add(new LatLng(latitude, longitude));
-                                                            int samplePadding = 200;
-                                                            int sampleBearing = 0;
-                                                            int sampleTilt = 0;
-                                                            LatLngBounds sampleLatLngBounds = new LatLngBounds.Builder().includes(sampleLatLngList).build();
-                                                            map.animateCamera(CameraUpdateFactory.newLatLngBounds(sampleLatLngBounds, sampleBearing, sampleTilt, samplePadding));
-                                                            addSymbolToMap("شما", response1.body().getLatitude(), response1.body().getLongitude(), true);
-                                                            hoveringMarker.setVisibility(View.INVISIBLE);
-                                                            map.getUiSettings().setAllGesturesEnabled(false);
-                                                        } else {
-                                                            Helper.getInstance().toast(R.string.invalid_destination, Constants.ToastMode.INFO);
-                                                            back.callOnClick();
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onError(MapirError error) {
-                                                        Helper_Log.errorLog(Fragment_LocationPicker.class);
-                                                        selectPlacePB.setVisibility(View.GONE);
-                                                        selectPlaceText.setVisibility(View.VISIBLE);
-                                                    }
-                                                });
-                                            } else
-                                                Helper_Log.errorLog(Fragment_LocationPicker.class);
-                                            selectPlacePB.setVisibility(View.GONE);
-                                            selectPlaceText.setVisibility(View.VISIBLE);
+                                                List<LatLng> sampleLatLngList = new ArrayList<>();
+                                                sampleLatLngList.add(new LatLng(restaurantLatitude, restaurantLongitude));
+                                                sampleLatLngList.add(new LatLng(latitude, longitude));
+                                                int samplePadding = 200;
+                                                int sampleBearing = 0;
+                                                int sampleTilt = 0;
+                                                LatLngBounds sampleLatLngBounds = new LatLngBounds.Builder().includes(sampleLatLngList).build();
+                                                map.animateCamera(CameraUpdateFactory.newLatLngBounds(sampleLatLngBounds, sampleBearing, sampleTilt, samplePadding));
+                                                hoveringMarker.setVisibility(View.INVISIBLE);
+                                                map.getUiSettings().setAllGesturesEnabled(false);
+                                            } else {
+                                                Helper.getInstance().toast(R.string.invalid_destination, Constants.ToastMode.INFO);
+                                                back.callOnClick();
+                                            }
                                         }
 
                                         @Override
-                                        public void onFailure(Call<LatLng> call, Throwable t) {
-                                            Helper_Log.errorLog(t, Fragment_LocationPicker.class);
+                                        public void onError(MapirError error) {
+                                            Helper_Log.errorLog(Fragment_LocationPicker.class);
                                             selectPlacePB.setVisibility(View.GONE);
                                             selectPlaceText.setVisibility(View.VISIBLE);
                                         }
-                                    }));
+                                    });
+
 
                                 } else {//not enough cash
                                     Helper.getInstance().toast(R.string.no_enough_charge, Constants.ToastMode.INFO);
@@ -376,16 +361,14 @@ public class Fragment_LocationPicker extends Fragment {
             } else {
                 if (blockNo.getText().length() == 0) {
                     Helper.getInstance().toast(R.string.enter_block_no, Constants.ToastMode.WARNING);
-                } else if (floorAndUnit.getText().length() == 0) {
+                } else if (floor.getText().length() == 0) {
                     Helper.getInstance().toast(R.string.enter_floor, Constants.ToastMode.WARNING);
-                } else if (!floorAndUnit.getText().toString().contains(",")) {
-                    Helper.getInstance().toast(R.string.bad_formatted_floor_and_unit, Constants.ToastMode.WARNING);
-                } else if (floorAndUnit.getText().toString().indexOf(",") == 0) {
-                    Helper.getInstance().toast(R.string.bad_formatted_floor_and_unit, Constants.ToastMode.WARNING);
-                } else if (floorAndUnit.getText().toString().indexOf(",") == floorAndUnit.getText().toString().length() - 1) {
-                    Helper.getInstance().toast(R.string.bad_formatted_floor_and_unit, Constants.ToastMode.WARNING);
-                } else if (!Helper.getInstance().isInteger(floorAndUnit.getText().toString().split(",")[0], 10)) {
-                    Helper.getInstance().toast(R.string.bad_formatted_floor_and_unit, Constants.ToastMode.WARNING);
+                } else if (unit.getText().length() == 0) {
+                    Helper.getInstance().toast(R.string.enter_unit, Constants.ToastMode.WARNING);
+                } else if (!Helper.getInstance().isInteger(floor.getText().toString(), 10)) {
+                    Helper.getInstance().toast(R.string.bad_formatted_floor, Constants.ToastMode.WARNING);
+                } else if (!Helper.getInstance().isInteger(unit.getText().toString(), 10)) {
+                    Helper.getInstance().toast(R.string.bad_formatted_unit, Constants.ToastMode.WARNING);
                 } else {
                     selectPlacePB.setVisibility(View.VISIBLE);
                     selectPlaceText.setVisibility(View.GONE);
@@ -396,8 +379,8 @@ public class Fragment_LocationPicker extends Fragment {
 
                             order.setLatitude(latitude);
                             order.setLongitude(longitude);
-                            order.setFloor(Integer.parseInt(floorAndUnit.getText().toString().split(",")[0]));
-                            order.setUnit(Encryption.getInstance().encrypt(floorAndUnit.getText().toString().split(",")[1]));
+                            order.setFloor(Integer.parseInt(floor.getText().toString()));
+                            order.setUnit(Encryption.getInstance().encrypt(unit.getText().toString()));
                             order.setBlockNo(Encryption.getInstance().encrypt(blockNo.getText().toString()));
                             order.setDelivery(true);
                             object.deliver(order).enqueue(new Callback<ServerResponse>() {
@@ -451,5 +434,50 @@ public class Fragment_LocationPicker extends Fragment {
     private void openMainFragment() {
         Fragment toOpen = new Fragment_Main();
         getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).replace(R.id.main_frame, toOpen).commit();
+    }
+
+    private void showRouteOnMap(String geometry) {
+        LineString routeLine = LineString.fromPolyline(geometry, 5); // second parameter must be 5
+        LineOptions lineOptions = new LineOptions()
+                .withGeometry(routeLine)
+                .withLineColor("#469bf0")
+                .withLineWidth(5f);
+        lineManager.create(lineOptions);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
     }
 }
