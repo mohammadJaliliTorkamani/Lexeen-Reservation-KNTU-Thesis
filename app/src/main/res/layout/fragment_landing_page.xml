@@ -89,6 +89,7 @@
                 android:gravity="right|center_vertical"
                 android:hint="@string/restaurant_name"
                 android:maxLines="1"
+                android:inputType="text"
                 android:paddingLeft="24dp"
                 android:paddingRight="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"

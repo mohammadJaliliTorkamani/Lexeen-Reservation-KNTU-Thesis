@@ -285,10 +285,19 @@ public class Fragment_Table extends DialogFragment {
                     Helper.getInstance().toast(R.string.invalid_number_of_customers, Constants.ToastMode.ERROR);
                 else {
                     if (dateTime != null) {
-                        payProgressbar.setVisibility(View.VISIBLE);
-                        payText.setVisibility(View.GONE);
-                        toRun.run(dateTime, payProgressbar, payText, counter, (Runnable) () -> dateTime = null); // no need to pass selected bills. it's stored in room database
-
+                        Helper
+                                .getInstance()
+                                .showBiOptionsDiagram(Fragment_Table.this,
+                                        getString(R.string.accept_order),
+                                        getString(R.string.are_you_sure_to_accept_order),
+                                        getString(R.string.yes),
+                                        getString(R.string.cancel2),
+                                        dialog -> {
+                                            dialog.dismiss();
+                                            payProgressbar.setVisibility(View.VISIBLE);
+                                            payText.setVisibility(View.GONE);
+                                            toRun.run(dateTime, payProgressbar, payText, counter, (Runnable) () -> dateTime = null); // no need to pass selected bills. it's stored in room database
+                                        }, dialog -> dialog.cancel(), false);
                     } else
                         Helper.getInstance().toast(R.string.select_date_and_time, Constants.ToastMode.WARNING);
                 }

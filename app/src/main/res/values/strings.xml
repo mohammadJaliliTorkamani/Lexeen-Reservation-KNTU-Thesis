@@ -59,7 +59,7 @@
     <string name="no_enough_charge" formatted="false">اعتبار شما برای خرید کافی نیست . لطفا کیف پول خود را شارژ کرده و مجددا وارد این قسمت شوید</string>
     <string name="discount" formatted="false">کد تخفیف</string>
     <string name="chair" formatted="false">میز</string>
-    <string name="Lexin_tooltip" formatted="false">به آسانی بین رستوران های اسکن شده جابجا شوید</string>
+    <string name="Lexin_tooltip" formatted="false">به آسانی بین رستوران ها جابجا شوید</string>
     <string name="discount_code_not_valid_for_you" formatted="false">کد تخفیف وارد شده استفاده شده است</string>
     <string name="done" formatted="false">انجام شد</string>
     <string name="trasfering" formatted="false">در حال انتقال ...</string>
@@ -156,6 +156,10 @@
     <string name="enter_unit">واحد را وارد کنید</string>
     <string name="bad_formatted_floor">قالب پلاک درست نیست</string>
     <string name="bad_formatted_unit">قالب واحد درست نیست</string>
+    <string name="accept_order">تایید سفارش</string>
+    <string name="yes">تایید</string>
+    <string name="are_you_sure_to_accept_order">آیا از سفارش خود اطمینان دارید ؟</string>
+    <string name="cancel2">انصراف</string>
 
 
 </resources>

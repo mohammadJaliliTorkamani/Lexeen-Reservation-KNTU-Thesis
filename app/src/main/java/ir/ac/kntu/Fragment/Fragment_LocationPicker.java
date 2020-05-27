@@ -256,7 +256,8 @@ public class Fragment_LocationPicker extends Fragment {
         myLocation.setOnClickListener(v -> {
             if (map != null) {
                 Location location = map.getLocationComponent().getLastKnownLocation();
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14));
+                if (location != null)
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14));
             }
         });
 
@@ -370,62 +371,73 @@ public class Fragment_LocationPicker extends Fragment {
                 } else if (!Helper.getInstance().isInteger(unit.getText().toString(), 10)) {
                     Helper.getInstance().toast(R.string.bad_formatted_unit, Constants.ToastMode.WARNING);
                 } else {
-                    selectPlacePB.setVisibility(View.VISIBLE);
-                    selectPlaceText.setVisibility(View.GONE);
-                    Connector.createService(view, Order_Server_API.class, object -> {
-                        try {
-                            double latitude = map.getCameraPosition().target.getLatitude();
-                            double longitude = map.getCameraPosition().target.getLongitude();
+                    Helper
+                            .getInstance()
+                            .showBiOptionsDiagram(
+                                    Fragment_LocationPicker.this,
+                                    getString(R.string.accept_order),
+                                    getString(R.string.are_you_sure_to_accept_order),
+                                    getString(R.string.yes),
+                                    getString(R.string.cancel2),
+                                    dialog -> {
+                                        dialog.dismiss();
+                                        selectPlacePB.setVisibility(View.VISIBLE);
+                                        selectPlaceText.setVisibility(View.GONE);
+                                        Connector.createService(view, Order_Server_API.class, object -> {
+                                            try {
+                                                double latitude = map.getCameraPosition().target.getLatitude();
+                                                double longitude = map.getCameraPosition().target.getLongitude();
 
-                            order.setLatitude(latitude);
-                            order.setLongitude(longitude);
-                            order.setFloor(Integer.parseInt(floor.getText().toString()));
-                            order.setUnit(Encryption.getInstance().encrypt(unit.getText().toString()));
-                            order.setBlockNo(Encryption.getInstance().encrypt(blockNo.getText().toString()));
-                            order.setDelivery(true);
-                            object.deliver(order).enqueue(new Callback<ServerResponse>() {
-                                @Override
-                                public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                                    if (response.body() != null) {
-                                        switch (ServerResponse.ServerResponseCodes.getMeaningOf(response.body().getCode())) {
-                                            case DONE://so we have issue tracking no in message
-                                                Helper.getInstance().toast(R.string.ordered_successfully, Constants.ToastMode.SUCCESS);
-                                                order.setOrderID(Integer.parseInt(response.body().getMessage()));
-                                                Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode());
-                                                Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).orderInterface().clearAll();
-                                                getFragmentManager().popBackStack();
-                                                getFragmentManager().popBackStack();
-                                                getFragmentManager().beginTransaction()
-                                                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                                        .addToBackStack("user_orders")
-                                                        .add(R.id.main_frame, new Fragment_UserOrders())
-                                                        .commit();
-                                                break;
-                                            case FAILED:  //so we have error message in message
-                                                Helper.getInstance().toast(getString(R.string.delivery_ordered_fault) + "," + Encryption.getInstance().decrypt(response.body().getMessage()), Constants.ToastMode.ERROR);
-                                                openMainFragment();
-                                                break;
-                                            default: //so we have null in message
-                                                Helper.getInstance().toast(getString(R.string.unknown_error), Constants.ToastMode.ERROR);
-                                                openMainFragment();
-                                                break;
-                                        }
-                                    } else {
-                                        Helper_Log.errorLog(Fragment_LocationPicker.class);
-                                        openMainFragment();
-                                    }
-                                }
+                                                order.setLatitude(latitude);
+                                                order.setLongitude(longitude);
+                                                order.setFloor(Integer.parseInt(floor.getText().toString()));
+                                                order.setUnit(Encryption.getInstance().encrypt(unit.getText().toString()));
+                                                order.setBlockNo(Encryption.getInstance().encrypt(blockNo.getText().toString()));
+                                                order.setDelivery(true);
+                                                object.deliver(order).enqueue(new Callback<ServerResponse>() {
+                                                    @Override
+                                                    public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                                                        if (response.body() != null) {
+                                                            switch (ServerResponse.ServerResponseCodes.getMeaningOf(response.body().getCode())) {
+                                                                case DONE://so we have issue tracking no in message
+                                                                    Helper.getInstance().toast(R.string.ordered_successfully, Constants.ToastMode.SUCCESS);
+                                                                    order.setOrderID(Integer.parseInt(response.body().getMessage()));
+                                                                    Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode());
+                                                                    Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).orderInterface().clearAll();
+                                                                    getFragmentManager().popBackStack();
+                                                                    getFragmentManager().beginTransaction()
+                                                                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                                                            .addToBackStack("user_orders")
+                                                                            .add(R.id.main_frame, new Fragment_UserOrders())
+                                                                            .commit();
+                                                                    break;
+                                                                case FAILED:  //so we have error message in message
+                                                                    Helper.getInstance().toast(Encryption.getInstance().decrypt(response.body().getMessage()), Constants.ToastMode.ERROR);
+                                                                    openMainFragment();
+                                                                    break;
+                                                                default: //so we have null in message
+                                                                    Helper.getInstance().toast(getString(R.string.unknown_error), Constants.ToastMode.ERROR);
+                                                                    openMainFragment();
+                                                                    break;
+                                                            }
+                                                        } else {
+                                                            Helper_Log.errorLog(Fragment_LocationPicker.class);
+                                                            openMainFragment();
+                                                        }
+                                                    }
 
-                                @Override
-                                public void onFailure(Call<ServerResponse> call, Throwable t) {
-                                    Helper_Log.errorLog(t, Fragment_LocationPicker.class);
-                                    openMainFragment();
-                                }
-                            });
-                        } catch (Exception e) {
-                            Helper_Log.errorLog(e, Fragment_LocationPicker.class);
-                        }
-                    });
+                                                    @Override
+                                                    public void onFailure(Call<ServerResponse> call, Throwable t) {
+                                                        Helper_Log.errorLog(t, Fragment_LocationPicker.class);
+                                                        openMainFragment();
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                Helper_Log.errorLog(e, Fragment_LocationPicker.class);
+                                            }
+                                        });
+                                    },
+                                    dialog -> dialog.dismiss(), false);
                 }
             }
         });

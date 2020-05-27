@@ -1,5 +1,7 @@
 package ir.ac.kntu.Technical.Other.Other;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -7,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
@@ -15,9 +18,12 @@ import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -32,6 +38,8 @@ import java.util.Calendar;
 import es.dmoral.toasty.Toasty;
 import ir.ac.kntu.Interface.Client.Helper_API;
 import ir.ac.kntu.R;
+import ir.ac.kntu.Technical.CustomView.TextViewPlus;
+import ir.ac.kntu.Technical.Other.CustomRunnable.Runnable_SingleArg;
 import saman.zamani.persiandate.PersianDate;
 import saman.zamani.persiandate.PersianDateFormat;
 
@@ -485,5 +493,34 @@ public class Helper implements Helper_API {
         }
 
         return sb.toString();
+    }
+
+    @Override
+    public void showBiOptionsDiagram(@NonNull Fragment fragment, @NonNull String title, @NonNull String message, @NonNull String option1,
+                                     @NonNull String option2, @Nullable Runnable_SingleArg<Dialog> option1Handler,
+                                     @Nullable Runnable_SingleArg<Dialog> option2Handler, boolean cancelable) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(fragment.getActivity());
+        builder.setCancelable(cancelable);
+        View view = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.dialog_bi_option_layout, null);
+        builder.setView(view);
+        Dialog dialog = builder.create();
+        TextViewPlus title_TV = view.findViewById(R.id.dialog_bi_option_title);
+        TextViewPlus message_TV = view.findViewById(R.id.dialog_bi_option_message);
+        TextViewPlus option1_TV = view.findViewById(R.id.dialog_bi_option_option1_tv);
+        TextViewPlus option2_TV = view.findViewById(R.id.dialog_bi_option_option2_tv);
+        title_TV.setText(title);
+        message_TV.setText(message);
+        option1_TV.setText(option1);
+        option2_TV.setText(option2);
+        option1_TV.setOnClickListener(v -> {
+            if (option1Handler != null)
+                option1Handler.run(dialog);
+        });
+        option2_TV.setOnClickListener(v -> {
+            if (option2Handler != null)
+                option2Handler.run(dialog);
+        });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
     }
 }
