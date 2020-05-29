@@ -160,6 +160,10 @@
     <string name="yes">تایید</string>
     <string name="are_you_sure_to_accept_order">آیا از سفارش خود اطمینان دارید ؟</string>
     <string name="cancel2">انصراف</string>
+    <string name="restaurant_is_not_able_to_do_service_at_selected_time">رستوران در زمان انتخاب شده قادر به ارائه خدمات نمی باشد</string>
+    <string name="restaurats_today_service_time">ساعت سرویس دهی امروز رستوران</string>
+    <string name="is">می باشد</string>
+    <string name="restaurant_is_not_able_to_accept_order">رستوران هم اکنون قادر به پذیرش سفارش نمی باشد</string>
 
 
 </resources>

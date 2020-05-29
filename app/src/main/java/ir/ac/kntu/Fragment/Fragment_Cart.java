@@ -40,9 +40,11 @@ import ir.ac.kntu.Entity.Discount;
 import ir.ac.kntu.Entity.Order;
 import ir.ac.kntu.Entity.RefactoredBills;
 import ir.ac.kntu.Entity.ServerResponse;
+import ir.ac.kntu.Entity.ServiceActivation;
 import ir.ac.kntu.Interface.Retrofit.Account_Server_API;
 import ir.ac.kntu.Interface.Retrofit.General_Server_API;
 import ir.ac.kntu.Interface.Retrofit.Order_Server_API;
+import ir.ac.kntu.Interface.Retrofit.Restaurant_Server_API;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Server.Connector;
 import ir.ac.kntu.Technical.CustomView.EditTextPlus;
@@ -220,167 +222,186 @@ public class Fragment_Cart extends Fragment {
             if (order.getSpecifiedBills().isEmpty() || !Bill.containsFood(order.getSpecifiedBills())) {
                 Helper.getInstance().toast(R.string.you_have_not_any_bill, Constants.ToastMode.WARNING);
             } else {
-                Fragment_Table fragment_table = Fragment_Table.getInstance(fragment_passed_object -> {
-                    String selectedDate = (String) fragment_passed_object[0];
-                    ProgressBar progressBar = (ProgressBar) fragment_passed_object[1];
-                    TextViewPlus textViewPlus = (TextViewPlus) fragment_passed_object[2];
-                    EditText editText_numberOfPeople = (EditText) fragment_passed_object[3];
-                    Runnable onSuccessfulOrdered = (Runnable) fragment_passed_object[4];
-                    order.clearSpecifiedBills();
-                    order.getSpecifiedBills().addAll(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode()));
-                    try {
-                        if (!Helper.getInstance().isValidTimeForIntervalFromNow(selectedDate)) {
-                            Helper.getInstance().toast(R.string.invalid_date_time, Constants.ToastMode.INFO);
-                            progressBar.setVisibility(View.GONE);
-                            textViewPlus.setVisibility(View.VISIBLE);
-                        } else {
-                            Connector.createService(view, Account_Server_API.class, object -> object.getCash().enqueue(new Callback<Double>() {
-                                @Override
-                                public void onResponse(Call<Double> call, Response<Double> response) {
-                                    if (response.body() != null) {
-                                        double currentCash = response.body();
+                Connector.createService(view, Restaurant_Server_API.class, object -> {
+                    object.isActiveForServe().enqueue(new Callback<ServiceActivation>() {
+                        @Override
+                        public void onResponse(Call<ServiceActivation> call, Response<ServiceActivation> response) {
+                            if (response.body() != null) {
+                                if (!response.body().isManuallyDisabled()) {
+                                    Fragment_Table fragment_table = Fragment_Table.getInstance(fragment_passed_object -> {
+                                        String selectedDate = (String) fragment_passed_object[0];
+                                        ProgressBar progressBar = (ProgressBar) fragment_passed_object[1];
+                                        TextViewPlus textViewPlus = (TextViewPlus) fragment_passed_object[2];
+                                        EditText editText_numberOfPeople = (EditText) fragment_passed_object[3];
+                                        Runnable onSuccessfulOrdered = (Runnable) fragment_passed_object[4];
+                                        order.clearSpecifiedBills();
+                                        order.getSpecifiedBills().addAll(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode()));
                                         try {
-                                            PersianDate persianDate = new PersianDateFormat("yyyy/MM/dd HH:mm").parse(selectedDate);
-                                            String gregorianDate = persianDate.getGrgYear() + "/" + (persianDate.getGrgMonth() < 10 ? "0" : "") + persianDate.getGrgMonth() + "/" + (persianDate.getGrgDay() < 10 ? "0" : "") + persianDate.getGrgDay() + " " + (persianDate.getHour() < 10 ? "0" : "") + persianDate.getHour() + ":" + (persianDate.getMinute() < 10 ? "0" : "") + persianDate.getMinute();
-                                            try {
-                                                order.setDate_and_time_start(Encryption.getInstance().encrypt(gregorianDate));
-                                            } catch (Exception e) {
-                                                Helper_Log.errorLog(e, Fragment_Cart.class);
-                                            }
+                                            if (!Helper.getInstance().isValidTimeForIntervalFromNow(selectedDate)) {
+                                                Helper.getInstance().toast(R.string.invalid_date_time, Constants.ToastMode.INFO);
+                                                progressBar.setVisibility(View.GONE);
+                                                textViewPlus.setVisibility(View.VISIBLE);
+                                            } else {
+                                                Connector.createService(view, Account_Server_API.class, object -> object.getCash().enqueue(new Callback<Double>() {
+                                                    @Override
+                                                    public void onResponse(Call<Double> call, Response<Double> response) {
+                                                        if (response.body() != null) {
+                                                            double currentCash = response.body();
+                                                            try {
+                                                                PersianDate persianDate = new PersianDateFormat("yyyy/MM/dd HH:mm").parse(selectedDate);
+                                                                String gregorianDate = persianDate.getGrgYear() + "/" + (persianDate.getGrgMonth() < 10 ? "0" : "") + persianDate.getGrgMonth() + "/" + (persianDate.getGrgDay() < 10 ? "0" : "") + persianDate.getGrgDay() + " " + (persianDate.getHour() < 10 ? "0" : "") + persianDate.getHour() + ":" + (persianDate.getMinute() < 10 ? "0" : "") + persianDate.getMinute();
+                                                                try {
+                                                                    order.setDate_and_time_start(Encryption.getInstance().encrypt(gregorianDate));
+                                                                } catch (Exception e) {
+                                                                    Helper_Log.errorLog(e, Fragment_Cart.class);
+                                                                }
 
-
-                                            isGoodRestaurantOrder(view, persianDate, Integer.parseInt(editText_numberOfPeople.getText().toString()), orderExamineResponse -> {
-                                                switch (ServerResponse.ServerResponseCodes.getMeaningOf(orderExamineResponse.getCode())) {
-                                                    case DONE:
-                                                        if (currentCash >= order.getTotalPrice()) { //enough cash
-                                                            Connector.createService(view, Order_Server_API.class, object -> object.order(order).enqueue(new Callback<ServerResponse>() {
-                                                                @Override
-                                                                public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                                                                    if (response.body() != null) {
-                                                                        switch (ServerResponse.ServerResponseCodes.getMeaningOf(response.body().getCode())) {
-                                                                            case DONE://so we have orderID in message
-                                                                                try {
-                                                                                    progressBar.setVisibility(View.GONE);
-                                                                                    textViewPlus.setVisibility(View.VISIBLE);
-                                                                                    order.setOrderID(Integer.parseInt(response.body().getMessage()));
-                                                                                    Helper.getInstance().toast(R.string.ordered_successfully, Constants.ToastMode.SUCCESS);
-                                                                                    Calendar calendar = Calendar.getInstance();
-                                                                                    onSuccessfulOrdered.run();
-                                                                                    try {
-                                                                                        calendar.setTime(new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.US).parse(gregorianDate));
-                                                                                        AlarmReminder.getInstance().remindSingleMode(calendar, order);
-                                                                                        Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode());
-                                                                                        Fragment_Table.getInstance().dismiss();
-                                                                                        FragmentActivity activity = getActivity();
-                                                                                        getFragmentManager().popBackStack();
-                                                                                        if (activity != null)
-                                                                                            activity
-                                                                                                    .getSupportFragmentManager()
-                                                                                                    .beginTransaction()
-                                                                                                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                                                                                    .addToBackStack("user_orders")
-                                                                                                    .add(R.id.main_frame, new Fragment_UserOrders())
-                                                                                                    .commit();
-                                                                                        else
-                                                                                            getFragmentManager()
-                                                                                                    .beginTransaction()
-                                                                                                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                                                                                    .addToBackStack("user_orders")
-                                                                                                    .add(R.id.main_frame, new Fragment_UserOrders())
-                                                                                                    .commit();
-                                                                                    } catch (ParseException e) {
-                                                                                        Helper_Log.errorLog(e, Fragment_Cart.class);
+                                                                isGoodRestaurantOrder(view, persianDate, Integer.parseInt(editText_numberOfPeople.getText().toString()), orderExamineResponse -> {
+                                                                    switch (ServerResponse.ServerResponseCodes.getMeaningOf(orderExamineResponse.getCode())) {
+                                                                        case DONE:
+                                                                            if (currentCash >= order.getTotalPrice()) { //enough cash
+                                                                                Connector.createService(view, Order_Server_API.class, object -> object.order(order).enqueue(new Callback<ServerResponse>() {
+                                                                                    @Override
+                                                                                    public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                                                                                        if (response.body() != null) {
+                                                                                            switch (ServerResponse.ServerResponseCodes.getMeaningOf(response.body().getCode())) {
+                                                                                                case DONE://so we have orderID in message
+                                                                                                    try {
+                                                                                                        progressBar.setVisibility(View.GONE);
+                                                                                                        textViewPlus.setVisibility(View.VISIBLE);
+                                                                                                        order.setOrderID(Integer.parseInt(response.body().getMessage()));
+                                                                                                        Helper.getInstance().toast(R.string.ordered_successfully, Constants.ToastMode.SUCCESS);
+                                                                                                        Calendar calendar = Calendar.getInstance();
+                                                                                                        onSuccessfulOrdered.run();
+                                                                                                        try {
+                                                                                                            calendar.setTime(new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.US).parse(gregorianDate));
+                                                                                                            AlarmReminder.getInstance().remindSingleMode(calendar, order);
+                                                                                                            Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode());
+                                                                                                            Fragment_Table.getInstance().dismiss();
+                                                                                                            FragmentActivity activity = getActivity();
+                                                                                                            getFragmentManager().popBackStack();
+                                                                                                            if (activity != null)
+                                                                                                                activity
+                                                                                                                        .getSupportFragmentManager()
+                                                                                                                        .beginTransaction()
+                                                                                                                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                                                                                                        .addToBackStack("user_orders")
+                                                                                                                        .add(R.id.main_frame, new Fragment_UserOrders())
+                                                                                                                        .commit();
+                                                                                                            else
+                                                                                                                getFragmentManager()
+                                                                                                                        .beginTransaction()
+                                                                                                                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                                                                                                        .addToBackStack("user_orders")
+                                                                                                                        .add(R.id.main_frame, new Fragment_UserOrders())
+                                                                                                                        .commit();
+                                                                                                        } catch (ParseException e) {
+                                                                                                            Helper_Log.errorLog(e, Fragment_Cart.class);
+                                                                                                        }
+                                                                                                        break;
+                                                                                                    } catch (Exception e) {
+                                                                                                        Helper_Log.errorLog(e, Fragment_Cart.class);
+                                                                                                    }
+                                                                                                    break;
+                                                                                                case FAILED:  //so we have error message in message
+                                                                                                    progressBar.setVisibility(View.GONE);
+                                                                                                    textViewPlus.setVisibility(View.VISIBLE);
+                                                                                                    Helper.getInstance().toast(getString(R.string.ordered_fault) + "," + Encryption.getInstance().decrypt(response.body().getMessage()), Constants.ToastMode.ERROR);
+                                                                                                    Fragment_Table.getInstance().dismiss();
+                                                                                                    initializeList(view);
+                                                                                                    break;
+                                                                                                default: //so we have null in message
+                                                                                                    progressBar.setVisibility(View.GONE);
+                                                                                                    textViewPlus.setVisibility(View.VISIBLE);
+                                                                                                    Helper.getInstance().toast(getString(R.string.unknown_error), Constants.ToastMode.ERROR);
+                                                                                                    Fragment_Table.getInstance().dismiss();
+                                                                                                    initializeList(view);
+                                                                                            }
+                                                                                        } else {
+                                                                                            progressBar.setVisibility(View.GONE);
+                                                                                            textViewPlus.setVisibility(View.VISIBLE);
+                                                                                            Helper_Log.errorLog(Fragment_Cart.class);
+                                                                                            Fragment_Table.getInstance().dismiss();
+                                                                                            initializeList(view);
+                                                                                        }
                                                                                     }
-                                                                                    break;
-                                                                                } catch (Exception e) {
-                                                                                    Helper_Log.errorLog(e, Fragment_Cart.class);
-                                                                                }
-                                                                                break;
-                                                                            case FAILED:  //so we have error message in message
-                                                                                progressBar.setVisibility(View.GONE);
-                                                                                textViewPlus.setVisibility(View.VISIBLE);
-                                                                                Helper.getInstance().toast(getString(R.string.ordered_fault) + "," + Encryption.getInstance().decrypt(response.body().getMessage()), Constants.ToastMode.ERROR);
-                                                                                Fragment_Table.getInstance().dismiss();
-                                                                                initializeList(view);
-                                                                                break;
-                                                                            default: //so we have null in message
-                                                                                progressBar.setVisibility(View.GONE);
-                                                                                textViewPlus.setVisibility(View.VISIBLE);
-                                                                                Helper.getInstance().toast(getString(R.string.unknown_error), Constants.ToastMode.ERROR);
-                                                                                Fragment_Table.getInstance().dismiss();
-                                                                                initializeList(view);
-                                                                        }
-                                                                    } else {
-                                                                        progressBar.setVisibility(View.GONE);
-                                                                        textViewPlus.setVisibility(View.VISIBLE);
-                                                                        Helper_Log.errorLog(Fragment_Cart.class);
-                                                                        Fragment_Table.getInstance().dismiss();
-                                                                        initializeList(view);
-                                                                    }
-                                                                }
 
-                                                                @Override
-                                                                public void onFailure(Call<ServerResponse> call, Throwable t) {
-                                                                    progressBar.setVisibility(View.GONE);
-                                                                    textViewPlus.setVisibility(View.VISIBLE);
-                                                                    Helper_Log.errorLog(t, Fragment_Cart.class);
-                                                                    Fragment_Table.getInstance().dismiss();
-                                                                    initializeList(view);
-                                                                }
-                                                            }));
-                                                        } else {//not enough cash
+                                                                                    @Override
+                                                                                    public void onFailure(Call<ServerResponse> call, Throwable t) {
+                                                                                        progressBar.setVisibility(View.GONE);
+                                                                                        textViewPlus.setVisibility(View.VISIBLE);
+                                                                                        Helper_Log.errorLog(t, Fragment_Cart.class);
+                                                                                        Fragment_Table.getInstance().dismiss();
+                                                                                        initializeList(view);
+                                                                                    }
+                                                                                }));
+                                                                            } else {//not enough cash
+                                                                                progressBar.setVisibility(View.GONE);
+                                                                                textViewPlus.setVisibility(View.VISIBLE);
+                                                                                Fragment_Table.getInstance().dismiss();
+                                                                                Helper.getInstance().toast(ContextHelper.retrieveContext().getString(R.string.no_enough_charge), Constants.ToastMode.INFO);
+                                                                                FragmentActivity activity = getActivity();
+                                                                                Fragment fragment = new Fragment_Wallet();
+                                                                                Bundle bundle = new Bundle();
+                                                                                bundle.putDouble("TO_CHARGE_VALUE", Helper.getInstance().getCostCeilOf(order.getTotalPrice() - currentCash));
+                                                                                fragment.setArguments(bundle);
+                                                                                if (activity != null)
+                                                                                    activity.getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).addToBackStack("wallet").add(R.id.main_frame, fragment).commit();
+                                                                                else
+                                                                                    getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).addToBackStack("wallet").add(R.id.main_frame, fragment).commit();
+                                                                            }
+                                                                            break;
+                                                                        case FAILED:
+                                                                            Helper.getInstance().toast(Encryption.getInstance().decrypt(orderExamineResponse.getMessage()), Constants.ToastMode.WARNING);
+                                                                            progressBar.setVisibility(View.GONE);
+                                                                            textViewPlus.setVisibility(View.VISIBLE);
+                                                                            break;
+                                                                    }
+                                                                });
+
+
+                                                            } catch (ParseException e) {
+                                                                Helper_Log.errorLog(e, Fragment_Cart.class);
+                                                            }
+                                                        } else {
                                                             progressBar.setVisibility(View.GONE);
                                                             textViewPlus.setVisibility(View.VISIBLE);
                                                             Fragment_Table.getInstance().dismiss();
-                                                            Helper.getInstance().toast(ContextHelper.retrieveContext().getString(R.string.no_enough_charge), Constants.ToastMode.INFO);
-                                                            FragmentActivity activity = getActivity();
-                                                            Fragment fragment = new Fragment_Wallet();
-                                                            Bundle bundle = new Bundle();
-                                                            bundle.putDouble("TO_CHARGE_VALUE", Helper.getInstance().getCostCeilOf(order.getTotalPrice() - currentCash));
-                                                            fragment.setArguments(bundle);
-                                                            if (activity != null)
-                                                                activity.getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).addToBackStack("wallet").add(R.id.main_frame, fragment).commit();
-                                                            else
-                                                                getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).addToBackStack("wallet").add(R.id.main_frame, fragment).commit();
+                                                            Helper_Log.errorLog(Fragment_Cart.class);
                                                         }
-                                                        break;
-                                                    case FAILED:
-                                                        Helper.getInstance().toast(Encryption.getInstance().decrypt(orderExamineResponse.getMessage()), Constants.ToastMode.WARNING);
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<Double> call, Throwable t) {
                                                         progressBar.setVisibility(View.GONE);
                                                         textViewPlus.setVisibility(View.VISIBLE);
-                                                        break;
-                                                }
-                                            });
-
-
-                                        } catch (ParseException e) {
+                                                        Fragment_Table.getInstance().dismiss();
+                                                        Helper_Log.errorLog(t, Fragment_Cart.class);
+                                                    }
+                                                }));
+                                            }
+                                        } catch (Exception e) {
+                                            progressBar.setVisibility(View.GONE);
+                                            textViewPlus.setVisibility(View.VISIBLE);
+                                            Fragment_Table.getInstance().dismiss();
                                             Helper_Log.errorLog(e, Fragment_Cart.class);
                                         }
-                                    } else {
-                                        progressBar.setVisibility(View.GONE);
-                                        textViewPlus.setVisibility(View.VISIBLE);
-                                        Fragment_Table.getInstance().dismiss();
-                                        Helper_Log.errorLog(Fragment_Cart.class);
-                                    }
+                                    });
+                                    fragment_table.show(getFragmentManager(), "TAG_1");
+                                } else {
+                                    Helper.getInstance().toast(getString(R.string.restaurant_is_not_able_to_accept_order), Constants.ToastMode.INFO);
                                 }
-
-                                @Override
-                                public void onFailure(Call<Double> call, Throwable t) {
-                                    progressBar.setVisibility(View.GONE);
-                                    textViewPlus.setVisibility(View.VISIBLE);
-                                    Fragment_Table.getInstance().dismiss();
-                                    Helper_Log.errorLog(t, Fragment_Cart.class);
-                                }
-                            }));
+                            } else {
+                                Helper_Log.errorLog(Fragment_Cart.class);
+                            }
                         }
-                    } catch (Exception e) {
-                        progressBar.setVisibility(View.GONE);
-                        textViewPlus.setVisibility(View.VISIBLE);
-                        Fragment_Table.getInstance().dismiss();
-                        Helper_Log.errorLog(e, Fragment_Cart.class);
-                    }
+
+                        @Override
+                        public void onFailure(Call<ServiceActivation> call, Throwable t) {
+                            Helper_Log.errorLog(t, Fragment_Cart.class);
+                        }
+                    });
                 });
-                fragment_table.show(getFragmentManager(), "TAG_1");
             }
         });
         home.setOnClickListener(v ->
@@ -388,69 +409,92 @@ public class Fragment_Cart extends Fragment {
             if (order.getSpecifiedBills().isEmpty() || !Bill.containsFood(order.getSpecifiedBills())) {
                 Helper.getInstance().toast(R.string.you_have_not_any_bill, Constants.ToastMode.WARNING);
             } else {
-                Dexter.withActivity(getActivity()).withPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION).withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        if (report.areAllPermissionsGranted()) {
-                            try {
-                                Connector.createService(view, Account_Server_API.class, object -> object.getCash().enqueue(new Callback<Double>() {
-                                    @Override
-                                    public void onResponse(Call<Double> call, Response<Double> response) {
-                                        if (response.body() != null) {
-                                            double currentCash = response.body();
-                                            if (!order.getSpecifiedBills().isEmpty()) {
-                                                if (currentCash >= order.getTotalPrice()) {//enough cash
-                                                    Fragment fragment = new Fragment_LocationPicker();
-                                                    Bundle bundle = new Bundle();
-                                                    bundle.putString("ORDER", new Gson().toJson(order));
-                                                    fragment.setArguments(bundle);
-                                                    getFragmentManager()
-                                                            .beginTransaction()
-                                                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                                            .addToBackStack("location_picker")
-                                                            .add(R.id.main_frame, fragment)
-                                                            .commit();
+                Connector.createService(view, Restaurant_Server_API.class, object -> {
+                    object.isActiveForDelivery().enqueue(new Callback<ServiceActivation>() {
+                        @Override
+                        public void onResponse(Call<ServiceActivation> call, Response<ServiceActivation> response) {
+                            if (response.body() != null) {
+                                if (!response.body().isManuallyDisabled()) {
+                                    if (response.body().isActive()) {
+                                        Dexter.withActivity(getActivity()).withPermissions(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION).withListener(new MultiplePermissionsListener() {
+                                            @Override
+                                            public void onPermissionsChecked(MultiplePermissionsReport report) {
+                                                if (report.areAllPermissionsGranted()) {
+                                                    try {
+                                                        Connector.createService(view, Account_Server_API.class, object -> object.getCash().enqueue(new Callback<Double>() {
+                                                            @Override
+                                                            public void onResponse(Call<Double> call, Response<Double> response) {
+                                                                if (response.body() != null) {
+                                                                    double currentCash = response.body();
+                                                                    if (!order.getSpecifiedBills().isEmpty()) {
+                                                                        if (currentCash >= order.getTotalPrice()) {//enough cash
+                                                                            Fragment fragment = new Fragment_LocationPicker();
+                                                                            Bundle bundle = new Bundle();
+                                                                            bundle.putString("ORDER", new Gson().toJson(order));
+                                                                            fragment.setArguments(bundle);
+                                                                            getFragmentManager()
+                                                                                    .beginTransaction()
+                                                                                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                                                                    .addToBackStack("location_picker")
+                                                                                    .add(R.id.main_frame, fragment)
+                                                                                    .commit();
 
-                                                } else {//not enough cash
-                                                    Helper.getInstance().toast(R.string.no_enough_charge, Constants.ToastMode.INFO);
-                                                    FragmentActivity activity = getActivity();
-                                                    Fragment fragment = new Fragment_Wallet();
-                                                    Bundle bundle = new Bundle();
-                                                    bundle.putDouble("TO_CHARGE_VALUE", Helper.getInstance().getCostCeilOf((order.getTotalPrice() - currentCash)));
-                                                    fragment.setArguments(bundle);
-                                                    if (activity != null)
-                                                        activity.getSupportFragmentManager()
-                                                                .beginTransaction()
-                                                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                                                .addToBackStack("wallet")
-                                                                .add(R.id.main_frame, fragment)
-                                                                .commit();
+                                                                        } else {//not enough cash
+                                                                            Helper.getInstance().toast(R.string.no_enough_charge, Constants.ToastMode.INFO);
+                                                                            FragmentActivity activity = getActivity();
+                                                                            Fragment fragment = new Fragment_Wallet();
+                                                                            Bundle bundle = new Bundle();
+                                                                            bundle.putDouble("TO_CHARGE_VALUE", Helper.getInstance().getCostCeilOf((order.getTotalPrice() - currentCash)));
+                                                                            fragment.setArguments(bundle);
+                                                                            if (activity != null)
+                                                                                activity.getSupportFragmentManager()
+                                                                                        .beginTransaction()
+                                                                                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                                                                        .addToBackStack("wallet")
+                                                                                        .add(R.id.main_frame, fragment)
+                                                                                        .commit();
+                                                                        }
+                                                                    } else {
+                                                                        Helper_Log.errorLog(Fragment_Cart.class);
+                                                                    }
+                                                                } else {
+                                                                    Helper_Log.errorLog(Fragment_Cart.class);
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(Call<Double> call, Throwable t) {
+                                                                Helper_Log.errorLog(t, Fragment_Cart.class);
+                                                            }
+                                                        }));
+                                                    } catch (Exception e) {
+                                                        Helper_Log.errorLog(e, Fragment_Cart.class);
+                                                    }
                                                 }
-                                            } else {
-                                                Helper_Log.errorLog(Fragment_Cart.class);
                                             }
-                                        } else {
-                                            Helper_Log.errorLog(Fragment_Cart.class);
-                                        }
-                                    }
 
-                                    @Override
-                                    public void onFailure(Call<Double> call, Throwable t) {
-                                        Helper_Log.errorLog(t, Fragment_Cart.class);
+                                            @Override
+                                            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                                                token.continuePermissionRequest();
+                                            }
+                                        }).withErrorListener(error -> Helper_Log.errorLog(Fragment_Cart.class))
+                                                .check();
+                                    } else {
+                                        Helper.getInstance().toast(getString(R.string.restaurant_is_not_able_to_do_service_at_selected_time) + "\n" + getString(R.string.restaurats_today_service_time) + " " + Encryption.getInstance().decrypt(response.body().getTodaysServiceTime()) + " " + getString(R.string.is), Constants.ToastMode.INFO);
                                     }
-                                }));
-                            } catch (Exception e) {
-                                Helper_Log.errorLog(e, Fragment_Cart.class);
-                            }
+                                } else {
+                                    Helper.getInstance().toast(getString(R.string.restaurant_is_not_able_to_accept_order), Constants.ToastMode.INFO);
+                                }
+                            } else
+                                Helper_Log.errorLog(Fragment_Cart.class);
                         }
-                    }
 
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).withErrorListener(error -> Helper_Log.errorLog(Fragment_Cart.class))
-                        .check();
+                        @Override
+                        public void onFailure(Call<ServiceActivation> call, Throwable t) {
+                            Helper_Log.errorLog(t, Fragment_Cart.class);
+                        }
+                    });
+                });
             }
 
         });
