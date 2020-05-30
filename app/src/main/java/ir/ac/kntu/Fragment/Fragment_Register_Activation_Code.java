@@ -153,6 +153,8 @@ public class Fragment_Register_Activation_Code extends Fragment {
                                             bundle.putString("PASSWORD", normalUser.getPassword());
                                             fragment.setArguments(bundle);
                                             Setting.getInstance().hideKeyboard(getActivity());
+                                            getFragmentManager().popBackStack();
+                                            getFragmentManager().popBackStack();
                                             getFragmentManager()
                                                     .beginTransaction()
                                                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

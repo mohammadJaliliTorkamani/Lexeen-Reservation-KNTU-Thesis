@@ -75,7 +75,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:textSize="14sp"
-            app:customFont="fonts/latin/coutryside_personal_use.ttf"
+            app:customFont="latin/coutryside_personal_use.ttf"
             app:layout_constraintEnd_toEndOf="@id/dialog_order_qr_image"
             app:layout_constraintStart_toStartOf="@id/dialog_order_qr_image"
             app:layout_constraintTop_toBottomOf="@id/dialog_order_qr_image" />

@@ -126,6 +126,7 @@ public class Fragment_Login extends Fragment {
                                                     Helper.getInstance().toast(getString(R.string.welcome) + " !", Constants.ToastMode.SUCCESS);
                                                     Setting.getInstance().hideKeyboard(getActivity());
                                                     Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_LOGIN_STATE, "USER");
+                                                    //DONED
                                                     getFragmentManager()
                                                             .beginTransaction()
                                                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -27,12 +26,10 @@ import retrofit2.Response;
 public class Adapter_Cart extends RecyclerView.Adapter {
     private View view;
     private List<Bill> list;
-    private FragmentManager fragmentManager;
 
-    public Adapter_Cart(View view, List<Bill> foodList, FragmentManager fragmentManager) {
+    public Adapter_Cart(View view, List<Bill> foodList) {
         this.view = view;
         this.list = foodList;
-        this.fragmentManager = fragmentManager;
     }
 
     @NonNull

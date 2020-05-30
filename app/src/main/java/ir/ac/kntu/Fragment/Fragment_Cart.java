@@ -148,12 +148,13 @@ public class Fragment_Cart extends Fragment {
         clear.setTextColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
         topIconView.setBackgroundResource(R.drawable.dr_tl_tr_oval_item);
         sumView.setBackgroundResource(R.drawable.dr_bl_br_oval_item);
-        ((Fragment_Main) getFragmentManager().findFragmentById(R.id.main_frame)).updateBadge();
+        if (getFragmentManager().findFragmentById(R.id.main_frame) instanceof Fragment_Main)
+            ((Fragment_Main) getFragmentManager().findFragmentById(R.id.main_frame)).updateBadge();
         orderIcon.setScaleX(LocaleHelper.getLanguage(ContextHelper.retrieveContext()).equalsIgnoreCase("fa") ? -1 : 1);
         recyclerView_layout_manager = new LinearLayoutManager(ContextHelper.retrieveContext(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(recyclerView_layout_manager);
         recyclerView.setHasFixedSize(true);
-        recyclerView_adapter = new Adapter_Cart(view, order.getSpecifiedBills(), getFragmentManager());
+        recyclerView_adapter = new Adapter_Cart(view, order.getSpecifiedBills());
         recyclerView.setAdapter(recyclerView_adapter);
         set.setClickable(true);
     }
@@ -278,23 +279,13 @@ public class Fragment_Cart extends Fragment {
                                                                                                             AlarmReminder.getInstance().remindSingleMode(calendar, order);
                                                                                                             Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode());
                                                                                                             Fragment_Table.getInstance().dismiss();
-                                                                                                            FragmentActivity activity = getActivity();
                                                                                                             getFragmentManager().popBackStack();
-                                                                                                            if (activity != null)
-                                                                                                                activity
-                                                                                                                        .getSupportFragmentManager()
-                                                                                                                        .beginTransaction()
-                                                                                                                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                                                                                                        .addToBackStack("user_orders")
-                                                                                                                        .add(R.id.main_frame, new Fragment_UserOrders())
-                                                                                                                        .commit();
-                                                                                                            else
-                                                                                                                getFragmentManager()
-                                                                                                                        .beginTransaction()
-                                                                                                                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                                                                                                        .addToBackStack("user_orders")
-                                                                                                                        .add(R.id.main_frame, new Fragment_UserOrders())
-                                                                                                                        .commit();
+                                                                                                            getFragmentManager()
+                                                                                                                    .beginTransaction()
+                                                                                                                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                                                                                                    .addToBackStack("user_orders")
+                                                                                                                    .add(R.id.main_frame, new Fragment_UserOrders())
+                                                                                                                    .commit();
                                                                                                         } catch (ParseException e) {
                                                                                                             Helper_Log.errorLog(e, Fragment_Cart.class);
                                                                                                         }
@@ -345,10 +336,7 @@ public class Fragment_Cart extends Fragment {
                                                                                 Bundle bundle = new Bundle();
                                                                                 bundle.putDouble("TO_CHARGE_VALUE", Helper.getInstance().getCostCeilOf(order.getTotalPrice() - currentCash));
                                                                                 fragment.setArguments(bundle);
-                                                                                if (activity != null)
-                                                                                    activity.getSupportFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).addToBackStack("wallet").add(R.id.main_frame, fragment).commit();
-                                                                                else
-                                                                                    getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).addToBackStack("wallet").add(R.id.main_frame, fragment).commit();
+                                                                                getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).addToBackStack("wallet").add(R.id.main_frame, fragment).commit();
                                                                             }
                                                                             break;
                                                                         case FAILED:
@@ -446,13 +434,12 @@ public class Fragment_Cart extends Fragment {
                                                                             Bundle bundle = new Bundle();
                                                                             bundle.putDouble("TO_CHARGE_VALUE", Helper.getInstance().getCostCeilOf((order.getTotalPrice() - currentCash)));
                                                                             fragment.setArguments(bundle);
-                                                                            if (activity != null)
-                                                                                activity.getSupportFragmentManager()
-                                                                                        .beginTransaction()
-                                                                                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                                                                        .addToBackStack("wallet")
-                                                                                        .add(R.id.main_frame, fragment)
-                                                                                        .commit();
+                                                                            getFragmentManager()
+                                                                                    .beginTransaction()
+                                                                                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                                                                    .addToBackStack("wallet")
+                                                                                    .add(R.id.main_frame, fragment)
+                                                                                    .commit();
                                                                         }
                                                                     } else {
                                                                         Helper_Log.errorLog(Fragment_Cart.class);
@@ -501,7 +488,8 @@ public class Fragment_Cart extends Fragment {
         clear.setOnClickListener(v ->
         {
             Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().clearAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode());
-            ((Fragment_Main) getFragmentManager().findFragmentById(R.id.main_frame)).updateBadge();
+            if (getFragmentManager().findFragmentById(R.id.main_frame) instanceof Fragment_Main)
+                ((Fragment_Main) getFragmentManager().findFragmentById(R.id.main_frame)).updateBadge();
             order.clearSpecifiedBills();
             clear.setVisibility(View.GONE);
             order.setTotalPrice(0);

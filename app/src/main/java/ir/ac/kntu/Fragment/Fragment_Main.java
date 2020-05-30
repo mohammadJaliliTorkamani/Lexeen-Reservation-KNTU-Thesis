@@ -23,8 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.roughike.bottombar.BottomBar;
 import com.tooltip.Tooltip;
 
-import java.util.List;
-
 import ir.ac.kntu.Adapter.Adapter_Drawer;
 import ir.ac.kntu.DataBase.Database;
 import ir.ac.kntu.Entity.Bill;
@@ -179,31 +177,12 @@ public class Fragment_Main extends Fragment {
                     break;
             }
             if (fragment != null) {
-
-                //check if exist in stack (second place of stack), just pop to reach it. otherwise add it to stack
-                List<Fragment> fragmentList = getFragmentManager().getFragments();
-                if (fragmentList.size() > 1) {
-                    String doubtToExistFragmentName = fragmentList.get(fragmentList.size() - 2).getClass().getSimpleName();
-                    if (doubtToExistFragmentName.equals(Fragment_Home.class.getSimpleName()) && fragment instanceof Fragment_Home)
-                        getFragmentManager().popBackStack();
-                    else if (doubtToExistFragmentName.equals(Fragment_Menu.class.getSimpleName()) && fragment instanceof Fragment_Menu)
-                        getFragmentManager().popBackStack();
-                    else if (doubtToExistFragmentName.equals(Fragment_Cart.class.getSimpleName()) && fragment instanceof Fragment_Cart)
-                        getFragmentManager().popBackStack();
-                    else
-                        getFragmentManager()
-                                .beginTransaction()
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .addToBackStack(tabId == R.id.tab_home ? " home" : tabId == R.id.tab_menu ? "menu" : "cart")
-                                .add(R.id.main_fragment_top_bb_frame, fragment)
-                                .commit();
-                } else
-                    getFragmentManager()
-                            .beginTransaction()
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                            .addToBackStack(tabId == R.id.tab_home ? " home" : tabId == R.id.tab_menu ? "menu" : "cart")
-                            .add(R.id.main_fragment_top_bb_frame, fragment)
-                            .commit();
+                getFragmentManager()
+                        .beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+//                        .addToBackStack(tabId == R.id.tab_home ? " home" : tabId == R.id.tab_menu ? "menu" : "cart")
+                        .replace(R.id.main_fragment_top_bb_frame, fragment)
+                        .commit();
             }
         });
 
