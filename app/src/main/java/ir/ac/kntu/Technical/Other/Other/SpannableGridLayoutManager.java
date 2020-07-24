@@ -20,6 +20,9 @@ import java.util.List;
 
 import ir.ac.kntu.R;
 
+/**
+ * used fpr loading tables in desired mode (adapted from https://stackoverflow.com/questions/48821961/how-to-design-spannable-gridview-using-recyclerview-spannablegridlayoutmanager)
+ */
 public class SpannableGridLayoutManager extends RecyclerView.LayoutManager {
 
     private final Rect itemDecorationInsets = new Rect();

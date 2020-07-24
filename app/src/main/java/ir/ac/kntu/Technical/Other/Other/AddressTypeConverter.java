@@ -9,6 +9,9 @@ import java.lang.reflect.Type;
 
 import ir.ac.kntu.Entity.Address;
 
+/**
+ * used as retrofit request JSON converter for Complex data type (Address)
+ */
 public class AddressTypeConverter {
     @TypeConverter
     public static Address stringToMeasurements(String json) {

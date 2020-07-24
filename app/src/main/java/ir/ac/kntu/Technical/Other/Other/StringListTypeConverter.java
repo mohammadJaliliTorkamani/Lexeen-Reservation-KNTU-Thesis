@@ -8,6 +8,9 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
+/**
+ * used as retrofit request JSON converter for Complex data type (String List)
+ */
 public class StringListTypeConverter {
     @TypeConverter
     public static List<String> stringToMeasurements(String json) {

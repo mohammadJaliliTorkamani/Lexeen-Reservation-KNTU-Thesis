@@ -1,5 +1,8 @@
 package ir.ac.kntu.Technical.Other.Other;
 
+/**
+ * Constants used in app
+ */
 public class Constants {
     public static final String TAG = "_LEXEEN_";
     public static final int MAX_ADD_TO_CART_NUMBER = 100;

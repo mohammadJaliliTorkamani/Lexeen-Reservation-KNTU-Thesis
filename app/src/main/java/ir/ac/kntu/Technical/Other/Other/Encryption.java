@@ -10,6 +10,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * encryption/decryption class + DiffieHelman helper
+ * Singleton
+ */
 public class Encryption implements Encryption_API {
     private static Encryption instance;
     private MCrypt cipher;

@@ -4,6 +4,9 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+/**
+ * encryptor/decryptor base class (used in  class "Encryptor")
+ */
 public class MCrypt {
 
     private String iv;
@@ -25,6 +28,12 @@ public class MCrypt {
         cipher = Cipher.getInstance("AES/CBC/NoPadding");
     }
 
+    /**
+     * converts byte array to HEX string
+     *
+     * @param data byte array to be converted
+     * @return HEX string
+     */
     private static String bytesToHex(byte[] data) {
         if (data == null) {
             return null;
@@ -40,6 +49,12 @@ public class MCrypt {
         return str;
     }
 
+    /**
+     * converts HEX string to byte array
+     *
+     * @param str hex string
+     * @return byte array
+     */
     private static byte[] hexToBytes(String str) {
         if (str == null) {
             return null;
@@ -55,6 +70,12 @@ public class MCrypt {
         }
     }
 
+    /**
+     * put padding to source (used in encryption)
+     *
+     * @param source source to add padding
+     * @return fully padded string
+     */
     private static String padString(String source) {
         char paddingChar = ' ';
         int size = 16;
@@ -70,6 +91,13 @@ public class MCrypt {
         return source;
     }
 
+    /**
+     * encrypts string
+     *
+     * @param text raw string to encrypt
+     * @return encrypted string (cipher)
+     * @throws Exception when encryption failed
+     */
     public String encrypt(String text) throws Exception {
         if (text == null || text.length() == 0)
             throw new Exception("Empty string");
@@ -88,6 +116,13 @@ public class MCrypt {
         return bytesToHex(encrypted);
     }
 
+    /**
+     * encrypts string
+     *
+     * @param code cipher to decrypt
+     * @return decrypted string (raw string)
+     * @throws Exception when decryption failed
+     */
     public String decrypt(String code) throws Exception {
         if (code == null || code.length() == 0)
             throw new Exception("Empty string");

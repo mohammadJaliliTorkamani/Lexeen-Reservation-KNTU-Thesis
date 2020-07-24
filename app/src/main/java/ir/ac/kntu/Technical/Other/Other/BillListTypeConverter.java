@@ -10,6 +10,9 @@ import java.util.List;
 
 import ir.ac.kntu.Entity.Bill;
 
+/**
+ * used as retrofit request JSON converter for Complex data type (bill)
+ */
 public class BillListTypeConverter {
     @TypeConverter
     public static List<Bill> stringToMeasurements(String json) {

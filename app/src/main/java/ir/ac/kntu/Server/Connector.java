@@ -35,12 +35,23 @@ import static ir.ac.kntu.Technical.Other.Other.Constants.BASE_URL;
 import static ir.ac.kntu.Technical.Other.Other.Constants.HEADER_CACHE_CONTROL;
 import static ir.ac.kntu.Technical.Other.Other.Constants.HEADER_PRAGMA;
 
+/**
+ * used to have communication through the server (REST Mode)
+ */
 public class Connector {
 
     private static Retrofit mRetrofit, mCachedRetrofit;
     private static Cache mCache;
     private static OkHttpClient mOkHttpClient, mCachedOkHttpClient;
 
+    /**
+     * creates a service in which interface execute and what to do after communication
+     *
+     * @param view          to connect
+     * @param serviceClass  interface to load methods from.
+     * @param smartRunnable to run after communication
+     * @param <S>           generic class
+     */
     public static <S> void createService(View view, Class<S> serviceClass, Runnable_SingleArg<S> smartRunnable) {
         if (mRetrofit == null) {
             // Add all interceptors you want (headers, URL, logging)
@@ -84,6 +95,14 @@ public class Connector {
         smartRunnable.run(mRetrofit.create(serviceClass));
     }
 
+    /**
+     * creates a service in which interface execute and what to do after communication (with cache mode )
+     *
+     * @param view          to connect
+     * @param serviceClass  interface to load methods from.
+     * @param smartRunnable to run after communication
+     * @param <S>           generic class
+     */
     public static <S> void createCachedService(View view, Class<S> serviceClass, Runnable_SingleArg<S> smartRunnable) {
         if (mCachedRetrofit == null) {
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
@@ -108,6 +127,11 @@ public class Connector {
         smartRunnable.run(mRetrofit.create(serviceClass));
     }
 
+    /**
+     * creates 128 MB Cache
+     *
+     * @return Cache object
+     */
     private static Cache provideCache() {
         if (mCache == null) {
             try {
@@ -120,6 +144,11 @@ public class Connector {
         return mCache;
     }
 
+    /**
+     * creates cache interceptor used in retrofit
+     *
+     * @return Interceptor
+     */
     private static Interceptor provideCacheInterceptor() {
         return chain -> {
             Response response = chain.proceed(chain.request());
@@ -145,6 +174,11 @@ public class Connector {
         };
     }
 
+    /**
+     * creates cache interceptor used in retrofit offline mode (with connection status in mind)
+     *
+     * @return Interceptor
+     */
     private static Interceptor provideOfflineCacheInterceptor() {
         return chain -> {
             Request request = chain.request();
@@ -165,6 +199,11 @@ public class Connector {
         };
     }
 
+    /**
+     * creates cache interceptor used in retrofit force offline mode (no matter connection status)
+     *
+     * @return Interceptor
+     */
     private static Interceptor provideForcedOfflineCacheInterceptor() {
         return chain -> {
             Request request = chain.request();
@@ -184,6 +223,9 @@ public class Connector {
     }
 
 
+    /**
+     * stops and cleans client info for server connection
+     */
     public void clean() {
         if (mOkHttpClient != null) {
             // Cancel Pending Request

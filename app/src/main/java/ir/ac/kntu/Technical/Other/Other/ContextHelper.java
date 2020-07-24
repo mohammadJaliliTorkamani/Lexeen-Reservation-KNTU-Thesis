@@ -12,6 +12,9 @@ import ir.ac.kntu.BuildConfig;
 import ir.map.sdk_map.Mapir;
 import ir.map.servicesdk.MapirService;
 
+/**
+ * initialize global shared context and initializes services (e.g Map etc)
+ */
 public class ContextHelper extends Application {
     private static Context context;
 

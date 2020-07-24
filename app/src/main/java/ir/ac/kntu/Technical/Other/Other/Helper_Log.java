@@ -1,8 +1,17 @@
 package ir.ac.kntu.Technical.Other.Other;
 
+/**
+ * logger class
+ */
 public class Helper_Log {
     private static int errorNum = 1;
 
+    /**
+     * logs error into console
+     *
+     * @param throwable thrown error
+     * @param classNAme containing class name
+     */
     public static void errorLog(Throwable throwable, Class classNAme) {
         try {
             Helper.getInstance().error(errorNum, "Exception has occurred ! " + throwable.getMessage());
@@ -21,6 +30,11 @@ public class Helper_Log {
         }
     }
 
+    /**
+     * logs error into class (used for null occurrence)
+     *
+     * @param className containing class name
+     */
     public static void errorLog(Class className) {
         Helper.getInstance().error(errorNum, "Null occurrence ! ");
         Helper.getInstance().error(errorNum++, "above classname : (" + className.getName() + ")");

@@ -14,6 +14,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * used for payment operation
+ */
 public class Payment {
     private static Payment instance;
 
@@ -26,6 +29,13 @@ public class Payment {
         return instance;
     }
 
+    /**
+     * navigates user to payment web page and runs "afterrun" when payment completed(whether succeed or failed)
+     *
+     * @param view       to connect server
+     * @param priceToman price to purchase
+     * @param afterRun   runnable after operation
+     */
     public void pay(View view, long priceToman, Runnable_MultiArg<Object> afterRun) {
         Connector.createService(view, General_Server_API.class, object -> object.getMarchantInfo().enqueue(new Callback<LexinMarchant>() {
             @Override

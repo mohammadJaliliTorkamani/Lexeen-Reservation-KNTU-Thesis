@@ -21,6 +21,9 @@ import ir.ac.kntu.Technical.Other.Other.Helper;
 import ir.ac.kntu.Technical.Other.Other.Helper_Log;
 import saman.zamani.persiandate.PersianDate;
 
+/**
+ * used to set alarm in desired date/time
+ */
 public class Service_Alarm extends IntentService {
 
 
@@ -28,6 +31,11 @@ public class Service_Alarm extends IntentService {
         super("Service_Alarm");
     }
 
+    /**
+     * set alarm in a "true" given date/time
+     *
+     * @param intent
+     */
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         List<Order> orders = Database.getInstance(this, Constants._MAIN_DATABASE).orderInterface().getOrder(intent.getIntExtra("ORDER_ID", 0));
