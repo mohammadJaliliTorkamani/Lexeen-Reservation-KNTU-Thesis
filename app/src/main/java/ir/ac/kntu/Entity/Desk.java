@@ -41,6 +41,14 @@ public class Desk {
 
     }
 
+    /**
+     * finds the desk in the passed position from the passed TableInfo
+     *
+     * @param tableInfo to search within it
+     * @param row       row of desired desk
+     * @param column    col of desired desk
+     * @return corresponding desk in the position
+     */
     public static Desk getDeskWithRowCol(TableInfo tableInfo, int row, int column) {
         List<List<Desk>> lists = tableInfo.getDesks();
         for (List<Desk> list : lists)
@@ -141,12 +149,22 @@ public class Desk {
         return G_Desk.DeskType.CORNER;
     }
 
+    /**
+     * checks desk mode(with chairs) and  returns mode (vertical or horizontal)
+     *
+     * @return type of Middle mode
+     */
     public G_Desk.MiddleType getMiddleTypeMode() {
         if (topChairID != -1 && bottomChairID != -1 && startChairID == -1 && endChairID == -1)
             return G_Desk.MiddleType.HORIZONTAL;
         return G_Desk.MiddleType.VERTICAL;
     }
 
+    /**
+     * checks orientations ID and returns cornerType of desk)
+     *
+     * @return corner type
+     */
     public G_Desk.CornerType getCornerType() {
         if (topChairID == -1)
             return G_Desk.CornerType.BOTTOM;

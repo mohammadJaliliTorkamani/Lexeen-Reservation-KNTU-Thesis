@@ -27,13 +27,25 @@ public class Adapter_FAQ extends RecyclerView.Adapter<Adapter_FAQ.ViewHolder> {
         this.list = list;
     }
 
-
+    /**
+     * creates new viewHolder UI object with XML demonstrating rows layout
+     *
+     * @param parent   to specify the parent of the current position
+     * @param viewType to specify ViewType of the current position
+     * @return ViewHolder row Object
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(ContextHelper.retrieveContext()).inflate(R.layout.item_faq, parent, false));
     }
 
+    /**
+     * initialize view object values + managers  from the list
+     *
+     * @param holder   to access item UI object
+     * @param position position of the current row
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         TextView question = holder.itemView.findViewById(R.id.faq_item_question);
@@ -45,6 +57,12 @@ public class Adapter_FAQ extends RecyclerView.Adapter<Adapter_FAQ.ViewHolder> {
         setAnimation(holder.itemView, position);
     }
 
+    /**
+     * starts animation for the passed view
+     *
+     * @param viewToAnimate view to show in animation mode
+     * @param position      position of the view
+     */
     private void setAnimation(View viewToAnimate, int position) {
         // If the bound view wasn't previously displayed on screen, it's animated
         if (position > lastPosition) {
@@ -54,11 +72,19 @@ public class Adapter_FAQ extends RecyclerView.Adapter<Adapter_FAQ.ViewHolder> {
         }
     }
 
+    /**
+     * counts items available in list
+     *
+     * @return size
+     */
     @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();
     }
 
+    /**
+     * define ViewHolder class to store each row object
+     */
     public class ViewHolder extends RecyclerView.ViewHolder {
         private View itemView;
 

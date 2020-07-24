@@ -28,12 +28,25 @@ public class Adapter_AcceptableCashAmounts extends RecyclerView.Adapter {
         clickedPos = -1;
     }
 
+    /**
+     * creates new viewHolder UI object with XML demonstrating rows layout
+     *
+     * @param parent   to specify the parent of the current position
+     * @param viewType to specify ViewType of the current position
+     * @return ViewHolder row Object
+     */
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(ContextHelper.retrieveContext()).inflate(R.layout.item_acceptable_cash, parent, false));
     }
 
+    /**
+     * initialize view object values + managers  from the list
+     *
+     * @param holder   to access item UI object
+     * @param position position of the current row
+     */
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         LinearLayout container = holder.itemView.findViewById(R.id.acceptable_cash_text_container);
@@ -53,11 +66,19 @@ public class Adapter_AcceptableCashAmounts extends RecyclerView.Adapter {
         });
     }
 
+    /**
+     * counts items available in list
+     *
+     * @return size
+     */
     @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();
     }
 
+    /**
+     * define ViewHolder class to store each row object
+     */
     static class ViewHolder extends RecyclerView.ViewHolder {
         private View itemView;
 

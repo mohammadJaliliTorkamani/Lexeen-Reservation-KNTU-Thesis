@@ -30,12 +30,25 @@ public class Adapter_Roof extends RecyclerView.Adapter {
         this.onClick = onClick;
     }
 
+    /**
+     * creates new viewHolder UI object with XML demonstrating rows layout
+     *
+     * @param parent   to specify the parent of the current position
+     * @param viewType to specify ViewType of the current position
+     * @return ViewHolder row Object
+     */
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(ContextHelper.retrieveContext()).inflate(R.layout.item_roof, parent, false));
     }
 
+    /**
+     * initialize view object values + managers  from the list
+     *
+     * @param holder   to access item UI object
+     * @param position position of the current row
+     */
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         TextViewPlus text = holder.itemView.findViewById(R.id.roof_item_text);
@@ -58,16 +71,28 @@ public class Adapter_Roof extends RecyclerView.Adapter {
         });
     }
 
+    /**
+     * counts items available in list
+     *
+     * @return size
+     */
     @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();
     }
 
+    /**
+     * returnd clicked position
+     *
+     * @return
+     */
     public int getClickedPosition() {
         return clicked_pos;
     }
 
-
+    /**
+     * define ViewHolder class to store each row object
+     */
     static class ViewHolder extends RecyclerView.ViewHolder {
         private View itemView;
 

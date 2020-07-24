@@ -108,7 +108,7 @@ public class Fragment_Login extends Fragment {
                     loginText.setVisibility(View.GONE);
                     progressBar.setVisibility(View.VISIBLE);
                     Connector.createService(view, Account_Server_API.class, loginObject -> {
-                        loginObject.login(Helper.getInstance().getDefautPrePhone() + phone, hashedPassword).enqueue(new Callback<AuthenticationResponse>() {
+                        loginObject.login(Helper.getInstance().getDefaultPrePhone() + phone, hashedPassword).enqueue(new Callback<AuthenticationResponse>() {
                             @Override
                             public void onResponse(Call<AuthenticationResponse> call, Response<AuthenticationResponse> response) {
                                 loginText.setVisibility(View.VISIBLE);

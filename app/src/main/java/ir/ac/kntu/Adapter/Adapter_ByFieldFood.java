@@ -47,17 +47,35 @@ public class Adapter_ByFieldFood extends RecyclerView.Adapter {
         this.list = list;
     }
 
+    /**
+     * store index and updates rows
+     *
+     * @param index
+     */
     public void setToShowCategoryIndex(int index) {
         toShowCategoryIndex = index;
         notifyDataSetChanged();
     }
 
+    /**
+     * creates new viewHolder UI object with XML demonstrating rows layout
+     *
+     * @param parent   to specify the parent of the current position
+     * @param viewType to specify ViewType of the current position
+     * @return ViewHolder row Object
+     */
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(ContextHelper.retrieveContext()).inflate(R.layout.item_by_field_food, parent, false));
     }
 
+    /**
+     * initialize view object values + managers  from the list
+     *
+     * @param holder   to access item UI object
+     * @param position position of the current row
+     */
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         CardView cardView = holder.itemView.findViewById(R.id.field_food_item_item);
@@ -99,6 +117,12 @@ public class Adapter_ByFieldFood extends RecyclerView.Adapter {
         setAnimation(holder.itemView, position);
     }
 
+    /**
+     * starts animation for the whole row
+     *
+     * @param viewToAnimate to show in animation mode
+     * @param position      of the current row to show in animation
+     */
     private void setAnimation(View viewToAnimate, int position) {
         // If the bound view wasn't previously displayed on screen, it's animated
         if (position > lastPosition) {
@@ -108,6 +132,11 @@ public class Adapter_ByFieldFood extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * counts number of foods available in food list at position 'toShowCategoryIndex'
+     *
+     * @return size
+     */
     @Override
     public int getItemCount() {
         if (!list.isEmpty() && list.get(toShowCategoryIndex).getFoodList() != null)
@@ -115,6 +144,9 @@ public class Adapter_ByFieldFood extends RecyclerView.Adapter {
         return 0;
     }
 
+    /**
+     * define ViewHolder class to store each row object
+     */
     static class ViewHolder extends RecyclerView.ViewHolder {
         private View itemView;
 

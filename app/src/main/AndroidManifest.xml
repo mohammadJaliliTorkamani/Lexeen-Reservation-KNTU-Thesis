@@ -72,7 +72,6 @@
             </intent-filter>
         </receiver>
 
-
         <service
             android:name=".Service.Service_Alarm"
             android:enabled="true"

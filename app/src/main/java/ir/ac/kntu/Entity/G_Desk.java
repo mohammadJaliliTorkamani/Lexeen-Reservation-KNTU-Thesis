@@ -53,6 +53,13 @@ public class G_Desk extends OptRoundCardView {
         return RADIUS;
     }
 
+    /**
+     * calculates and return width of the passed desk
+     *
+     * @param desk   to determine width
+     * @param maxCol maximum columns of table (used in UI calculations)
+     * @return width of table
+     */
     public static int getWidthOf(Desk desk, int maxCol) {
         int columnSize = Setting.getInstance().getDeviceWidth() / maxCol;
         if (desk.getDeskTypeDirection().value == DeskType.FULL.value)
@@ -77,6 +84,13 @@ public class G_Desk extends OptRoundCardView {
         return 0;
     }
 
+    /**
+     * calculates and return height of the passed desk
+     *
+     * @param desk   to determine height
+     * @param maxCol maximum columns of table (used in UI calculations)
+     * @return height of table
+     */
     public static int getHeightOf(Desk desk, int maxCol) {
         int columnSize = Setting.getInstance().getDeviceWidth() / maxCol;
         if (desk.getDeskTypeDirection().value == DeskType.FULL.value)
@@ -125,6 +139,11 @@ public class G_Desk extends OptRoundCardView {
         return type;
     }
 
+    /**
+     * stores type and updates corner in the layout
+     *
+     * @param type type to store
+     */
     public void setType(DeskType type) {
         this.type = type;
         if (type.value == DeskType.FULL.value) {
@@ -136,6 +155,11 @@ public class G_Desk extends OptRoundCardView {
         return cornerType;
     }
 
+    /**
+     * stores corner type and update corners in the layout
+     *
+     * @param cornerType cornertype to store
+     */
     public void setCornerType(CornerType cornerType) {
         this.cornerType = cornerType;
         if (cornerType != null && cornerType.getValue() == CornerType.START.getValue()) {
@@ -153,6 +177,11 @@ public class G_Desk extends OptRoundCardView {
         return middleType;
     }
 
+    /**
+     * stores middle type and updates corners in the layout
+     *
+     * @param middleType middletype to store
+     */
     public void setMiddleType(MiddleType middleType) {
         this.middleType = middleType;
         showCorner(false, false, false, false);
@@ -186,6 +215,9 @@ public class G_Desk extends OptRoundCardView {
         this.corner = corner;
     }
 
+    /**
+     * sets radius, elevations and color and update corners in the layout
+     */
     private void createCard() {
         setRadius(RADIUS);
         setElevation(0);
@@ -198,6 +230,11 @@ public class G_Desk extends OptRoundCardView {
         return reserveMode;
     }
 
+    /**
+     * stores reserve mode and sets background color by means of reservation status
+     *
+     * @param reserveMode
+     */
     public void setReserveMode(Mode reserveMode) {
         this.reserveMode = reserveMode;
         setCardBackgroundColor(getResources().getColor(reserveMode.value == Mode.RESERVED.value ?

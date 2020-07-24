@@ -36,12 +36,25 @@ public class Adapter_ByFieldList extends RecyclerView.Adapter {
         this.by_field_content_rv_adapter = food_adapter;
     }
 
+    /**
+     * creates new viewHolder UI object with XML demonstrating rows layout
+     *
+     * @param parent   to specify the parent of the current position
+     * @param viewType to specify ViewType of the current position
+     * @return ViewHolder row Object
+     */
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(ContextHelper.retrieveContext()).inflate(R.layout.item_by_field, parent, false));
     }
 
+    /**
+     * initialize view object values + managers  from the list
+     *
+     * @param holder   to access item UI object
+     * @param position position of the current row
+     */
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ConstraintLayout constraintLayout = holder.itemView.findViewById(R.id.by_field_item);
@@ -68,6 +81,12 @@ public class Adapter_ByFieldList extends RecyclerView.Adapter {
         });
     }
 
+    /**
+     * maps passed position to a special color
+     *
+     * @param position to shwo the corresponding color
+     * @return color
+     */
     private int getRandomFoodListItemBackground(int position) {
         if (position == -1)
             return R.drawable.dr_by_field_black_border_brown;
@@ -97,6 +116,11 @@ public class Adapter_ByFieldList extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * counts items available in list
+     *
+     * @return size
+     */
     @Override
     public int getItemCount() {
         if (foodMenu == null)
@@ -104,6 +128,9 @@ public class Adapter_ByFieldList extends RecyclerView.Adapter {
         return foodMenu.size();
     }
 
+    /**
+     * define ViewHolder class to store each row object
+     */
     static class ViewHolder extends RecyclerView.ViewHolder {
         private View itemView;
 

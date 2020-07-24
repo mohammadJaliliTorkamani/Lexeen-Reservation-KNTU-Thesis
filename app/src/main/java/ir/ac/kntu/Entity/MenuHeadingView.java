@@ -80,6 +80,9 @@ public class MenuHeadingView {
         this.activity = activity;
     }
 
+    /**
+     * does design UI operations when item resolved to show
+     */
     @Resolve
     public void onResolved() {
         try {
@@ -97,6 +100,9 @@ public class MenuHeadingView {
         leftSide.setVisibility(android.view.View.VISIBLE);
     }
 
+    /**
+     * does design UI operations and initializations when expanded
+     */
     @Expand
     public void onExpand() {
 
@@ -126,6 +132,9 @@ public class MenuHeadingView {
 
     }
 
+    /**
+     * does design UI operations when collapsed
+     */
     @Collapse
     public void onCollapse() {
 

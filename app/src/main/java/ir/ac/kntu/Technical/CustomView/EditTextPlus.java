@@ -8,9 +8,9 @@ import android.util.AttributeSet;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import ir.ac.kntu.R;
+import ir.ac.kntu.Technical.Other.Other.Constants;
 
 public class EditTextPlus extends AppCompatEditText {
-    private static final String DEFAULT_FARSI_FONT_ASSET_ADDRESS = "fonts/farsi/syekan.otf";
     private Context context;
     private AttributeSet attrs;
     private int defStyle;
@@ -40,7 +40,7 @@ public class EditTextPlus extends AppCompatEditText {
         setFocusable(true);
         try {
             String customFont = getCustomFont(context, attrs);
-            Typeface face = Typeface.createFromAsset(context.getAssets(), customFont == null ? DEFAULT_FARSI_FONT_ASSET_ADDRESS :
+            Typeface face = Typeface.createFromAsset(context.getAssets(), customFont == null ? Constants.DEFAULT_FARSI_FONT_ASSET_ADDRESS :
                     ("fonts/" + customFont));
             setTypeface(face, context.obtainStyledAttributes(attrs, R.styleable.EditTextPlus).getBoolean(R.styleable.EditTextPlus_input_bold, false) ? Typeface.BOLD : Typeface.NORMAL);
         } catch (Exception ex) {

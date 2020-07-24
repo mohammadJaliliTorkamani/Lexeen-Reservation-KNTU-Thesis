@@ -28,7 +28,6 @@ import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import java.io.ByteArrayOutputStream;
 import java.security.MessageDigest;
@@ -372,53 +371,7 @@ public class Helper implements Helper_API {
 
     @Override
     public void changeShapeColorToMainAppColor(View view) {
-        //MainActivity.info("THIS : "+getMainAppColor());
-
         view.getBackground().setColorFilter(Color.parseColor(getMainAppColor()), PorterDuff.Mode.SRC_IN);
-        /*if (background instanceof GradientDrawable) {
-            // cast to 'GradientDrawable'
-            GradientDrawable gradientDrawable = (GradientDrawable) background;
-            gradientDrawable.setColor(Color.parseColor(getMainAppColor()));
-        }else if(background instanceof VectorDrawable){
-            background.setColorFilter(Color.parseColor(getMainAppColor()), PorterDuff.Mode.MULTIPLY);
-        }else if (background instanceof ShapeDrawable) {
-            // cast to 'ShapeDrawable'
-            ShapeDrawable shapeDrawable = (ShapeDrawable) background;
-            shapeDrawable.getPaint().setColor(Color.parseColor(getMainAppColor()));
-        } else if (background instanceof ColorDrawable) {
-            // alpha value may need to be set again after this call
-            ColorDrawable colorDrawable = (ColorDrawable) background;
-            colorDrawable.setColor(Color.parseColor(getMainAppColor()));
-        }else if(background instanceof StateListDrawable){
-            StateListDrawable gradientDrawable = (StateListDrawable) view.getBackground();
-            DrawableContainer.DrawableContainerState drawableContainerState = (DrawableContainer.DrawableContainerState) gradientDrawable.getConstantState();
-            Drawable[] children = drawableContainerState.getChildren();
-            children[0].setColorFilter(Color.parseColor(getMainAppColor()), PorterDuff.Mode.MULTIPLY);
-//            LayerDrawable selectedItem = (LayerDrawable) children[0];
-//            LayerDrawable unselectedItem = (LayerDrawable) children[1];
-//            GradientDrawable selectedDrawable = (GradientDrawable) selectedItem.getDrawable(0);
-//            GradientDrawable unselectedDrawable = (GradientDrawable) unselectedItem.getDrawable(0);
-//            selectedDrawable.setStroke(STORKE_SIZE, NOTIFICATION_COLOR);
-//            unselectedDrawable.setStroke(STORKE_SIZE, NOTIFICATION_COLOR);
-        }
-        /**
-         * StateListDrawable gradientDrawable = (StateListDrawable) inflatedView.getBackground();
-         *     DrawableContainerState drawableContainerState = (DrawableContainerState) gradientDrawable.getConstantState();
-         *     Drawable[] children = drawableContainerState.getChildren();
-         *     LayerDrawable selectedItem = (LayerDrawable) children[0];
-         *     LayerDrawable unselectedItem = (LayerDrawable) children[1];
-         *     GradientDrawable selectedDrawable = (GradientDrawable) selectedItem.getDrawable(0);
-         *     GradientDrawable unselectedDrawable = (GradientDrawable) unselectedItem.getDrawable(0);
-         *     selectedDrawable.setStroke(STORKE_SIZE, NOTIFICATION_COLOR);
-         *     unselectedDrawable.setStroke(STORKE_SIZE, NOTIFICATION_COLOR);*/
-        /*try {
-            GradientDrawable bgShape = (GradientDrawable) view.getBackground();
-            bgShape.mutate();
-            bgShape.setColor(Color.parseColor(getMainAppColor()));
-        } catch (Exception e) {
-            MainActivity.info(e.getMessage());
-            Helper_Log.errorLog(e, Setting.class);
-        }*/
     }
 
     @Override
@@ -451,10 +404,6 @@ public class Helper implements Helper_API {
         return Setting.getInstance().loadSetting(Constants._TABLE_USER, Constants._KEY_SELECTED_RESTAURANT_QR_CODE, null);
     }
 
-    @Override
-    public void animateTheFragment(Fragment fragment, FragmentManager fragmentManager) {
-
-    }
 
     @Override
     public boolean isLoggedIn() {
@@ -467,7 +416,7 @@ public class Helper implements Helper_API {
     }
 
     @Override
-    public String getDefautPrePhone() {
+    public String getDefaultPrePhone() {
         return Constants.DEFAULT_PHONE_PREFIX;
     }
 
@@ -496,9 +445,9 @@ public class Helper implements Helper_API {
     }
 
     @Override
-    public void showBiOptionsDiagram(@NonNull Fragment fragment, @NonNull String title, @NonNull String message, @NonNull String option1,
-                                     @NonNull String option2, @Nullable Runnable_SingleArg<Dialog> option1Handler,
-                                     @Nullable Runnable_SingleArg<Dialog> option2Handler, boolean cancelable) {
+    public void showBiOptionsDialog(@NonNull Fragment fragment, @NonNull String title, @NonNull String message, @NonNull String option1,
+                                    @NonNull String option2, @Nullable Runnable_SingleArg<Dialog> option1Handler,
+                                    @Nullable Runnable_SingleArg<Dialog> option2Handler, boolean cancelable) {
         AlertDialog.Builder builder = new AlertDialog.Builder(fragment.getActivity());
         builder.setCancelable(cancelable);
         View view = LayoutInflater.from(fragment.getActivity()).inflate(R.layout.dialog_bi_option_layout, null);

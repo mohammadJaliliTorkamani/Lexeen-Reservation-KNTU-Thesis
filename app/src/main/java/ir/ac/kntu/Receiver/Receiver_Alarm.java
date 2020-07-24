@@ -7,8 +7,18 @@ import android.content.Intent;
 import ir.ac.kntu.Activity.Activity_AlarmDialog;
 import ir.ac.kntu.Service.Service_Alarm;
 
+/**
+ * alarm receiver
+ * it's used to start service when device rebooted, or starts activity when alarm time arrived
+ */
 public class Receiver_Alarm extends BroadcastReceiver {
 
+    /**
+     * checks receiver status(boot or time arrive) and starts service/intent
+     *
+     * @param context context to work
+     * @param intent  to start
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction() != null && intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {

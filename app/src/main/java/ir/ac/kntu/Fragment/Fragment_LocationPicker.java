@@ -373,7 +373,7 @@ public class Fragment_LocationPicker extends Fragment {
                 } else {
                     Helper
                             .getInstance()
-                            .showBiOptionsDiagram(
+                            .showBiOptionsDialog(
                                     Fragment_LocationPicker.this,
                                     getString(R.string.accept_order),
                                     getString(R.string.are_you_sure_to_accept_order),

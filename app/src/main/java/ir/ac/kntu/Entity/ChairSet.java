@@ -20,6 +20,13 @@ public class ChairSet {
         this.bottomChair = bottomChair;
     }
 
+    /**
+     * creates new GraphicChairSet for the passed logical object (chaiset)
+     *
+     * @param chairSet to create corresponding graphic chair set from/
+     * @param maxCol   maximum columns of view (used for widths determining)
+     * @return GraphicChairSet
+     */
     public static GraphicChairSet populateGraphics(ChairSet chairSet, int maxCol) {
 
         int columnSize = Setting.getInstance().getDeviceWidth() / maxCol;

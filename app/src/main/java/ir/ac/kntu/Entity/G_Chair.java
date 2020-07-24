@@ -46,6 +46,9 @@ public class G_Chair extends OptRoundCardView {
         this.context = context;
     }
 
+    /**
+     * creates chair with specific RADIUS and COLOR
+     */
     private void createChair() {
         setCardBackgroundColor(context.getResources().getColor(R.color.chair_color));
         setRadius(RADIUS);

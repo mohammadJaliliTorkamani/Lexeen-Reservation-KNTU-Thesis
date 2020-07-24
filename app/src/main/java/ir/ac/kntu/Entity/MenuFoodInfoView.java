@@ -96,6 +96,9 @@ public class MenuFoodInfoView {
         this.totalChildSize = totalChildSize;
     }
 
+    /**
+     * initialize UI Object values an their listeners
+     */
     @Resolve
     public void onResolved() {
         if (food == null) {

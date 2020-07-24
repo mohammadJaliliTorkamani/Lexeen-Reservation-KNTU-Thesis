@@ -83,6 +83,12 @@ public class Bill {
         return counter;
     }
 
+    /**
+     * counts total price (sum) of the passed list
+     *
+     * @param foodsBills to count the price
+     * @return total price
+     */
     public static float getTotalPrice(List<Bill> foodsBills) {
         float sum = 0;
         for (Bill bill : foodsBills)
@@ -90,6 +96,12 @@ public class Bill {
         return sum;
     }
 
+    /**
+     * checks whether the passed list contains food bill in it or no.
+     *
+     * @param bills to check
+     * @return whether contains food bill or no
+     */
     public static boolean containsFood(List<Bill> bills) {
         for (Bill bill : bills)
             if (bill.getFoodID() != -1)
@@ -97,6 +109,12 @@ public class Bill {
         return false;
     }
 
+    /**
+     * counts number of food bills in the passed list
+     *
+     * @param bills to count food items from
+     * @return number of food items
+     */
     public static int getTotalFoodItems(List<Bill> bills) {
         int counter = 0;
         for (Bill bill : bills) {
@@ -106,6 +124,12 @@ public class Bill {
         return counter;
     }
 
+    /**
+     * removes bills which are related to Desk from the passed list
+     *
+     * @param bills to check and remove desks from
+     * @return new list
+     */
     public static List<Bill> removeDeskBillsFrom(List<Bill> bills) {
         List<Bill> list = new LinkedList<>();
         if (bills == null || bills.isEmpty())

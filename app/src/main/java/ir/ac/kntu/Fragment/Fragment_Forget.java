@@ -83,7 +83,7 @@ public class Fragment_Forget extends Fragment {
             } else {
                 progressBar.setVisibility(View.VISIBLE);
                 recover.setVisibility(View.GONE);
-                Connector.createService(view, Account_Server_API.class, object -> object.checkSend(Helper.getInstance().getDefautPrePhone() + phone.getText().toString()).enqueue(new Callback<ServerResponse>() {
+                Connector.createService(view, Account_Server_API.class, object -> object.checkSend(Helper.getInstance().getDefaultPrePhone() + phone.getText().toString()).enqueue(new Callback<ServerResponse>() {
                     @Override
                     public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                         if (response.body() != null) {

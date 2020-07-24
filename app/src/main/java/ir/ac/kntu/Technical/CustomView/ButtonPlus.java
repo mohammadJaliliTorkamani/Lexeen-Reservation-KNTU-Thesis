@@ -8,10 +8,9 @@ import android.util.AttributeSet;
 import androidx.appcompat.widget.AppCompatButton;
 
 import ir.ac.kntu.R;
+import ir.ac.kntu.Technical.Other.Other.Constants;
 
 public class ButtonPlus extends AppCompatButton {
-    private static final String DEFAULT_FARSI_FONT_ASSET_ADDRESS = "fonts/farsi/syekan.otf";
-
     public ButtonPlus(Context context) {
         super(context);
     }
@@ -30,7 +29,7 @@ public class ButtonPlus extends AppCompatButton {
     public void setCustomFont(Context context, AttributeSet attrs) {
         try {
             String customFont = getCustomFont(context, attrs);
-            Typeface face = Typeface.createFromAsset(context.getAssets(), customFont == null ? DEFAULT_FARSI_FONT_ASSET_ADDRESS :
+            Typeface face = Typeface.createFromAsset(context.getAssets(), customFont == null ? Constants.DEFAULT_FARSI_FONT_ASSET_ADDRESS :
                     ("fonts/" + customFont));
             setTypeface(face);
         } catch (Exception ex) {

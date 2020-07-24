@@ -42,11 +42,20 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * used to handle Payment entry point (to receive response when the user returned to app
+ * or when the user wanna do payment operation)
+ */
 public class Activity_Payment extends AppCompatActivity {
     private static long priceToman;
     private static String mode;
     ConstraintLayout constraintLayout;
 
+    /**
+     * set view and initialize them and then navigate user when he/she returned to the App
+     *
+     * @param savedInstanceState to pass to super method
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +64,11 @@ public class Activity_Payment extends AppCompatActivity {
         handleStatus();
     }
 
+    /**
+     * checks the status. if there were intent data (user ahs returned to the app), shows a dialog
+     * (if succeed) or shows an error message (if failed). otherwise, navigates the user to payment
+     * web page.
+     */
     private void handleStatus() {
         if (getIntent().getData() != null) {  //payment done(whether failed or succeed)
             ZarinPal.getPurchase(ContextHelper.retrieveContext()).verificationPayment(getIntent().getData(), (isPaymentSuccess, refID, paymentRequest) -> {
@@ -119,6 +133,11 @@ public class Activity_Payment extends AppCompatActivity {
         }
     }
 
+    /**
+     * opens payment success dialog to display, save issueTrackingCode and share it.
+     *
+     * @param issueTrackingNo to work on.
+     */
     public void openSuccessfulPaymentDialog(String issueTrackingNo) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View inflateView = LayoutInflater.from(this).inflate(R.layout.dialog_qr_purchased, null, false);
@@ -179,6 +198,9 @@ public class Activity_Payment extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * relate view objects to the corresponding UI objects
+     */
     private void findViews() {
         constraintLayout = findViewById(R.id.activity_payment_whole);
     }

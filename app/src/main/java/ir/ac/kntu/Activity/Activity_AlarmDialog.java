@@ -17,12 +17,21 @@ import ir.ac.kntu.Technical.Other.Other.Constants;
 import ir.ac.kntu.Technical.Other.Other.Helper;
 import ir.ac.kntu.Technical.Other.Other.Setting;
 
+/**
+ * This activity is used to display order info when alarm time arrived.
+ * it gets data from offline database and initialize views by it's column values
+ */
 public class Activity_AlarmDialog extends AppCompatActivity {
     private TextViewPlus orderType;
     private TextViewPlus restaurantName;
     private TextViewPlus dateTime;
     private Order order;
 
+    /**
+     * set view and initialize them
+     *
+     * @param savedInstanceState to pass to super method
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,13 +40,18 @@ public class Activity_AlarmDialog extends AppCompatActivity {
         initializeViewContents();
     }
 
-
+    /**
+     * relate view objects to the corresponding UI objects
+     */
     private void findViews() {
         orderType = findViewById(R.id.dialog_alarm_restaurabt_type_value);
         restaurantName = findViewById(R.id.dialog_alarm_restaurant_restaurant_name_value);
         dateTime = findViewById(R.id.dialog_alarm_restaurabt_date_value);
     }
 
+    /**
+     * vibrates, beeps, and initialize view values
+     */
     private void initializeViewContents() {
         Setting.getInstance().vibrate(1000);
         MediaPlayer.create(this, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)).start();
@@ -55,6 +69,9 @@ public class Activity_AlarmDialog extends AppCompatActivity {
         dateTime.setText(Helper.getInstance().getShamsiDateTimeFromGregortianString(order.getDate_and_time_start()));
     }
 
+    /**
+     * navigates to MainActivity and closes current activity
+     */
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this, MainActivity.class));

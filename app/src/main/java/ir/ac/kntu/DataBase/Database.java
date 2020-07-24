@@ -15,17 +15,26 @@ import ir.ac.kntu.Interface.Room.Restaurant_Database_API;
 @androidx.room.Database(entities = {Restaurant.class, Bill.class, Order.class},
         version = 1, exportSchema = false)
 
+/**
+ * Singleton DB Class
+ */
 public abstract class Database extends RoomDatabase {
 
     private static Database INSTANCE;
 
+    /**
+     * singleton database class
+     *
+     * @param context to work with it in DB
+     * @param db_name name of database to create
+     * @return DB Object
+     */
     public static Database getInstance(Context context, String db_name) {
 
         if (INSTANCE == null) {
             INSTANCE =
                     Room.databaseBuilder(context,
                             Database.class, db_name)
-                            // allow queries on the main thread. Don't do this on a real app! See PersistenceBasicSample for an example.
                             .fallbackToDestructiveMigration()
                             .allowMainThreadQueries()
                             .build();
@@ -37,13 +46,25 @@ public abstract class Database extends RoomDatabase {
         INSTANCE = null;
     }
 
-    /*there is a prob here it seems its better to implement the above code in the main thread
-     * so we need to implement it in the main thread
-     * */
+    /**
+     * interface (bill)
+     *
+     * @return bill interface object
+     */
     public abstract Bill_Database_API billInterface();
 
+    /**
+     * interface (restaurant)
+     *
+     * @return restaurant interface object
+     */
     public abstract Restaurant_Database_API restaurantInterface();
 
+    /**
+     * interface (order)
+     *
+     * @return order interface object
+     */
     public abstract Order_Database_API orderInterface();
 
 }

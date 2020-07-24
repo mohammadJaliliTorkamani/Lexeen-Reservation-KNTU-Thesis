@@ -287,7 +287,7 @@ public class Fragment_Table extends DialogFragment {
                     if (dateTime != null) {
                         Helper
                                 .getInstance()
-                                .showBiOptionsDiagram(Fragment_Table.this,
+                                .showBiOptionsDialog(Fragment_Table.this,
                                         getString(R.string.accept_order),
                                         getString(R.string.are_you_sure_to_accept_order),
                                         getString(R.string.yes),

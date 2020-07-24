@@ -50,12 +50,25 @@ public class Adapter_Drawer extends RecyclerView.Adapter {
         guestList.add(new DrawerItem(ContextHelper.retrieveContext().getString(R.string.setting), R.drawable.ic_settings_gears));
     }
 
+    /**
+     * creates new viewHolder UI object with XML demonstrating rows layout
+     *
+     * @param parent   to specify the parent of the current position
+     * @param viewType to specify ViewType of the current position
+     * @return ViewHolder row Object
+     */
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(ContextHelper.retrieveContext()).inflate(R.layout.item_drawer, parent, false));
     }
 
+    /**
+     * initialize view object values + managers  from the list
+     *
+     * @param holder   to access item UI object
+     * @param position position of the current row
+     */
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         TextViewPlus text = holder.itemView.findViewById(R.id.drawer_list_item_text);
@@ -119,11 +132,19 @@ public class Adapter_Drawer extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * counts items available in list (with login staus in mind to count the correct list).
+     *
+     * @return size
+     */
     @Override
     public int getItemCount() {
         return Helper.getInstance().isLoggedIn() ? userList.size() : guestList.size();
     }
 
+    /**
+     * define ViewHolder class to store each row object
+     */
     static class ViewHolder extends RecyclerView.ViewHolder {
         private View itemView;
 

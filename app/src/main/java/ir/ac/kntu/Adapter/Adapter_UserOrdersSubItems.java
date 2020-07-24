@@ -30,12 +30,25 @@ public class Adapter_UserOrdersSubItems extends RecyclerView.Adapter {
         this.bills = specifiedBills;
     }
 
+    /**
+     * creates new viewHolder UI object with XML demonstrating rows layout
+     *
+     * @param parent   to specify the parent of the current position
+     * @param viewType to specify ViewType of the current position
+     * @return ViewHolder row Object
+     */
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(ContextHelper.retrieveContext()).inflate(R.layout.item_user_orders_sub_item, parent, false));
     }
 
+    /**
+     * initialize view object values + managers  from the list
+     *
+     * @param holder   to access item UI object
+     * @param position position of the current row
+     */
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         TextViewPlus text1 = holder.itemView.findViewById(R.id.item_history_sub_text_value);
@@ -63,6 +76,11 @@ public class Adapter_UserOrdersSubItems extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * counts number of tables which are reserved (having no tables ID)
+     *
+     * @return number of reserved tables
+     */
     private int countReservedTables() {
         int counter = 0;
         for (Bill bill : bills)
@@ -71,6 +89,11 @@ public class Adapter_UserOrdersSubItems extends RecyclerView.Adapter {
         return counter;
     }
 
+    /**
+     * counts items available in list
+     *
+     * @return size
+     */
     @Override
     public int getItemCount() {
         if (bills == null || bills.isEmpty())
@@ -78,6 +101,9 @@ public class Adapter_UserOrdersSubItems extends RecyclerView.Adapter {
         return bills.size();
     }
 
+    /**
+     * define ViewHolder class to store each row object
+     */
     static class ViewHolder extends RecyclerView.ViewHolder {
         private View itemView;
 

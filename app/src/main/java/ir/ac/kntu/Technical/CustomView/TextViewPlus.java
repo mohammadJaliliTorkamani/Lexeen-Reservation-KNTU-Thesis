@@ -11,11 +11,9 @@ import android.util.Log;
 import com.daasuu.cat.CountAnimationTextView;
 
 import ir.ac.kntu.R;
+import ir.ac.kntu.Technical.Other.Other.Constants;
 
 public class TextViewPlus extends CountAnimationTextView {
-    private static final String TAG = "TextView";
-    private static final String DEFAULT_FARSI_FONT_ASSET_ADDRESS = "fonts/farsi/syekan.otf";
-
     public TextViewPlus(Context context) {
         super(context);
     }
@@ -47,9 +45,9 @@ public class TextViewPlus extends CountAnimationTextView {
     public boolean setCustomFont(Context ctx, AttributeSet attrs, String asset) {
         Typeface typeface;
         try {
-            typeface = Typeface.createFromAsset(ctx.getAssets(), asset == null ? DEFAULT_FARSI_FONT_ASSET_ADDRESS : ("fonts/" + asset));
+            typeface = Typeface.createFromAsset(ctx.getAssets(), asset == null ? Constants.DEFAULT_FARSI_FONT_ASSET_ADDRESS : ("fonts/" + asset));
         } catch (Exception e) {
-            Log.e(TAG, "Unable to load typeface: " + e.getMessage());
+            Log.e(Constants.TAG, "Unable to load typeface: " + e.getMessage());
             return false;
         }
         setTypeface(typeface, ctx.obtainStyledAttributes(attrs, R.styleable.TextViewPlus).getBoolean(R.styleable.TextViewPlus_bold, false) ? Typeface.BOLD : Typeface.NORMAL);

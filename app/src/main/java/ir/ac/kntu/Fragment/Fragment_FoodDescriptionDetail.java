@@ -114,7 +114,7 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
             priceText.setText(Helper.getInstance().getOneDigitOrNon(food.getPrice(), true));
             priceUnit.setText(Helper.getInstance().getPurchaseUnit());
 
-            calorieText.setText(Helper.getInstance().getOneDigitOrNon(food.getCalories(), false) + " " + getString(R.string.cal));
+            calorieText.setText(Helper.getInstance().getOneDigitOrNon(food.getCalories(), false) + " " + getActivity().getString(R.string.cal));
             cookTimeText.setText(food.getCookTimeMinutes() + " " + getString(R.string.min));
             description.setText(Encryption.getInstance().decrypt(food.getDescription()));
             select_title_zero_and_one(view);

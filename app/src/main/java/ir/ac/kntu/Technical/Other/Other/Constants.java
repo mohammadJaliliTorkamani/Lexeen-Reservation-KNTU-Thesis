@@ -1,7 +1,7 @@
 package ir.ac.kntu.Technical.Other.Other;
 
 public class Constants {
-    public static final String TAG = "_LEXIN_";
+    public static final String TAG = "_LEXEEN_";
     public static final int MAX_ADD_TO_CART_NUMBER = 100;
     public static final int VALID_ORDER_DATE_MINUTE_INTERVAL = 30;
     public static final String _TABLE_USER = "User_Table";
@@ -31,6 +31,7 @@ public class Constants {
     public static final String BASE_URL = "https://lexeen.ir/kntu_project/api/";
     public static final String HEADER_CACHE_CONTROL = "Cache-Control";
     public static final String HEADER_PRAGMA = "Pragma";
+    public static final String DEFAULT_FARSI_FONT_ASSET_ADDRESS = "fonts/farsi/syekan.otf";
 
     public enum ToastMode {
         SUCCESS, INFO, WARNING, ERROR, NORMAL

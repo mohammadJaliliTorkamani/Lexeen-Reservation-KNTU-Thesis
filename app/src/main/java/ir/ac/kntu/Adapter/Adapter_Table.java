@@ -46,17 +46,32 @@ public class Adapter_Table extends RecyclerView.Adapter<Adapter_Table.ViewHolder
         this.tableInfo = tableInfo;
     }
 
-
+    /**
+     * clears full desks list
+     */
     public void clearFullDesks() {
         fullDesks.clear();
     }
 
+    /**
+     * creates new viewHolder UI object with XML demonstrating rows layout
+     *
+     * @param viewGroup to specify the parent of the current position
+     * @param viewType  to specify ViewType of the current position
+     * @return ViewHolder row Object
+     */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(ContextHelper.retrieveContext()).inflate(R.layout.item_table_container_row, viewGroup, false);
         return new ViewHolder(view);
     }
 
+    /**
+     * initialize view object values + managers  from the list
+     *
+     * @param holder to access item UI object
+     * @param row    current row
+     */
     @Override
     public void onBindViewHolder(ViewHolder holder, int row) {
         LinearLayout linearLayout = holder.itemView.findViewById(R.id.table_container_row_item_linear_layout);
@@ -368,6 +383,12 @@ public class Adapter_Table extends RecyclerView.Adapter<Adapter_Table.ViewHolder
         }
     }
 
+    /**
+     * creates a connected component (whole unique table) for the passed full desks
+     *
+     * @param fullDesks to create component with it
+     * @return connected component
+     */
     private List<List<FullDesk>> createConnectedComponents(List<FullDesk> fullDesks) {
         List<List<FullDesk>> components = new LinkedList<>();
         HashMap<Integer, List<FullDesk>> map = new HashMap<>();
@@ -384,11 +405,22 @@ public class Adapter_Table extends RecyclerView.Adapter<Adapter_Table.ViewHolder
         return components;
     }
 
+    /**
+     * counts items available in list (rows size)
+     *
+     * @return size
+     */
     @Override
     public int getItemCount() {
         return tableInfo.getMaxRow();
     }
 
+    /**
+     * creates G_Desk from the passed Desk
+     *
+     * @param desk to create G_Desk from.
+     * @return created G_Desk
+     */
     private G_Desk createCorresponding_G_Desk(Desk desk) {
         if (desk == null)
             return null;
@@ -406,6 +438,13 @@ public class Adapter_Table extends RecyclerView.Adapter<Adapter_Table.ViewHolder
         return g_desk;
     }
 
+    /**
+     * receives chairs of the passed deskID and runs runnable when got.
+     *
+     * @param view     to connect server
+     * @param deskID   to get chairs of.
+     * @param runnable to run after receive response from the server
+     */
     private void getChairsOf(View view, int deskID, Runnable_SingleArg<ChairSet> runnable) {
         Connector.createService(view, Table_Server_API.class, object -> object.getChairs(deskID).enqueue(new Callback<ChairSet>() {
             @Override
@@ -423,6 +462,9 @@ public class Adapter_Table extends RecyclerView.Adapter<Adapter_Table.ViewHolder
         }));
     }
 
+    /**
+     * define ViewHolder class to store each row object
+     */
     static class ViewHolder extends RecyclerView.ViewHolder {
         private View itemView;
 

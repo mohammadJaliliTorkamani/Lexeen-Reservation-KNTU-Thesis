@@ -174,7 +174,7 @@ public class Fragment_Register extends Fragment {
                 String _pushe_id = PushPole.getId(ContextHelper.retrieveContext());
                 String _firstName = firstName.getText().toString().trim();
                 String _lastName = lastName.getText().toString().trim();
-                String _phoneNumber = Helper.getInstance().getDefautPrePhone() + phoneNumber.getText().toString().trim();
+                String _phoneNumber = Helper.getInstance().getDefaultPrePhone() + phoneNumber.getText().toString().trim();
                 String _password = password.getText().toString().trim();
                 NormalUser normalUser = new NormalUser(_firstName, _lastName, _phoneNumber, null, null, _pushe_id, _password, 0, isMale);
                 signUp.setVisibility(View.GONE);
