@@ -47,6 +47,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import saman.zamani.persiandate.PersianDate;
 
+/**
+ * table fragment ables user to see restaurant table architecture or switch between roofs and select
+ * desired tables
+ * SINGLETON
+ */
 public class Fragment_Table extends DialogFragment {
     private static Fragment_Table instance;
     private static Runnable_MultiArg toRun;
@@ -80,6 +85,14 @@ public class Fragment_Table extends DialogFragment {
         return instance;
     }
 
+    /**
+     * retrieves the desk in the given position (null default)
+     *
+     * @param i     row
+     * @param j     col
+     * @param desks list to be traced
+     * @return desk at position (i,j)
+     */
     private static Desk achieveDeskInPosition(int i, int j, List<Desk> desks) {
         for (Desk desk : desks)
             if (desk.getRow_index() == i && desk.getColumn_index() == j)
@@ -87,6 +100,11 @@ public class Fragment_Table extends DialogFragment {
         return null;
     }
 
+    /**
+     * differential days between dateTime and todays date-time
+     *
+     * @return days between. (-1 if dateTime==null , 2 if years or months are different)
+     */
     private int getDifferenceBetweenSelectedShamsiDateAndToday() {
         if (dateTime == null)
             return -1;
@@ -100,6 +118,13 @@ public class Fragment_Table extends DialogFragment {
         }
     }
 
+    /**
+     * dialog fragment entry point, which finds views, loads data(tables), initializes views and
+     * declares listeners
+     *
+     * @param savedInstanceState saved instance bundle
+     * @return inflated dialog
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -117,6 +142,11 @@ public class Fragment_Table extends DialogFragment {
         return dialog;
     }
 
+    /**
+     * loads data from setver and populates lists  and refreshes adapters)
+     *
+     * @param view
+     */
     private void initializeOnlineContents(View view) {
         Connector.createService(view, Restaurant_Server_API.class, object -> object.getRoofs().enqueue(new Callback<List<Integer>>() {
             @Override
@@ -188,6 +218,12 @@ public class Fragment_Table extends DialogFragment {
         }));
     }
 
+    /**
+     * loads maximum row of the given desks
+     *
+     * @param body list of tables to be traced
+     * @return the maximum row of the tables
+     */
     private int getMaxRowOf(List<Desk> body) {
         int rowCounter = 0;
         for (Desk desk : body)
@@ -197,6 +233,11 @@ public class Fragment_Table extends DialogFragment {
         return rowCounter;
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         selectedDateTime = view.findViewById(R.id.fragment_table_selected_date_time_value);
         tableView = view.findViewById(R.id.fragment_table_table_view);
@@ -207,6 +248,11 @@ public class Fragment_Table extends DialogFragment {
         counter = view.findViewById(R.id.fragment_table_counter_value);
     }
 
+    /**
+     * initializes some UI elements
+     *
+     * @param view view to work
+     */
     private void initializeViewContents(View view) {
         Helper.getInstance().changeStrokeColorToMainAppColor(counter);
         Helper.getInstance().changeShapeColorToMainAppColor(payContainer);
@@ -232,6 +278,11 @@ public class Fragment_Table extends DialogFragment {
         roof_recyclerview.setAdapter(roof_recyclerview_adapter);
     }
 
+    /**
+     * declares listeners for some UI elements
+     *
+     * @param view
+     */
     private void manageListeners(View view) {
         selectedDateTime.setOnClickListener(v -> {
             final Calendar minimumTodayCalendar = Calendar.getInstance();
@@ -308,6 +359,9 @@ public class Fragment_Table extends DialogFragment {
 
     }
 
+    /**
+     * updates time textview to the selected time, or to an appropriate text
+     */
     private void updateOrderTimeText() {
         if (dateTime == null) {
             selectedDateTime.setText(getString(R.string.please_tap));

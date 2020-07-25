@@ -24,12 +24,23 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * FAQ fragment ables user to show "Frequency Asked Questions"
+ */
 public class Fragment_FAQ extends Fragment {
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     ImageView back;
     List<FAQ> list = new LinkedList<>();
 
+    /**
+     * entry points which inflates view,finds views, initializes UI elements and declares UI listeners
+     *
+     * @param inflater           inflater
+     * @param container          container view
+     * @param savedInstanceState saved instance bundle
+     * @return inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,17 +52,32 @@ public class Fragment_FAQ extends Fragment {
         return view;
     }
 
+    /**
+     * declares listeners for some UI elements
+     *
+     * @param view view to work
+     */
     private void manageListeners(View view) {
         back.setOnClickListener(v -> {
             getActivity().onBackPressed();
         });
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         recyclerView = view.findViewById(R.id.faq_recycler);
         back = view.findViewById(R.id.faq_back);
     }
 
+    /**
+     * configures UI elements
+     *
+     * @param view view to work
+     */
     private void initializeViewContents(View view) {
         recyclerView.setLayoutManager(new LinearLayoutManager(ContextHelper.retrieveContext(), RecyclerView.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
@@ -59,6 +85,11 @@ public class Fragment_FAQ extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
+    /**
+     * loads data from server and populates and refresh the list
+     *
+     * @param view view to work
+     */
     private void initializeServerSupplied(View view) {
 
         Connector.createService(view, General_Server_API.class, object -> object.getFAQs().enqueue(new Callback<List<FAQ>>() {
@@ -66,7 +97,7 @@ public class Fragment_FAQ extends Fragment {
             public void onResponse(Call<List<FAQ>> call, Response<List<FAQ>> response) {
                 if (response.body() != null) {
                     list.clear();
-                    list.addAll(getShownList(response.body()));
+                    list.addAll(response.body());
                     adapter.notifyDataSetChanged();
                 } else {
                     Helper_Log.errorLog(Fragment_FAQ.class);
@@ -78,12 +109,5 @@ public class Fragment_FAQ extends Fragment {
                 Helper_Log.errorLog(t, Fragment_FAQ.class);
             }
         }));
-    }
-
-    private List<FAQ> getShownList(List<FAQ> list) {
-        List<FAQ> tempList = new LinkedList<>();
-        for (FAQ item : list)
-            tempList.add(item);
-        return tempList;
     }
 }

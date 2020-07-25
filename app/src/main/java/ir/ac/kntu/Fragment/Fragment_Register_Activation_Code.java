@@ -32,6 +32,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * register activation code fragment ables user to enter send code and complete sign up operation
+ */
 public class Fragment_Register_Activation_Code extends Fragment {
     private static String REGISTER_VIDEO_STREAM_LINK;
     private VideoView videoView;
@@ -44,6 +47,14 @@ public class Fragment_Register_Activation_Code extends Fragment {
     private CountDownTimer countDownTimer;
     private boolean allowedToResend;
 
+    /**
+     * fragment entry point which finds views, initialize UI elements, loads data and declares listeners
+     *
+     * @param inflater           inflated
+     * @param container          container view
+     * @param savedInstanceState saved instance bundle
+     * @return inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,6 +66,11 @@ public class Fragment_Register_Activation_Code extends Fragment {
         return view;
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         videoView = view.findViewById(R.id.fragment_register_activation_code_videoview);
         signUpContainer = view.findViewById(R.id.fragment_register_activation_code_sing_up_constainer);
@@ -64,6 +80,11 @@ public class Fragment_Register_Activation_Code extends Fragment {
         code = view.findViewById(R.id.fragment_register_activation_code_code);
     }
 
+    /**
+     * initializes UI elements and calls onBackPressed if no user found from the caller fragment
+     *
+     * @param view
+     */
     private void initializeViewContents(View view) {
         signUpContainer.setBackgroundResource(R.drawable.dr_login_orange_btn);
         Helper.getInstance().changeShapeColorToMainAppColor(signUpContainer);
@@ -102,9 +123,19 @@ public class Fragment_Register_Activation_Code extends Fragment {
         countDownTimer.start();
     }
 
+    /**
+     * loads data from the server
+     *
+     * @param view view to work
+     */
     private void initializeOnlineContents(View view) {
     }
 
+    /**
+     * declares listeners for some UI elements
+     *
+     * @param view
+     */
     private void manageListeners(View view) {
         resend.setOnClickListener(v -> Connector.createService(view, Account_Server_API.class, object -> object.sendRegisterVerificationCode(normalUser.getPhone())
                 .enqueue(new Callback<ServerResponse>() {

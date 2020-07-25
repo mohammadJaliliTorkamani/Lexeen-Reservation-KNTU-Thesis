@@ -43,6 +43,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Main fragment is the first shown page after landing page and enables the user to surf among tabs
+ */
 public class Fragment_Main extends Fragment {
 
     private Toolbar toolbar;
@@ -64,6 +67,15 @@ public class Fragment_Main extends Fragment {
     private View view;
     private int tabID;
 
+    /**
+     * fragment entry point which finds views, loads data, initializes UI elements and declares
+     * listeners
+     *
+     * @param inflater           inflater
+     * @param container          container view
+     * @param savedInstanceState saved instance bundle
+     * @return inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,12 +91,20 @@ public class Fragment_Main extends Fragment {
         return view;
     }
 
+    /**
+     * toasts an alarm message if the user wasn't connect to the internet network
+     *
+     * @param view view to work
+     */
     private void initializeOnlineContents(View view) {
         if (!Setting.getInstance().isConnected()) {
             Helper.getInstance().toast(R.string.not_connected_to_internet, Constants.ToastMode.WARNING);
         }
     }
 
+    /**
+     * shows tooltip if app is in first-use-mode state
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -94,6 +114,11 @@ public class Fragment_Main extends Fragment {
         }
     }
 
+    /**
+     * declares listeners for some UI elements
+     *
+     * @param view view to work
+     */
     private void manageListeners(View view) {
 
 
@@ -203,6 +228,11 @@ public class Fragment_Main extends Fragment {
         });
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         logoutContainer = view.findViewById(R.id.drawer_list_log_out_container);
         toolbar = view.findViewById(R.id.main_fragment_toolbar);
@@ -220,6 +250,11 @@ public class Fragment_Main extends Fragment {
         drawer_rv = view.findViewById(R.id.drawer_list_rv);
     }
 
+    /**
+     * initializes UI elements
+     *
+     * @param view view to work
+     */
     private void initializeViewContents(View view) {
         logoutContainer.setVisibility(Helper.getInstance().isLoggedIn() ? View.VISIBLE : View.GONE);
         drawerHeader.setBackgroundResource(R.drawable.ic_nav_rec);
@@ -248,6 +283,11 @@ public class Fragment_Main extends Fragment {
         drawer_rv.setAdapter(drawer_rv_adapter);
     }
 
+    /**
+     * loads data from server and initializes drawer UI elements with them
+     *
+     * @param view view to work
+     */
     private void initDrawer_InfoMode(View view) {
         drawerHeaderUser.setVisibility(Helper.getInstance().isLoggedIn() ? View.VISIBLE : View.GONE);
         Connector.createService(view, Account_Server_API.class, object -> object.getDrawerContent().enqueue(new Callback<NormalUser>() {
@@ -278,12 +318,24 @@ public class Fragment_Main extends Fragment {
         }));
     }
 
+    /**
+     * initializes drawer in Error mode
+     *
+     * @param view view to work
+     */
     private void initDrawer_ErrorMode(View view) {
         drawer_profileName.setText("خطا");
         drawer_cash.setText("-1");
         drawer_cash_unit.setText("");
     }
 
+    /**
+     * shows tooltip for search icon and landing page icon
+     *
+     * @param img  image1 to point into.
+     * @param msg  message to show beside.
+     * @param img1 image2 to point into.
+     */
     private void showTooltip(ImageView img, String msg, ImageView img1) {
         new Tooltip.Builder(img)
                 .setText(msg)
@@ -313,10 +365,18 @@ public class Fragment_Main extends Fragment {
                 .show();
     }
 
+    /**
+     * retrieves BottomBar view object
+     *
+     * @return
+     */
     public BottomBar getBottomBar() {
         return bottomBar;
     }
 
+    /**
+     * updates badge counter for to-order bills
+     */
     public void updateBadge() {
         int counter = Bill.getTotalFoodItems(Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode()));
         bottomBar.getTabAtPosition(2).setBadgeCount(counter);

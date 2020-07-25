@@ -27,6 +27,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * forget fragment ables use to enter phone and helps him to reset password
+ */
 public class Fragment_Forget extends Fragment {
     private static String LOGIN_VIDEO_STREAM_LINK;
     private VideoView videoView;
@@ -35,6 +38,12 @@ public class Fragment_Forget extends Fragment {
     private EditTextPlus phone;
     private ConstraintLayout recoverContainer;
 
+    /**
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,6 +55,11 @@ public class Fragment_Forget extends Fragment {
         return view;
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         recoverContainer = view.findViewById(R.id.fragment_forget_recover);
         videoView = view.findViewById(R.id.fragment_forget_videoview);
@@ -54,12 +68,20 @@ public class Fragment_Forget extends Fragment {
         phone = view.findViewById(R.id.fragment_forget_phone_phone);
     }
 
+    /**
+     * initializes some view elements
+     *
+     * @param view view to work
+     */
     private void initializeViewContents(View view) {
         recoverContainer.setBackgroundResource(R.drawable.dr_login_orange_btn);
         Helper.getInstance().changeShapeColorToMainAppColor(recoverContainer);
         onResume();
     }
 
+    /**
+     * do some UI changes when app resumed, plays videos and call super method
+     */
     @Override
     public void onResume() {
         LOGIN_VIDEO_STREAM_LINK = "android.resource://" + ContextHelper.retrieveContext().getPackageName() + "/" + R.raw.log_in_background;
@@ -71,9 +93,19 @@ public class Fragment_Forget extends Fragment {
         super.onResume();
     }
 
+    /**
+     * loads data from the server
+     *
+     * @param view view to work
+     */
     private void initializeServerSupplied(View view) {
     }
 
+    /**
+     * declares listeners for some UI elements
+     *
+     * @param view view to work
+     */
     private void manageListeners(View view) {
         recover.setOnClickListener(v -> {
             if (phone.getText().length() == 0) {

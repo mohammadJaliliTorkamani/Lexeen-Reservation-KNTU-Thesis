@@ -27,6 +27,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * activation enter fragment ables user to enter sent code and complete sign up operation
+ */
 public class Fragment_Enter_Activation_Code extends Fragment {
     private static String LOGIN_VIDEO_STREAM_LINK;
     private VideoView videoView;
@@ -35,6 +38,15 @@ public class Fragment_Enter_Activation_Code extends Fragment {
     private ProgressBar progressBar;
     private EditTextPlus activationCode;
 
+    /**
+     * entry point which inflates view, finds views, initialize UI elements from the server
+     * and define listeners
+     *
+     * @param inflater           inflater
+     * @param container          container view
+     * @param savedInstanceState saved instance bundle
+     * @return inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,6 +58,11 @@ public class Fragment_Enter_Activation_Code extends Fragment {
         return view;
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         videoView = view.findViewById(R.id.fragment_forget_enter_code_videoview);
         resetContainer = view.findViewById(R.id.fragment_forget_enter_code_reset);
@@ -54,6 +71,11 @@ public class Fragment_Enter_Activation_Code extends Fragment {
         activationCode = view.findViewById(R.id.fragment_forget_enter_code_code);
     }
 
+    /**
+     * initializes UI elements
+     *
+     * @param view view to work
+     */
     private void initializeViewContents(View view) {
         resetContainer.setBackgroundResource(R.drawable.dr_login_orange_btn);
         Helper.getInstance().changeShapeColorToMainAppColor(resetContainer);
@@ -65,9 +87,19 @@ public class Fragment_Enter_Activation_Code extends Fragment {
         reset.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * initializes some UI elements from the server
+     *
+     * @param view view to work
+     */
     private void initializeServerSupplied(View view) {
     }
 
+    /**
+     * declares listeners of UI elements
+     *
+     * @param view view to work
+     */
     private void manageListeners(View view) {
         reset.setOnClickListener(v -> {
             if (activationCode.getText().length() == 0) {

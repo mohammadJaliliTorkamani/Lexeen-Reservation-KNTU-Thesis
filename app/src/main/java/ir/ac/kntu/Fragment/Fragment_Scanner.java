@@ -30,6 +30,9 @@ import me.dm7.barcodescanner.core.IViewFinder;
 import me.dm7.barcodescanner.core.ViewFinderView;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
+/**
+ * scanner fragment ables user to scan QR code and enter to the restaurant world
+ */
 public class Fragment_Scanner extends Fragment implements ZXingScannerView.ResultHandler {
     private ViewGroup contentFrame;
     private ZXingScannerView scannerView;
@@ -39,6 +42,15 @@ public class Fragment_Scanner extends Fragment implements ZXingScannerView.Resul
     public Fragment_Scanner() {
     }
 
+    /**
+     * fragment entry point which finds views, initializes UI elements, loads data and declares
+     * listeners
+     *
+     * @param inflater           inflater
+     * @param container          container view
+     * @param savedInstanceState saved instance bundle
+     * @return inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,13 +62,28 @@ public class Fragment_Scanner extends Fragment implements ZXingScannerView.Resul
         return view;
     }
 
+    /**
+     * delcares listeners for some UI elements
+     *
+     * @param view
+     */
     private void manageListeners(View view) {
         scan.setOnClickListener(v -> Helper.getInstance().toast(R.string.place_barcode_on_frame, Constants.ToastMode.NORMAL));
     }
 
+    /**
+     * loads data from server
+     *
+     * @param view view to work
+     */
     private void initializeOnlineContents(View view) {
     }
 
+    /**
+     * initializes UI elements
+     *
+     * @param view view to work
+     */
     private void initializeViewContents(View view) {
         scan.setBackgroundColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
         if (getArguments() != null && getArguments().getString("CODE") != null) {
@@ -83,11 +110,19 @@ public class Fragment_Scanner extends Fragment implements ZXingScannerView.Resul
         contentFrame.addView(scannerView);
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         contentFrame = view.findViewById(R.id.fragment_scanner_content_frame);
         scan = view.findViewById(R.id.fragment_scanner_scan);
     }
 
+    /**
+     * stars camera and other system services
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -95,12 +130,20 @@ public class Fragment_Scanner extends Fragment implements ZXingScannerView.Resul
         scannerView.startCamera();
     }
 
+    /**
+     * pauses camera and other system services
+     */
     @Override
     public void onPause() {
         super.onPause();
         scannerView.stopCamera();
     }
 
+    /**
+     * stops camera and passes the result to the scanning result fragment
+     *
+     * @param rawResult
+     */
     @Override
     public void handleResult(Result rawResult) {
         scannerView.stopCameraPreview();
@@ -119,6 +162,9 @@ public class Fragment_Scanner extends Fragment implements ZXingScannerView.Resul
                 .commit();
     }
 
+    /**
+     * used to draw corners of a rectangle at the center of screen (adapted from https://stackoverflow.com/questions/43799287/how-to-make-area-for-scan-barcode-using-library-zbar-more-smaller-android)
+     */
     private static class CustomViewFinderView extends ViewFinderView {
         public static final String TRADE_MARK_TEXT = "";
         public static final int TRADE_MARK_TEXT_SIZE_SP = 0;

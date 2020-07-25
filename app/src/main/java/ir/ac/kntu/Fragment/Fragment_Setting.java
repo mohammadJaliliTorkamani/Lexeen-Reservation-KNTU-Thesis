@@ -34,6 +34,9 @@ import ir.ac.kntu.Technical.Other.Other.Constants;
 import ir.ac.kntu.Technical.Other.Other.ContextHelper;
 import ir.ac.kntu.Technical.Other.Other.Setting;
 
+/**
+ * setting fragment ables user to see terms of use, visit website or other does general options
+ */
 public class Fragment_Setting extends Fragment {
     private ImageView back;
     private TextViewPlus groupName;
@@ -44,6 +47,15 @@ public class Fragment_Setting extends Fragment {
     private RecyclerView.Adapter open_source_recyclerview_adapter;
     private List<License> licenses = new LinkedList<>();
 
+    /**
+     * fragment entry point which finds views, loads data, initialize UI elements and declares
+     * listeners
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,6 +66,11 @@ public class Fragment_Setting extends Fragment {
         return view;
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         back = view.findViewById(R.id.setting_back);
         openSourceCont = view.findViewById(R.id.setting_open_source_licences_container);
@@ -61,10 +78,20 @@ public class Fragment_Setting extends Fragment {
         groupName = view.findViewById(R.id.setting_group_name);
     }
 
+    /**
+     * initializes UI elements
+     *
+     * @param view view to work
+     */
     private void initializeViewContents(View view) {
 
     }
 
+    /**
+     * declares listeners for some UI elements
+     *
+     * @param view view to work
+     */
     private void manageListeners(View view) {
         back.setOnClickListener(v -> getActivity().onBackPressed());
         groupName.setOnClickListener(v -> {

@@ -33,6 +33,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * register fragment enables user to sign up and create profile or switch to login page
+ */
 public class Fragment_Register extends Fragment {
     private static String REGISTER_VIDEO_STREAM_LINK;
     private ConstraintLayout signUpContainer;
@@ -49,6 +52,14 @@ public class Fragment_Register extends Fragment {
     private ConstraintLayout phoneContainer;
     private TextViewPlus logIn;
 
+    /**
+     * fragment entry point which finds views, initializes UI elements and declares listeners
+     *
+     * @param inflater           inflated
+     * @param container          container view
+     * @param savedInstanceState saved instance bundle
+     * @return inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,6 +70,11 @@ public class Fragment_Register extends Fragment {
         return view;
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         signUpContainer = view.findViewById(R.id.fragment_register_sing_up_container);
         videoView = view.findViewById(R.id.fragment_register_video_view);
@@ -74,6 +90,11 @@ public class Fragment_Register extends Fragment {
         logIn = view.findViewById(R.id.fragment_register_log_in);
     }
 
+    /**
+     * graphical male(i==0)  or female(i==1) button selects and disables the other button
+     *
+     * @param i
+     */
     private void selectButton(int i) {
         male.setBackgroundResource(R.drawable.dr_register_male_unselected);
         female.setBackgroundResource(R.drawable.dr_register_female_unselected);
@@ -91,6 +112,11 @@ public class Fragment_Register extends Fragment {
         }
     }
 
+    /**
+     * initializes some UI contents and calls onResume (to play video)
+     *
+     * @param view
+     */
     private void initialize(View view) {
         signUpContainer.setBackgroundResource(R.drawable.dr_login_orange_btn);
         Helper.getInstance().changeShapeColorToMainAppColor(signUpContainer);
@@ -98,6 +124,9 @@ public class Fragment_Register extends Fragment {
         selectButton(0);
     }
 
+    /**
+     * plays video and some UI changes
+     */
     @Override
     public void onResume() {
         REGISTER_VIDEO_STREAM_LINK = "android.resource://" + ContextHelper.retrieveContext().getPackageName() + "/" + R.raw.register_background;
@@ -109,6 +138,11 @@ public class Fragment_Register extends Fragment {
         super.onResume();
     }
 
+    /**
+     * declares listeners for some UI elements
+     *
+     * @param view view to work
+     */
     private void manageListeners(View view) {
         firstName.addTextChangedListener(new TextWatcher() {
             @Override

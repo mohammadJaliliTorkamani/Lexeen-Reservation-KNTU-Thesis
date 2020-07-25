@@ -31,6 +31,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * default home page (first TAB at navigation bar) shows categorized food groups
+ */
 public class Fragment_Home extends Fragment {
     private static SlideInRightAnimator slideInRightAnimator;
     private static List<WeLove> _list_foods_we_love = new LinkedList<>();
@@ -53,6 +56,15 @@ public class Fragment_Home extends Fragment {
     private RecyclerView.Adapter our_offers_rv_adapter;
     private RecyclerView.LayoutManager our_offers_rv_layoutmanager;
 
+    /**
+     * fragment entry point which finds views, loads data, initialize UI elements and declares
+     * listeners
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,6 +76,11 @@ public class Fragment_Home extends Fragment {
         return view;
     }
 
+    /**
+     * declares listeners for some UI elements
+     *
+     * @param view view to work
+     */
     private void manageListeners(View view) {
         food_we_love_rv.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
@@ -143,6 +160,11 @@ public class Fragment_Home extends Fragment {
         });
     }
 
+    /**
+     * loads data from the server and populates list and does some UI changes if needed
+     *
+     * @param view
+     */
     private void initializeServerSupplied(View view) {
         Connector.createService(view, Food_Server_API.class, object -> {
             Call<List<Offer>> call1 = object.getOurOffer();
@@ -205,6 +227,11 @@ public class Fragment_Home extends Fragment {
         });
     }
 
+    /**
+     * initializes UI elements
+     *
+     * @param view view to work
+     */
     private void initializeContents(View view) {
 
         ((Fragment_Main) getFragmentManager().findFragmentById(R.id.main_frame)).updateBadge();
@@ -247,6 +274,11 @@ public class Fragment_Home extends Fragment {
         our_offers_rv.setAdapter(our_offers_rv_adapter);
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         food_we_love_rv = view.findViewById(R.id.fragment_home_food_we_love_rv);
         by_field_list_rv = view.findViewById(R.id.fragment_home_by_field_list_rv);

@@ -85,6 +85,9 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacem
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.visibility;
 
+/**
+ * location picker fragment ables user to pick location on map and details and complete order operation
+ */
 public class Fragment_LocationPicker extends Fragment {
     private static final String DROPPED_MARKER_LAYER_ID = "DROPPED_MARKER_LAYER_ID";
     private static MapboxMap map;
@@ -114,6 +117,15 @@ public class Fragment_LocationPicker extends Fragment {
     private LineManager lineManager;
 
 
+    /**
+     * fragment entry point which finds views, loads data, initializes UI elements and declares
+     * listeners and completes order procedure
+     *
+     * @param inflater           inflater
+     * @param container          container view
+     * @param savedInstanceState saved instance bundle
+     * @return inflated view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -128,6 +140,11 @@ public class Fragment_LocationPicker extends Fragment {
         return view;
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         placeContainer = view.findViewById(R.id.location_picker_select_place_container);
         mapView = view.findViewById(R.id.location_picker_mapview);
@@ -141,6 +158,11 @@ public class Fragment_LocationPicker extends Fragment {
         detailAddressFrame = view.findViewById(R.id.location_picker_top_address_detail_frame);
     }
 
+    /**
+     * initializes dropped marker with some preDefined values
+     *
+     * @param loadedMapStyle marker style to work on.
+     */
     private void initDroppedMarker(@NonNull Style loadedMapStyle) {
         // Add the marker image to map
         loadedMapStyle.addImage("dropped-icon-image", BitmapUtils.getBitmapFromDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_pin, null)));
@@ -155,6 +177,11 @@ public class Fragment_LocationPicker extends Fragment {
     }
 
 
+    /**
+     * initializes some UI elements
+     *
+     * @param view view to work
+     */
     private void initializeViewContents(View view) {
         placeContainer.setBackgroundColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
         detailAddressFrame.setVisibility(View.GONE);
@@ -199,6 +226,13 @@ public class Fragment_LocationPicker extends Fragment {
         });
     }
 
+    /**
+     * adds a symbol as marker on the map in defined position
+     *
+     * @param latitude            lat
+     * @param longitude           lng
+     * @param isDestinationSymbol determines whether this marker is destination marker or chosen marker
+     */
     private void addSymbolToMap(double latitude, double longitude, boolean isDestinationSymbol) {
         Bitmap bitmap = BitmapUtils.getBitmapFromDrawable(ResourcesCompat.getDrawable(getResources(), isDestinationSymbol ? R.drawable.ic_pin : R.drawable.ic_food_store, null));
         mapStyle.addImage("sample_image_id_" + isDestinationSymbol, bitmap);
@@ -215,6 +249,9 @@ public class Fragment_LocationPicker extends Fragment {
             restaurantSymbol = sampleSymbol;
     }
 
+    /**
+     * enables my location component to work
+     */
     private void enableLocationComponent() {
         if (PermissionsManager.areLocationPermissionsGranted(ContextHelper.retrieveContext())) {
 
@@ -252,6 +289,11 @@ public class Fragment_LocationPicker extends Fragment {
     }
 
 
+    /**
+     * declares some listeners for some UI elements
+     *
+     * @param view view to work
+     */
     private void manageListeners(View view) {
         myLocation.setOnClickListener(v -> {
             if (map != null) {
@@ -447,11 +489,19 @@ public class Fragment_LocationPicker extends Fragment {
         });
     }
 
+    /**
+     * opens ain fragment in replace mode
+     */
     private void openMainFragment() {
         Fragment toOpen = new Fragment_Main();
         getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).replace(R.id.main_frame, toOpen).commit();
     }
 
+    /**
+     * shows a Route on the map
+     *
+     * @param geometry to create polyLine from.
+     */
     private void showRouteOnMap(String geometry) {
         LineString routeLine = LineString.fromPolyline(geometry, 5); // second parameter must be 5
         LineOptions lineOptions = new LineOptions()
@@ -461,36 +511,54 @@ public class Fragment_LocationPicker extends Fragment {
         lineManager.create(lineOptions);
     }
 
+    /**
+     * resumes map and other system services
+     */
     @Override
     public void onResume() {
         super.onResume();
         mapView.onResume();
     }
 
+    /**
+     * starts map and other system services
+     */
     @Override
     public void onStart() {
         super.onStart();
         mapView.onStart();
     }
 
+    /**
+     * stops map and other system services
+     */
     @Override
     public void onStop() {
         super.onStop();
         mapView.onStop();
     }
 
+    /**
+     * pauses map and other system services
+     */
     @Override
     public void onPause() {
         super.onPause();
         mapView.onPause();
     }
 
+    /**
+     * calls map "on low memory" and other system services
+     */
     @Override
     public void onLowMemory() {
         super.onLowMemory();
         mapView.onLowMemory();
     }
 
+    /**
+     * destroys map and other system services
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();

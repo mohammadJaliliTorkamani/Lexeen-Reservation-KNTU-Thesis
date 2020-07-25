@@ -25,6 +25,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * user order fragment ables user to see history of orders he performed.
+ */
 public class Fragment_UserOrders extends Fragment {
     private ImageView back;
     private TextViewPlus emptyText;
@@ -33,6 +36,15 @@ public class Fragment_UserOrders extends Fragment {
     private RecyclerView.LayoutManager recyclerView_layout_manager;
     private List<Order> orders = new LinkedList<>();
 
+    /**
+     * fragment entry point which finds views, loads data, initializes UI elements and declares
+     * listeners
+     *
+     * @param inflater           inflater
+     * @param container          container view
+     * @param savedInstanceState saved instance bundle
+     * @return inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,12 +56,22 @@ public class Fragment_UserOrders extends Fragment {
         return view;
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         back = view.findViewById(R.id.fragment_user_order_back);
         emptyText = view.findViewById(R.id.fragment_user_order_text_empty);
         recyclerView = view.findViewById(R.id.fragment_user_order_recyclerview);
     }
 
+    /**
+     * initializes some UI contents
+     *
+     * @param view iew to work
+     */
     private void initializeViewContents(View view) {
         recyclerView.setHasFixedSize(true);
         recyclerView_layout_manager = new LinearLayoutManager(ContextHelper.retrieveContext(), RecyclerView.VERTICAL, false);
@@ -58,6 +80,11 @@ public class Fragment_UserOrders extends Fragment {
         recyclerView.setAdapter(recyclerView_adapter);
     }
 
+    /**
+     * loads data from server and populates list and refresh them and changes some UI elements
+     *
+     * @param view view to work
+     */
     private void initializeServerSupplied(View view) {
         Connector.createService(view, Order_Server_API.class, object -> object.getOrders().enqueue(new Callback<List<Order>>() {
             @Override
@@ -79,6 +106,11 @@ public class Fragment_UserOrders extends Fragment {
         }));
     }
 
+    /**
+     * declares listeners for some UI elements ("back" here)
+     *
+     * @param view view to work
+     */
     private void manageListeners(View view) {
         back.setOnClickListener(v -> getActivity().onBackPressed());
     }

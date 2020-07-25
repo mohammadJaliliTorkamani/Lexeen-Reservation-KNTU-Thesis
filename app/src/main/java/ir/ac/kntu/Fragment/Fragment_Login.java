@@ -31,7 +31,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
+/**
+ * login fragment ables user to login to the app
+ */
 public class Fragment_Login extends Fragment {
     private static String LOGIN_VIDEO_STREAM_LINK;
     private String initedUsername;
@@ -45,6 +47,16 @@ public class Fragment_Login extends Fragment {
     private TextViewPlus register;
     private TextViewPlus forget;
 
+    /**
+     * fragment entry point which finds views, initializes view contents and declares listeners
+     * and set test for username and password EditTexts if were passed to this fragment from
+     * the caller fragment
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,6 +72,11 @@ public class Fragment_Login extends Fragment {
         return view;
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         videoView = view.findViewById(R.id.fragment_login_videoview);
         loginContainer = view.findViewById(R.id.fragment_login_login);
@@ -71,6 +88,11 @@ public class Fragment_Login extends Fragment {
         forget = view.findViewById(R.id.fragment_login_forget);
     }
 
+    /**
+     * checks whether user pass has been passed to this fragment or not, and then calls OnResume
+     *
+     * @param view view to work
+     */
     private void initialize(View view) {
         Helper.getInstance().changeShapeColorToMainAppColor(loginContainer);
         Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_FIRST_USE_STATE, "FALSE");
@@ -85,6 +107,9 @@ public class Fragment_Login extends Fragment {
         onResume();
     }
 
+    /**
+     * plays videos on app resume and other system OnrResume services
+     */
     @Override
     public void onResume() {
         LOGIN_VIDEO_STREAM_LINK = "android.resource://" + ContextHelper.retrieveContext().getPackageName() + "/" + R.raw.log_in_background;
@@ -94,6 +119,11 @@ public class Fragment_Login extends Fragment {
         super.onResume();
     }
 
+    /**
+     * declares listeners for some UI elements
+     *
+     * @param view view to work
+     */
     private void manageListeners(View view) {
         loginContainer.setOnClickListener(v -> {
             String phone = this.phone.getText().toString().trim();
@@ -174,6 +204,13 @@ public class Fragment_Login extends Fragment {
                         .commit());
     }
 
+    /**
+     * exchanges keys with server and runs "runnable" after exchange
+     *
+     * @param view     view to work
+     * @param runnable runnable after key exchange
+     * @throws IOException when exchange operation failed
+     */
     private void exchangeKeys(View view, Runnable_SingleArg<Long> runnable) throws IOException {
         Encryption.getInstance().generateG();
         Encryption.getInstance().generatePrime();

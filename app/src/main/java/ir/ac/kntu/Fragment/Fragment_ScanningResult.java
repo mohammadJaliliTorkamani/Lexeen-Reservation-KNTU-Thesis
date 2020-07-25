@@ -35,6 +35,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * scanning result fragment ables user to show scanned restaurant info and enter it
+ */
 public class Fragment_ScanningResult extends Fragment {
     private static String code;
     private static Restaurant restaurant;
@@ -56,6 +59,14 @@ public class Fragment_ScanningResult extends Fragment {
     private ButtonPlus add;
     private ProgressBar imageProgressBar;
 
+    /**
+     * fragment entry point which finds views, initialize UI elements and declares listeners
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,6 +78,11 @@ public class Fragment_ScanningResult extends Fragment {
         return view;
     }
 
+    /**
+     * starts animation for some ui elements
+     *
+     * @param view view to work
+     */
     private void startAnimations(View view) {
         add.startAnimation(scanning_qr_result_add_animation);
         address.startAnimation(right_lo_left_animation);
@@ -79,6 +95,11 @@ public class Fragment_ScanningResult extends Fragment {
         phoneWord.startAnimation(right_lo_left_animation);
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         name = view.findViewById(R.id.scanning_qr_result_name_value);
         nameWord = view.findViewById(R.id.scanning_qr_result_name_word);
@@ -95,6 +116,11 @@ public class Fragment_ScanningResult extends Fragment {
         back = view.findViewById(R.id.scanning_qr_result_back);
     }
 
+    /**
+     * initializes some UI elements and store CODE which is passed from "Fragment_Scanner"
+     *
+     * @param view view to work
+     */
     private void initializeViewContents(View view) {
         add.setBackgroundColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
         restaurant = null;
@@ -112,6 +138,11 @@ public class Fragment_ScanningResult extends Fragment {
         right_lo_left_animation = AnimationUtils.loadAnimation(ContextHelper.retrieveContext(), R.anim.slide_rtl);
     }
 
+    /**
+     * loads data from server and sets value for some UI element
+     *
+     * @param view view to work
+     */
     private void initializeOnlineContents(View view) {
         Connector.createService(view, Restaurant_Server_API.class, object -> object.getRestaurantInfo(code).enqueue(new Callback<Restaurant>() {
             @Override
@@ -161,6 +192,11 @@ public class Fragment_ScanningResult extends Fragment {
         }));
     }
 
+    /**
+     * declares listeners for some UI elements
+     *
+     * @param view view to work
+     */
     private void manageListeners(View view) {
         back.setOnClickListener(v -> getFragmentManager()
                 .beginTransaction()

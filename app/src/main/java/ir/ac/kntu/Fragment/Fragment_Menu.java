@@ -24,11 +24,23 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Menu fragment ables user to see restaurant foods menu
+ */
 public class Fragment_Menu extends Fragment {
     private ExpandablePlaceHolderView expandablePlaceHolderView;
     private boolean mIsLoadingMore = false;
     private boolean mNoMoreToLoad = false;
 
+    /**
+     * fragment entry point which finds views, loads data, initializes UI elements and declares
+     * listeners
+     *
+     * @param inflater           inflater
+     * @param container          container view
+     * @param savedInstanceState saved instance bundle
+     * @return inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,7 +52,11 @@ public class Fragment_Menu extends Fragment {
         return view;
     }
 
-
+    /**
+     * toasts an alarm message if the user wasn't connect to the internet network
+     *
+     * @param view view to work
+     */
     private void initializeServerSupplied(View view) {
         Connector.createService(view, Food_Server_API.class, object -> {
             Call<List<FoodMenu>> call = object.getFoodMenu();
@@ -62,6 +78,12 @@ public class Fragment_Menu extends Fragment {
         });
     }
 
+    /**
+     * adds MenuHeadingView and MenuFoodInfoView for each food menu item
+     *
+     * @param view  view to work
+     * @param items food menu to be traced and to create a corresponding graphic menu from foodMenu
+     */
     private void addExpandableItems(View view, List<FoodMenu> items) {
         for (FoodMenu foodMenu : items) {
             expandablePlaceHolderView.addView(new MenuHeadingView(foodMenu.getCategory(), getActivity()));
@@ -73,14 +95,29 @@ public class Fragment_Menu extends Fragment {
 
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         expandablePlaceHolderView = view.findViewById(R.id.fragment_menu_expandable_ph);
     }
 
+    /**
+     * initializes UI elements (updating badge in here)
+     *
+     * @param view view to work
+     */
     private void initializeViewContents(View view) {
         ((Fragment_Main) getFragmentManager().findFragmentById(R.id.main_frame)).updateBadge();
     }
 
+    /**
+     * declares listeners for some UI elements
+     *
+     * @param view view to work
+     */
     private void manageListeners(View view) {
     }
 }

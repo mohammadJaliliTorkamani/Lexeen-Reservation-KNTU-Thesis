@@ -64,6 +64,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * landing page fragment ables user to see restaurant classes, items and search between them and
+ * select one to enter
+ */
 public class Fragment_LandingPage extends Fragment {
     private static final int SCANNER_ITEM_POSITION = 3;
     private RecyclerView mainRecyclerView;
@@ -89,6 +93,13 @@ public class Fragment_LandingPage extends Fragment {
     private RecyclerView.Adapter classes_adapter;
     private RecyclerView.LayoutManager classes_layout_manager;
 
+    /**
+     * runs scanner to scan QR code (if code was not null, then skip it and show result)
+     *
+     * @param activity        activity to work
+     * @param fragmentManager fragment manager to work
+     * @param code            to show result without scanning
+     */
     public static void runScanner(Activity activity, FragmentManager fragmentManager, String code) {
         Fragment scannerFragment = new Fragment_Scanner();
         Bundle bundle = new Bundle();
@@ -113,6 +124,15 @@ public class Fragment_LandingPage extends Fragment {
                 }).check();
     }
 
+    /**
+     * fragment entry point which finds views, loads data, initializes UI elements and declared
+     * listeners
+     *
+     * @param inflater           inflater
+     * @param container          container view
+     * @param savedInstanceState saved instance bundle
+     * @return inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -124,6 +144,11 @@ public class Fragment_LandingPage extends Fragment {
         return view;
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         filter = view.findViewById(R.id.landing_page_filter);
         searchBar = view.findViewById(R.id.landing_page_search_et);
@@ -141,6 +166,11 @@ public class Fragment_LandingPage extends Fragment {
         restaurants_of = view.findViewById(R.id.landing_page_restaurants_of);
     }
 
+    /**
+     * initializes UI elements
+     *
+     * @param view view to work
+     */
     private void initializeViewContents(View view) {
 
         restaurants_of.setVisibility(View.GONE);
@@ -199,6 +229,11 @@ public class Fragment_LandingPage extends Fragment {
 
     }
 
+    /**
+     * declares listeners for some UI elements
+     *
+     * @param view view to work
+     */
     private void manageListeners(View view) {
 
         filter.setOnClickListener(v -> {
@@ -310,6 +345,11 @@ public class Fragment_LandingPage extends Fragment {
         });
     }
 
+    /**
+     * loads data from server and initializes UI elements inside drawer
+     *
+     * @param view view to work
+     */
     private void initDrawer_InfoMode(View view) {
         drawerHeaderUser.setVisibility(Helper.getInstance().isLoggedIn() ? View.VISIBLE : View.GONE);
         Connector.createService(view, Account_Server_API.class, object -> object.getDrawerContent().enqueue(new Callback<NormalUser>() {
@@ -338,12 +378,22 @@ public class Fragment_LandingPage extends Fragment {
         }));
     }
 
+    /**
+     * initializes UI elements inside drawer in Error mode
+     *
+     * @param view view to work
+     */
     private void initDrawer_ErrorMode(View view) {
         drawer_profileName.setText("خطا");
         drawer_cash.setText("-1");
         drawer_cash_unit.setText("");
     }
 
+    /**
+     * loads data from server and populates list and does some UI element initializations
+     *
+     * @param view view to work
+     */
     private void initializeOnlineContents(View view) {
         Connector.createService(view, General_Server_API.class, object -> object.isLatestAppVersion().enqueue(new Callback<ServerResponse>() {
             @Override

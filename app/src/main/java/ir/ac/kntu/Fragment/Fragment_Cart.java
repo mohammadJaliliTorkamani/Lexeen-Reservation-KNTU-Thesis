@@ -64,6 +64,9 @@ import retrofit2.Response;
 import saman.zamani.persiandate.PersianDate;
 import saman.zamani.persiandate.PersianDateFormat;
 
+/**
+ * cart fragment ables user to see bill and choose reservation mode and discount operation
+ */
 public class Fragment_Cart extends Fragment {
     private static TextViewPlus totalPrice;
     private static TextViewPlus totalPriceUnit;
@@ -86,7 +89,7 @@ public class Fragment_Cart extends Fragment {
     private Order order = new Order();
 
     /***
-     *
+     * adds food ID as bill to the database
      * @param foodID id of the food
      * @param finalNumberOfFood number of food ids to be added to cart
      * @param clearRest if true, delete cart and add the id
@@ -104,6 +107,11 @@ public class Fragment_Cart extends Fragment {
         }
     }
 
+    /**
+     * sends push notification to the user
+     *
+     * @param objects order(s)
+     */
     public static void remindEvent(Object... objects) {
         Order order = (Order) objects[0];
         PushPole.sendSimpleNotifToUser(ContextHelper.retrieveContext(),
@@ -112,6 +120,11 @@ public class Fragment_Cart extends Fragment {
                 "شما یک سفارش برای تاریخ " + order.getDate_and_time_start() + " دارید.");
     }
 
+    /**
+     * changes the color of some ui elements and initialize them from server
+     *
+     * @param view view to work
+     */
     private void initializeServerSupplied(View view) {
         Helper.getInstance().changeShapeColorToMainAppColor(sumView);
         Helper.getInstance().changeShapeColorToMainAppColor(topIconView);
@@ -119,6 +132,11 @@ public class Fragment_Cart extends Fragment {
         initializeList(view);
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         totalPrice = view.findViewById(R.id.fragment_cart_total_price);
         totalPriceUnit = view.findViewById(R.id.fragment_cart_total_price_unit);
@@ -138,6 +156,11 @@ public class Fragment_Cart extends Fragment {
         restaurant = view.findViewById(R.id.fragment_cart_restaurant_btn);
     }
 
+    /**
+     * configures some UI initializations
+     *
+     * @param view view to work
+     */
     private void initializeViewContents(View view) {
         bottomArrow.setVisibility(View.GONE);
         clear.setVisibility(View.GONE);
@@ -159,6 +182,11 @@ public class Fragment_Cart extends Fragment {
         set.setClickable(true);
     }
 
+    /**
+     * updates UI elements fom the server if exists in DB, otherwise does a bit changes in UI elements
+     *
+     * @param view to work
+     */
     private void initializeList(View view) {
         if (!Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).billInterface().getAll(Helper.getInstance().getSelectedRestaurantDecryptedQRCode()).isEmpty()) {
             recyclerView.setVisibility(View.VISIBLE);
@@ -207,6 +235,14 @@ public class Fragment_Cart extends Fragment {
         }
     }
 
+    /**
+     * entry point, find views, initialize elements and listeners and reads from server
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -218,6 +254,11 @@ public class Fragment_Cart extends Fragment {
         return view;
     }
 
+    /**
+     * defines listener operations for UI elements
+     *
+     * @param view to work with
+     */
     private void manageListeners(View view) {
         restaurant.setOnClickListener(v -> {
             if (order.getSpecifiedBills().isEmpty() || !Bill.containsFood(order.getSpecifiedBills())) {
@@ -543,6 +584,14 @@ public class Fragment_Cart extends Fragment {
         });
     }
 
+    /**
+     * checks whether order is good to submit into the server or not
+     *
+     * @param view        view to work
+     * @param persianDate jalali date time to order
+     * @param n           number of people
+     * @param runnable    runnable to  run if was good order
+     */
     private void isGoodRestaurantOrder(View view, PersianDate persianDate, final int n, Runnable_SingleArg<ServerResponse> runnable) {
         Connector.createCachedService(view, Order_Server_API.class, object -> object.isGoodOrder(new RefactoredBills(order.getSpecifiedBills(), new PersianDateFormat("H:i").format(persianDate), n)).enqueue(new Callback<ServerResponse>() {
             @Override
@@ -560,6 +609,11 @@ public class Fragment_Cart extends Fragment {
         }));
     }
 
+    /**
+     * NECESSARY FOR BUG FIX in fragment display !
+     *
+     * @param outState state bundle
+     */
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         //No call for super(). Bug on API Level > 11.

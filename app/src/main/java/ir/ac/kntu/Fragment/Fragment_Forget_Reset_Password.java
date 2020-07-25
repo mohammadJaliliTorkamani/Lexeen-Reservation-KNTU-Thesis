@@ -27,6 +27,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * reset password fragment ables user to reset password and log into the app
+ */
 public class Fragment_Forget_Reset_Password extends Fragment {
     private static String LOGIN_VIDEO_STREAM_LINK;
     private VideoView videoView;
@@ -36,7 +39,14 @@ public class Fragment_Forget_Reset_Password extends Fragment {
     private EditTextPlus password;
     private EditTextPlus passwordConfirmed;
 
-
+    /**
+     * fragment entry point, finds views, loads data, initializes UI elements and declares listeners
+     *
+     * @param inflater           inflater
+     * @param container          container view
+     * @param savedInstanceState saved instance bundle
+     * @return inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,6 +58,11 @@ public class Fragment_Forget_Reset_Password extends Fragment {
         return view;
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         videoView = view.findViewById(R.id.fragment_forget_reset_password_videoview);
         enter = view.findViewById(R.id.fragment_forget_reset_password_text);
@@ -57,12 +72,20 @@ public class Fragment_Forget_Reset_Password extends Fragment {
         passwordConfirmed = view.findViewById(R.id.fragment_forget_reset_password_password_confirmed);
     }
 
+    /**
+     * initializes UI elements and plays videos by calling "onResume"
+     *
+     * @param view view to work
+     */
     private void initializeViewContents(View view) {
         enterContainer.setBackgroundResource(R.drawable.dr_login_orange_btn);
         Helper.getInstance().changeShapeColorToMainAppColor(enterContainer);
         onResume();
     }
 
+    /**
+     * changes some UI elements and plays video
+     */
     @Override
     public void onResume() {
         LOGIN_VIDEO_STREAM_LINK = "android.resource://" + ContextHelper.retrieveContext().getPackageName() + "/" + R.raw.log_in_background;
@@ -74,9 +97,19 @@ public class Fragment_Forget_Reset_Password extends Fragment {
         super.onResume();
     }
 
+    /**
+     * loads data from server
+     *
+     * @param view view to work
+     */
     private void initializeServerSupplied(View view) {
     }
 
+    /**
+     * declares listeners for some UI elements
+     *
+     * @param view
+     */
     private void manageListeners(View view) {
         enter.setOnClickListener(v -> {
             if (password.getText().length() == 0) {

@@ -27,6 +27,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * search fragment ables user to search between foods of a restaurant
+ */
 public class Fragment_Search extends Fragment {
     private EditTextPlus searchBox;
     private TextViewPlus cancel;
@@ -36,6 +39,14 @@ public class Fragment_Search extends Fragment {
     private RecyclerView.LayoutManager searchList_layout_manager;
     private List<ir.ac.kntu.Entity.Food> list;
 
+    /**
+     * fragment entry point which finds views, initialize UI elements and declares listeners
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,6 +58,11 @@ public class Fragment_Search extends Fragment {
         return view;
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         searchBox = view.findViewById(R.id.fragment_search_searchbox);
         cancel = view.findViewById(R.id.fragment_search_cancel);
@@ -54,6 +70,11 @@ public class Fragment_Search extends Fragment {
         search_rv = view.findViewById(R.id.fragment_search_rv);
     }
 
+    /**
+     * initializes UI elements (and lists)
+     *
+     * @param view view to work
+     */
     private void initialize(View view) {
         list = new LinkedList<>();
         searchList_layout_manager = new LinearLayoutManager(ContextHelper.retrieveContext(), RecyclerView.VERTICAL, false);
@@ -63,6 +84,11 @@ public class Fragment_Search extends Fragment {
         search_rv.setAdapter(searchList_adapter);
     }
 
+    /**
+     * declares listeners for some UI elements
+     *
+     * @param view view to work
+     */
     private void manageListeners(View view) {
         cancel.setOnClickListener(v -> getFragmentManager()
                 .beginTransaction()

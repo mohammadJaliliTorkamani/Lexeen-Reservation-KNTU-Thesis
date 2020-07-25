@@ -29,6 +29,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * fragment wallet, ables user to charge wallet
+ */
 public class Fragment_Wallet extends Fragment {
     private ImageView back;
     private TextViewPlus toChargeValue;
@@ -39,6 +42,15 @@ public class Fragment_Wallet extends Fragment {
     private RecyclerView.LayoutManager recyclerView_layout_manager;
     private List<Double> acceptableCashAmountList = new LinkedList<>();
 
+    /**
+     * fragment entry point which finds views, loads data, initializes UI elements and declares
+     * listeners
+     *
+     * @param inflater           inflater
+     * @param container          container view
+     * @param savedInstanceState saved instance bundle
+     * @return inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,6 +62,11 @@ public class Fragment_Wallet extends Fragment {
         return view;
     }
 
+    /**
+     * gets data from server and populates list and refreshes the adapter
+     *
+     * @param view
+     */
     private void initializeServerSupplied(View view) {
 
         Connector.createService(view, General_Server_API.class, object -> object.getAcceptableCashAmounts().enqueue(new Callback<List<Double>>() {
@@ -72,6 +89,11 @@ public class Fragment_Wallet extends Fragment {
 
     }
 
+    /**
+     * initialises some UI elements
+     *
+     * @param view view to work
+     */
     private void initializeViewContents(View view) {
         purchase.setBackgroundColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
         recyclerView.setHasFixedSize(true);
@@ -94,6 +116,11 @@ public class Fragment_Wallet extends Fragment {
         }
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         back = view.findViewById(R.id.fragment_wallet_back_iv);
         recyclerView = view.findViewById(R.id.fragment_wallet_rv);
@@ -101,6 +128,11 @@ public class Fragment_Wallet extends Fragment {
         toChargeValue = view.findViewById(R.id.fragment_wallet_to_charge_value);
     }
 
+    /**
+     * declares some listeners for some UI elements
+     *
+     * @param view view to work
+     */
     private void manageListeners(View view) {
         back.setOnClickListener(v -> getActivity().onBackPressed());
         purchase.setOnClickListener(v -> {

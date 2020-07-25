@@ -42,6 +42,9 @@ import retrofit2.Call;
 import retrofit2.Response;
 import ru.nikartm.support.ImageBadgeView;
 
+/**
+ * food description fragment ables user to see details about a food
+ */
 public class Fragment_FoodDescriptionDetail extends Fragment {
     private static int id;
     private static Food food;
@@ -74,12 +77,26 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
     private ImageView food_description_price_icon;
     private LinearLayout food_description_linearLayout_bottom;
 
+    /**
+     * postpones enter transition
+     *
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         postponeEnterTransition();
     }
 
+    /**
+     * fragment entry point which finds view and initialize UI elements and declares listeners and
+     * starts animations
+     *
+     * @param inflater           inflater
+     * @param container          container view
+     * @param savedInstanceState saved instance bundle
+     * @return inflated view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -125,6 +142,11 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
         return view;
     }
 
+    /**
+     * loads food tags (titles) from server into UI elements
+     *
+     * @param view view to work
+     */
     private void select_title_zero_and_one(View view) {
         Connector.createService(view, Food_Server_API.class, object -> object.getFoodField(id).enqueue(new retrofit2.Callback<List<String>>() {
             @Override
@@ -152,6 +174,13 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
         }));
     }
 
+    /**
+     * loads info from server and populates elements and runs runnable
+     *
+     * @param view         view to work
+     * @param foodLoadWork runnable to run after success loading
+     * @param loadFailWork runnable to run after failed loading
+     */
     private void initializeServerSupplied(View view, Runnable_SingleArg<Food> foodLoadWork, Runnable loadFailWork) {
         Connector.createService(view, Food_Server_API.class, object -> {
             object.getFood(id).enqueue(new retrofit2.Callback<ir.ac.kntu.Entity.Food>() {
@@ -175,6 +204,11 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
         });
     }
 
+    /**
+     * assign view objects to view elements
+     *
+     * @param view to find views with it
+     */
     private void findViews(View view) {
         food_description_calorie_icon = view.findViewById(R.id.food_description_calorie_icon);
         food_description_price_icon = view.findViewById(R.id.food_description_price_icon);
@@ -198,6 +232,11 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
         foodName = view.findViewById(R.id.food_description_food_name);
     }
 
+    /**
+     * initializes some UI elements
+     *
+     * @param view view to work
+     */
     private void initializeViewContents(View view) {
         food_description_linearLayout_bottom.setBackgroundColor(Color.parseColor(Helper.getInstance().getMainAppColor()));
         id = getArguments().getInt("Food_ID", -1);
@@ -221,6 +260,11 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
         number_slide_down = AnimationUtils.loadAnimation(ContextHelper.retrieveContext(), R.anim.slide_down);
     }
 
+    /**
+     * declares listeners for some UI elements
+     *
+     * @param view view to work
+     */
     private void manageListeners(View view) {
         backIcon.setOnClickListener(v -> getActivity().onBackPressed());
         buyIcon.setOnClickListener(v -> {
@@ -267,6 +311,9 @@ public class Fragment_FoodDescriptionDetail extends Fragment {
         });
     }
 
+    /**
+     * stars animation for some ui elements
+     */
     private void setAnimations() {
         food_description_calorie_icon.startAnimation(food_description_calorie_icon_slide_rtl_animation);
         food_description_time_icon.startAnimation(food_description_time_iconslide_ltr_animation);
