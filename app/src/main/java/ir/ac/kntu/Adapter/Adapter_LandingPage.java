@@ -1,6 +1,7 @@
 package ir.ac.kntu.Adapter;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,6 +105,7 @@ public class Adapter_LandingPage extends androidx.recyclerview.widget.RecyclerVi
             if (list.get(position).isActive()) {
                 Restaurant restaurant = list.get(position);
                 if (restaurant != null) {
+                    Log.d("WWWEEEEE", restaurant.getName());
                     restaurant.setQrCode(Encryption.getInstance().decrypt(restaurant.getQrCode()));
                     try {
                         Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_SELECTED_RESTAURANT_QR_CODE, restaurant.getQrCode());

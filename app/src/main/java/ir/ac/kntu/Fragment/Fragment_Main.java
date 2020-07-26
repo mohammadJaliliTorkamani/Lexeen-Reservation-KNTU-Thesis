@@ -133,6 +133,7 @@ public class Fragment_Main extends Fragment {
                             Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_SELECTED_RESTAURANT_QR_CODE, null);
                             Setting.getInstance().saveSetting(Constants._TABLE_PROFILE, Constants._KEY_SHARED_KEY, null);
                             Setting.getInstance().saveSetting(Constants._TABLE_USER, Constants._KEY_FIRST_USE_STATE, null);
+                            Database.getInstance(ContextHelper.retrieveContext(), Constants._MAIN_DATABASE).restaurantInterface().clearAll();
                             Helper.getInstance().toast(R.string.log_out_successfully, Constants.ToastMode.SUCCESS);
                             Intent intent = new Intent();
                             Activity activity = getActivity();
