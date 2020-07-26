@@ -23,6 +23,8 @@
             android:layout_height="@dimen/btm_bar_height"
             android:foreground="?android:attr/selectableItemBackground"
             android:text="@string/scan"
+            android:gravity="top|center_horizontal"
+            android:paddingTop="16dp"
             android:textColor="@android:color/white"
             android:textSize="@dimen/home_font_textview"
             app:layout_constraintBottom_toBottomOf="parent"

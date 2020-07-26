@@ -188,7 +188,7 @@ public class Fragment_LandingPage extends Fragment {
                         return new SpannableGridLayoutManager.SpanInfo(1, 1);
                     }
                 },
-                2, 1.05f);
+                2, 1f);
 
         mainRecyclerView.setLayoutManager(main_layout_manager);
         mainAdapter = new Adapter_LandingPage(getActivity(), getFragmentManager(), main_list, SCANNER_ITEM_POSITION);
@@ -448,7 +448,7 @@ public class Fragment_LandingPage extends Fragment {
                             }));
                             break;
                         case FAILED:
-                            AlertDialog.Builder builder = new AlertDialog.Builder(ContextHelper.retrieveContext());
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                             View inflateView = LayoutInflater.from(ContextHelper.retrieveContext()).inflate(R.layout.dialog_update, null, false);
                             builder.setView(inflateView);
                             builder.setCancelable(false);

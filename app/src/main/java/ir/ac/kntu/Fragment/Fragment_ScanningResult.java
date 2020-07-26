@@ -151,10 +151,10 @@ public class Fragment_ScanningResult extends Fragment {
                 if (response.body() != null) {
                     restaurant = response.body();
                     add.setVisibility(View.VISIBLE);
-                    name.setText(restaurant.getName());
-                    topName.setText(restaurant.getName());
-                    type.setText(restaurant.getType());
-                    phone.setText(restaurant.getPhone());
+                    name.setText(Encryption.getInstance().decrypt(restaurant.getName()));
+                    topName.setText(Encryption.getInstance().decrypt(restaurant.getName()));
+                    type.setText(Encryption.getInstance().decrypt(restaurant.getType()));
+                    phone.setText(Encryption.getInstance().decrypt(restaurant.getPhone()));
                     address.setText(restaurant.getAddress().toString());
 
                     Picasso.get().load(Encryption.getInstance().decrypt(restaurant.getPictures().get(0))).into(new Target() {

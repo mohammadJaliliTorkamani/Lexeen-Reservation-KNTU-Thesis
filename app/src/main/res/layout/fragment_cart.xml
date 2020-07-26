@@ -1,332 +1,339 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
+    android:clickable="true"
+    android:fillViewport="true"
+    android:focusable="true"
     android:orientation="vertical"
     android:overScrollMode="never"
-    android:clickable="true"
-    android:focusable="true"
     android:scrollbars="none"
     tools:context=".Fragment.Fragment_Cart">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/_8sdp"
-        app:layout_constraintBottom_toTopOf="@id/fragment_cart_serve_mode_container"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <com.lijiankun24.shadowlayout.ShadowLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_8sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_8sdp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="440dp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            app:layout_constraintBottom_toTopOf="@id/fragment_cart_serve_mode_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shadowColor="#489E9E9E"
-            app:shadowDx="0.5dp"
-            app:shadowDy="2dp"
-            app:shadowRadius="4dp"
-            app:shadowShape="rectangle"
-            app:shadowSide="all">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="4dp"
-                app:cardElevation="0dp">
+            <com.lijiankun24.shadowlayout.ShadowLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shadowColor="#489E9E9E"
+                app:shadowDx="0.5dp"
+                app:shadowDy="2dp"
+                app:shadowRadius="4dp"
+                app:shadowShape="rectangle"
+                app:shadowSide="all">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingStart="@dimen/_8sdp"
-                    android:paddingEnd="@dimen/_8sdp"
-                    android:paddingBottom="@dimen/_8sdp">
+                    android:layout_marginBottom="4dp"
+                    app:cardElevation="0dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/fragment_cart_constraintLayout2"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_16sdp"
-                        android:layoutDirection="rtl"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        android:layout_height="match_parent"
+                        android:paddingStart="@dimen/_8sdp"
+                        android:paddingEnd="@dimen/_8sdp"
+                        android:paddingBottom="@dimen/_8sdp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/fragment_cart_top_icon_view"
-                            android:layout_width="@dimen/_45sdp"
-                            android:layout_height="@dimen/_65sdp"
-                            android:background="@drawable/dr_tl_tr_oval_item"
-                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:id="@+id/fragment_cart_constraintLayout2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:layoutDirection="rtl"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
-                            <ImageView
-                                android:id="@+id/fragment_cart_imageView"
-                                android:layout_width="@dimen/_22sdp"
-                                android:layout_height="@dimen/_22sdp"
-                                android:scaleType="fitCenter"
-                                android:src="@drawable/ic_serving_dish"
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/fragment_cart_top_icon_view"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_65sdp"
+                                android:background="@drawable/dr_tl_tr_oval_item"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <ImageView
+                                    android:id="@+id/fragment_cart_imageView"
+                                    android:layout_width="@dimen/_22sdp"
+                                    android:layout_height="@dimen/_22sdp"
+                                    android:scaleType="fitCenter"
+                                    android:src="@drawable/ic_serving_dish"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                            <ir.ac.kntu.Technical.CustomView.TextViewPlus
+                                android:id="@+id/textViewPlus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_28sdp"
+                                android:gravity="start|center_vertical"
+                                android:text="@string/orders"
+                                android:textColor="@android:color/black"
+                                android:textSize="18sp"
+                                app:bold="true"
+                                app:layout_constraintBottom_toBottomOf="@+id/fragment_cart_top_icon_view"
+                                app:layout_constraintStart_toEndOf="@+id/fragment_cart_top_icon_view"
+                                app:layout_constraintTop_toTopOf="@+id/fragment_cart_top_icon_view" />
+
+                            <ir.ac.kntu.Technical.CustomView.TextViewPlus
+                                android:id="@+id/fragment_cart_clear"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:foreground="?android:attr/selectableItemBackground"
+                                android:padding="16dp"
+                                android:text="@string/clear"
+                                android:textColor="@color/dark_gray"
+                                android:textSize="15sp"
+                                app:bold="true"
+                                app:layout_constraintBottom_toBottomOf="@+id/textViewPlus"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintEnd_toStartOf="@+id/textViewPlus"
+                                app:layout_constraintHorizontal_bias="0.113"
+                                app:layout_constraintTop_toTopOf="@+id/textViewPlus" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:overScrollMode="never"
+                            android:scrollbars="none"
+                            app:layout_constraintBottom_toTopOf="@+id/fragment_cart_sum_container"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/fragment_cart_constraintLayout2">
+
+                            <View
+                                android:id="@+id/fragment_cart_free_space_view"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="match_parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintRight_toRightOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/fragment_cart_rv"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:fadeScrollbars="false"
+                                android:scrollbars="vertical"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <ir.ac.kntu.Technical.CustomView.TextViewPlus
-                            android:id="@+id/textViewPlus"
-                            android:layout_width="wrap_content"
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/fragment_cart_sum_container"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_28sdp"
-                            android:gravity="start|center_vertical"
-                            android:text="@string/orders"
-                            android:textColor="@android:color/black"
-                            android:textSize="18sp"
-                            app:bold="true"
-                            app:layout_constraintBottom_toBottomOf="@+id/fragment_cart_top_icon_view"
-                            app:layout_constraintStart_toEndOf="@+id/fragment_cart_top_icon_view"
-                            app:layout_constraintTop_toTopOf="@+id/fragment_cart_top_icon_view" />
-
-                        <ir.ac.kntu.Technical.CustomView.TextViewPlus
-                            android:id="@+id/fragment_cart_clear"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            android:padding="16dp"
-                            android:text="@string/clear"
-                            android:textColor="@color/dark_gray"
-                            android:textSize="15sp"
-                            app:bold="true"
-                            app:layout_constraintBottom_toBottomOf="@+id/textViewPlus"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/textViewPlus"
-                            app:layout_constraintHorizontal_bias="0.113"
-                            app:layout_constraintTop_toTopOf="@+id/textViewPlus" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:overScrollMode="never"
-                        android:scrollbars="none"
-                        app:layout_constraintBottom_toTopOf="@+id/fragment_cart_sum_container"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/fragment_cart_constraintLayout2">
-
-                        <View
-                            android:id="@+id/fragment_cart_free_space_view"
-                            android:layout_width="@dimen/_45sdp"
-                            android:layout_height="match_parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/fragment_cart_rv"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:fadeScrollbars="false"
-                            android:scrollbars="vertical"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                            app:layout_constraintStart_toStartOf="parent">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/fragment_cart_sum_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent">
+                            <LinearLayout
+                                android:id="@+id/fragment_cart_sum_view"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_50sdp"
+                                android:layout_marginBottom="8dp"
+                                android:background="@drawable/dr_bl_br_oval_item"
+                                android:gravity="center"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent">
 
-                        <LinearLayout
-                            android:id="@+id/fragment_cart_sum_view"
-                            android:layout_width="@dimen/_45sdp"
-                            android:layout_height="@dimen/_50sdp"
-                            android:layout_marginBottom="8dp"
-                            android:background="@drawable/dr_bl_br_oval_item"
-                            android:gravity="center"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
+                                <ir.ac.kntu.Technical.CustomView.TextViewPlus
+                                    android:id="@+id/fragment_cart_total_price_unit"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="4dp"
+                                    android:gravity="center"
+                                    android:maxLines="1"
+                                    android:text="T"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="12sp" />
+
+                                <ir.ac.kntu.Technical.CustomView.TextViewPlus
+                                    android:id="@+id/fragment_cart_total_price"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:maxLines="1"
+                                    android:text="0"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="13sp" />
+
+
+                            </LinearLayout>
 
                             <ir.ac.kntu.Technical.CustomView.TextViewPlus
-                                android:id="@+id/fragment_cart_total_price_unit"
+                                android:id="@+id/fragment_cart_sum_word"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginEnd="4dp"
+                                android:layout_marginStart="@dimen/_28sdp"
                                 android:gravity="center"
-                                android:maxLines="1"
-                                android:text="T"
-                                android:textColor="@android:color/white"
-                                android:textSize="12sp" />
+                                android:text="@string/sum"
+                                android:textColor="@android:color/black"
+                                android:textSize="15sp"
+                                app:bold="true"
+                                app:layout_constraintBottom_toBottomOf="@+id/fragment_cart_sum_view"
+                                app:layout_constraintStart_toEndOf="@+id/fragment_cart_sum_view"
+                                app:layout_constraintTop_toTopOf="@+id/fragment_cart_sum_view" />
 
-                            <ir.ac.kntu.Technical.CustomView.TextViewPlus
-                                android:id="@+id/fragment_cart_total_price"
+                            <ImageView
+                                android:id="@+id/fragment_cart_bottom_arrow"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:maxLines="1"
-                                android:text="0"
-                                android:textColor="@android:color/white"
-                                android:textSize="13sp" />
+                                android:layout_marginEnd="16dp"
+                                android:rotation="180"
+                                android:src="@drawable/ic_arrow"
+                                app:layout_constraintBottom_toBottomOf="@+id/fragment_cart_sum_view"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/fragment_cart_sum_word" />
 
-
-                        </LinearLayout>
-
-                        <ir.ac.kntu.Technical.CustomView.TextViewPlus
-                            android:id="@+id/fragment_cart_sum_word"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_28sdp"
-                            android:gravity="center"
-                            android:text="@string/sum"
-                            android:textColor="@android:color/black"
-                            android:textSize="15sp"
-                            app:bold="true"
-                            app:layout_constraintBottom_toBottomOf="@+id/fragment_cart_sum_view"
-                            app:layout_constraintStart_toEndOf="@+id/fragment_cart_sum_view"
-                            app:layout_constraintTop_toTopOf="@+id/fragment_cart_sum_view" />
-
-                        <ImageView
-                            android:id="@+id/fragment_cart_bottom_arrow"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="16dp"
-                            android:rotation="180"
-                            android:src="@drawable/ic_arrow"
-                            app:layout_constraintBottom_toBottomOf="@+id/fragment_cart_sum_view"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/fragment_cart_sum_word" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+            </com.lijiankun24.shadowlayout.ShadowLayout>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
-        </com.lijiankun24.shadowlayout.ShadowLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fragment_cart_serve_mode_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fragment_cart_serve_mode_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="32dp"
-            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintStart_toStartOf="parent">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginBottom="@dimen/_15sdp"
-                android:layoutDirection="rtl"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".75"
-                    android:background="@drawable/rec_cart_gray_strok">
-
-                    <ir.ac.kntu.Technical.CustomView.EditTextPlus
-                        android:id="@+id/fragment_cart_discount_code"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@android:color/transparent"
-                        android:hint="@string/discount"
-                        android:maxLength="12"
-                        android:maxLines="1"
-                        android:inputType="text"
-                        android:textColorHint="@color/edt_gray" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/fragment_cart_set"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight=".25"
-                    android:background="@drawable/rec_cart_orange"
-                    android:gravity="center">
-
-                    <ir.ac.kntu.Technical.CustomView.TextViewPlus
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/set"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-            </LinearLayout>
-
-
-            <ir.ac.kntu.Technical.CustomView.TextViewPlus
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="4dp"
-                android:text="@string/serve_at"
-                android:textColor="@android:color/black"
-                android:textSize="17sp"
-                app:bold="true" />
-
-            <ir.ac.kntu.Technical.CustomView.TextViewPlus
-                android:id="@+id/fragment_cart_restaurant_btn"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_gravity="center"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/rec_cart_black"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:gravity="center"
-                android:layoutDirection="rtl"
-                android:orientation="horizontal"
-                android:text=""
-                android:textColor="@android:color/white"
-                android:textSize="18sp" />
-
-            <ir.ac.kntu.Technical.CustomView.TextViewPlus
-                android:id="@+id/fragment_cart_home_btn"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/rec_cart_yellow"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:gravity="center"
-                android:layoutDirection="rtl"
-                android:orientation="horizontal"
-                android:text="@string/your_home"
-                android:textColor="@android:color/white"
-                android:textSize="18sp" />
+                android:layout_marginEnd="32dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
 
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:layoutDirection="rtl"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".75"
+                        android:background="@drawable/rec_cart_gray_strok">
+
+                        <ir.ac.kntu.Technical.CustomView.EditTextPlus
+                            android:id="@+id/fragment_cart_discount_code"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:hint="@string/discount"
+                            android:inputType="text"
+                            android:maxLength="12"
+                            android:maxLines="1"
+                            android:textColorHint="@color/edt_gray" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/fragment_cart_set"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight=".25"
+                        android:background="@drawable/rec_cart_orange"
+                        android:gravity="center">
+
+                        <ir.ac.kntu.Technical.CustomView.TextViewPlus
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/set"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <ir.ac.kntu.Technical.CustomView.TextViewPlus
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/serve_at"
+                    android:textColor="@android:color/black"
+                    android:textSize="17sp"
+                    app:bold="true" />
+
+                <ir.ac.kntu.Technical.CustomView.TextViewPlus
+                    android:id="@+id/fragment_cart_restaurant_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/rec_cart_black"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:layoutDirection="rtl"
+                    android:orientation="horizontal"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+                <ir.ac.kntu.Technical.CustomView.TextViewPlus
+                    android:id="@+id/fragment_cart_home_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/rec_cart_yellow"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:layoutDirection="rtl"
+                    android:orientation="horizontal"
+                    android:text="@string/your_home"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</ScrollView>

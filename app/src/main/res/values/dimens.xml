@@ -1,5 +1,5 @@
 <resources>
-    <dimen name="btm_bar_height">70dp</dimen>
+    <dimen name="btm_bar_height">100dp</dimen>
     <dimen name="line_spacing">10dp</dimen>
     <dimen name="home_font_textview">20sp</dimen>
     <dimen name="tv_aban_group">14sp</dimen>

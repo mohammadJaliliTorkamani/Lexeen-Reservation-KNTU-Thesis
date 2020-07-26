@@ -98,7 +98,7 @@
             android:layout_height="56dp"
             android:layout_marginStart="48dp"
             android:layout_marginEnd="48dp"
-            android:layout_marginBottom="64dp"
+            android:layout_marginBottom="120dp"
             android:background="@drawable/dr_user_pass"
             android:drawableStart="@drawable/ic_key"
             android:drawablePadding="16dp"

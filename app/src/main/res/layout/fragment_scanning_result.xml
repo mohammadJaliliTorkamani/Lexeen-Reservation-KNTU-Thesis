@@ -227,6 +227,8 @@
     <ir.ac.kntu.Technical.CustomView.ButtonPlus
         android:id="@+id/scanning_qr_result_add"
         android:layout_width="0dp"
+        android:gravity="top|center_horizontal"
+        android:paddingTop="16dp"
         android:layout_height="@dimen/btm_bar_height"
         android:foreground="?android:attr/selectableItemBackground"
         android:text="@string/add"

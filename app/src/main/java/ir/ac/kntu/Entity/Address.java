@@ -2,6 +2,8 @@ package ir.ac.kntu.Entity;
 
 import androidx.annotation.NonNull;
 
+import ir.ac.kntu.Technical.Other.Other.Encryption;
+
 public class Address {
     private int id;
     private String country;
@@ -152,10 +154,10 @@ public class Address {
     @NonNull
     @Override
     public String toString() {
-        return "کشور " + country + " , " + "استان " + state + " , شهر " + city +
-                (street1 != null ? " , " + street1 : "") + " , " + (street2 != null ? " , " + street2 : "") +
-                (alley1 != null ? " , کوچه " + alley1 : "") + (alley2 != null ? " , کوچه " + alley2 : "") +
-                " پلاک " + block + " , " + " طبقه " + floor + " , " + " واحد " + unit +
-                (orientation != null ? " , ضلع " + orientation : "");
+        return "کشور " + Encryption.getInstance().decrypt(country) + " , " + "استان " + Encryption.getInstance().decrypt(state) + " , شهر " + Encryption.getInstance().decrypt(city) +
+                (street1 != null ? " , " + Encryption.getInstance().decrypt(street1) : "") + " , " + (street2 != null ? " , " + Encryption.getInstance().decrypt(street2) : "") +
+                (alley1 != null ? " , کوچه " + Encryption.getInstance().decrypt(alley1) : "") + (alley2 != null ? " , کوچه " + Encryption.getInstance().decrypt(alley2) : "") +
+                " پلاک " + Encryption.getInstance().decrypt(block) + " , " + " طبقه " + floor + " , " + " واحد " + Encryption.getInstance().decrypt(unit) +
+                (orientation != null ? " , ضلع " + Encryption.getInstance().decrypt(orientation) : "");
     }
 }
