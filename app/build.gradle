@@ -78,6 +78,7 @@ dependencies {
     implementation 'com.daasuu:CountAnimationTextView:0.1.2'
     implementation 'com.github.nikartm:image-support:1.0.5'
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
+    implementation 'junit:junit:4.13'
 }
 repositories {
     mavenCentral()

@@ -139,6 +139,11 @@ public class Desk {
         this.label = label;
     }
 
+    /**
+     * retrieves type of desk (full,middle,center) by its chairs
+     *
+     * @return table's DeskType
+     */
     public G_Desk.DeskType getDeskTypeDirection() {
         if (startChairID != -1 && endChairID != -1 && topChairID != -1 && bottomChairID != -1)
             return G_Desk.DeskType.FULL;

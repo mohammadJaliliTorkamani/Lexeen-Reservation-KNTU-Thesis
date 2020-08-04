@@ -165,6 +165,8 @@ public class Helper implements Helper_API {
 
     @Override
     public boolean isRightName(String name) {
+        if (name == null || name.isEmpty())
+            return false;
         return !name.contains("*") && !name.contains("|") && !name.contains("&") && !name.contains("~")
                 && !name.contains("`") && !name.contains(".") && !name.contains("-") && !name.contains("=")
                 && !name.contains(",") && !name.contains("#") && !name.contains("+") && !name.contains("^")
@@ -173,12 +175,15 @@ public class Helper implements Helper_API {
 
     @Override
     public boolean isRightPhone(String phone) {
-        return phone.substring(0, 1).equalsIgnoreCase("9") && isRightName(phone);
+        if (phone == null || phone.isEmpty() || phone.contains(" "))
+            return false;
+        return phone.substring(0, 1).equalsIgnoreCase("9") && isRightName(phone) && phone.length() == 10;
     }
 
     @Override
     public String toLowerCase(String text) {
-
+        if (text == null)
+            return "";
         return text.toLowerCase();
     }
 
@@ -238,6 +243,9 @@ public class Helper implements Helper_API {
 
     @Override
     public PersianDate stringToPersianDateTime(String selectedDate) {
+        if (selectedDate == null || selectedDate.length() != 16)
+            return null;
+
         int year = Integer.parseInt(selectedDate.substring(0, 4));
         int month = Integer.parseInt(selectedDate.substring(5, 7));
         int day = Integer.parseInt(selectedDate.substring(8, 10));
@@ -298,12 +306,16 @@ public class Helper implements Helper_API {
 
     @Override
     public int getMinuteFromSecond(long millisUntilFinished) {
+        if (millisUntilFinished < 0)
+            return -1;
         int seconds = (int) (millisUntilFinished / 1000);
         return seconds / 60;
     }
 
     @Override
     public int getSecondFromSeconds(long millisUntilFinished) {
+        if (millisUntilFinished < 0)
+            return -1;
         int seconds = (int) (millisUntilFinished / 1000);
         return seconds % 60;
     }
@@ -315,13 +327,15 @@ public class Helper implements Helper_API {
 
     @Override
     public boolean containsNonPersianLanguage(String str) {
+        if (str == null)
+            return false;
         int codePointAt = Character.codePointAt(str, 0);
         return !((codePointAt >= 0x0600 && codePointAt <= 0x06FF) || (codePointAt >= 0xFB50 && codePointAt <= 0xFDFF) || (codePointAt >= 0xFE70 && codePointAt <= 0xFEFF));
     }
 
     @Override
     public boolean isInteger(String s, int radix) {
-        if (s.isEmpty()) return false;
+        if (s == null || s.isEmpty() || radix < 1) return false;
         for (int i = 0; i < s.length(); i++) {
             if (i == 0 && s.charAt(i) == '-') {
                 if (s.length() == 1) return false;
@@ -346,7 +360,9 @@ public class Helper implements Helper_API {
 
     @Override
     public boolean isPrime(int n) {
-        for (int i = 2; 2 * i < n; i++) {
+        if (n < 1)
+            return false;
+        for (int i = 2; i <= n / 2; i++) {
             if (n % i == 0)
                 return false;
         }
