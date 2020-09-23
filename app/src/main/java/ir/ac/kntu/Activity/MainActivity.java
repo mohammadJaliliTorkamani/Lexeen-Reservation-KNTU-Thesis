@@ -17,6 +17,7 @@ import ir.ac.kntu.Fragment.Fragment_FoodDescriptionDetail;
 import ir.ac.kntu.Fragment.Fragment_LandingPage;
 import ir.ac.kntu.Fragment.Fragment_Login;
 import ir.ac.kntu.Fragment.Fragment_Main;
+import ir.ac.kntu.Fragment.Fragment_ScanningResult;
 import ir.ac.kntu.Fragment.Fragment_Setting;
 import ir.ac.kntu.R;
 import ir.ac.kntu.Technical.Other.Other.Constants;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
      * main application entry.
      * it configures the first needed settings and checks whether the user has logged in or not
      * and then navigate the user to another fragment
+     *
      * @param savedInstanceState to pass to it's super method
      */
     @Override
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         Setting.getInstance().inverseBarColor(this, false);
         setContentView(R.layout.activity_main);
 
-        //manageListeners();
+//        manageListeners();
         getSupportFragmentManager()
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * hides Keyboard when clicked outside of an edittext
+     *
      * @param ev to check which direction has been operated by the user
      * @return super.dispatchTouchEvent
      */
@@ -132,5 +135,15 @@ public class MainActivity extends AppCompatActivity {
                 getWindow().setStatusBarColor(Color.WHITE);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.main_frame);
+        if (fragment instanceof Fragment_ScanningResult) {
+            getSupportFragmentManager().popBackStack();
+            getSupportFragmentManager().popBackStack();
+        } else
+            super.onBackPressed();
     }
 }

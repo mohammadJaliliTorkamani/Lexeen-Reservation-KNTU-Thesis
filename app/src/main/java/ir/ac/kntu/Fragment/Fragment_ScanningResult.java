@@ -182,12 +182,15 @@ public class Fragment_ScanningResult extends Fragment {
                     startAnimations(view);
                 } else {
                     Helper_Log.errorLog(Fragment_ScanningResult.class);
+                    Helper.getInstance().toast(R.string.wrong_qr_code, Constants.ToastMode.INFO);
+                    getActivity().onBackPressed();
                 }
             }
 
             @Override
             public void onFailure(Call<Restaurant> call, Throwable t) {
                 Helper_Log.errorLog(t, Fragment_ScanningResult.class);
+                getFragmentManager().popBackStack();
             }
         }));
     }
@@ -198,11 +201,7 @@ public class Fragment_ScanningResult extends Fragment {
      * @param view view to work
      */
     private void manageListeners(View view) {
-        back.setOnClickListener(v -> getFragmentManager()
-                .beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .add(R.id.main_frame, new Fragment_LandingPage())
-                .commit());
+        back.setOnClickListener(v -> getActivity().onBackPressed());
         add.setOnClickListener(v -> {
             if (restaurant != null) {
                 Setting.getInstance().saveSetting(Constants._TABLE_USER,

@@ -128,6 +128,7 @@ public class Fragment_Scanner extends Fragment implements ZXingScannerView.Resul
         super.onResume();
         scannerView.setResultHandler(this);
         scannerView.startCamera();
+        scannerView.resumeCameraPreview(this);
     }
 
     /**
@@ -146,6 +147,7 @@ public class Fragment_Scanner extends Fragment implements ZXingScannerView.Resul
      */
     @Override
     public void handleResult(Result rawResult) {
+        scannerView.stopCamera();
         scannerView.stopCameraPreview();
         Log.v(Constants.TAG, rawResult.getText() + "  " + rawResult.getBarcodeFormat().toString());
         Setting.getInstance().vibrate(175);

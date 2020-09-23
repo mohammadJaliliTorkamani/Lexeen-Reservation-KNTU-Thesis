@@ -28,7 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * activation enter fragment ables user to enter sent code and complete sign up operation
+ * activation enter fragment ables user to enter sent code and complete reset operation
  */
 public class Fragment_Enter_Activation_Code extends Fragment {
     private static String LOGIN_VIDEO_STREAM_LINK;

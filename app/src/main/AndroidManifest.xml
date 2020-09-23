@@ -59,7 +59,7 @@
 
         <meta-data
             android:name="com.pushpole.sdk.token"
-            android:value="PUSHPOLE_238071378900" />
+            android:value="PUSHPOLE TOKEN GOES HERE" />
 
         <receiver
             android:name=".Receiver.Receiver_Alarm"

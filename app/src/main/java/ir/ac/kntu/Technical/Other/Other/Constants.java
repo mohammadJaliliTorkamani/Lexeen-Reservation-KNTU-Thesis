@@ -31,7 +31,7 @@ public class Constants {
     public static final long CONNECTION_READ_TIMEOUT = 10;
     public static final long CONNECTION_WRITE_TIMEOUT = 10;
     public static final long CONNECTION_TIMEOUT = 10;
-    public static final String BASE_URL = "https://lexeen.ir/kntu_project/api/";
+    public static final String BASE_URL = "APIs URL GOES HERE";
     public static final String HEADER_CACHE_CONTROL = "Cache-Control";
     public static final String HEADER_PRAGMA = "Pragma";
     public static final String DEFAULT_FARSI_FONT_ASSET_ADDRESS = "fonts/farsi/syekan.otf";

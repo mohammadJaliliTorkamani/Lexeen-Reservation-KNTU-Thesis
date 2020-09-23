@@ -165,6 +165,7 @@
     <string name="is">می باشد</string>
     <string name="restaurant_is_not_able_to_accept_order">رستوران هم اکنون قادر به پذیرش سفارش نمی باشد</string>
     <string name="no_orders_found">هیچ سفارشی پیدا نشد</string>
+    <string name="wrong_qr_code">کد اشتباه است</string>
 
 
 </resources>
